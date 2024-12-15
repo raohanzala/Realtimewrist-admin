@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { backendUrl } from '../App';
 import { ShopContext } from '../contexts/ShopContext';
-import Button from './BUtton';
+import Button from './Button';
 import { assets } from '../assets/assets';
 
 const AddProductModal = ({onClose}) => {
