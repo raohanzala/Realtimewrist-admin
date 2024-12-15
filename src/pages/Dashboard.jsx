@@ -11,8 +11,6 @@ const Dashboard = () => {
     ordersLoading,
     usersLoading, timestampToShortDate } = useContext(ShopContext);
 
-  console.log(allProducts, 'RespFetchList')
-
   const totalRevenue = orders?.map((order) => order.amount)
     .reduce((total, amount) => total + amount, 0);
 
@@ -73,10 +71,8 @@ const Dashboard = () => {
                 <div className="flex gap-2 items-center">
                   <img src={product.image[0]} className="size-12 rounded-full" alt="" />
                   <div>
-
                   <h3>{product.name}</h3>
                   <div className="space-x-2 text-xs text-gray-400">
-
                     <span>{product.category}</span>
                     <span>{product.subCategory}</span>
                   </div>
@@ -85,7 +81,7 @@ const Dashboard = () => {
                 <span className="font-bold">{currency} {formatAmount(product.newPrice)}</span>
               </li>
             ))}
-          </ul> : <div className="flex w-full h-full items-center justify-center"> <p className=" text-[#d2d2d2] mb-8">You have no products yet.</p></div>}
+          </ul> : <div className="flex w-full h-full items-center justify-center"> <p className=" text-[#d2d2d2] mb-12">You have no products yet.</p></div>}
         </Box>
       </div>
       <div className="grid grid-cols-[2fr_1fr] gap-6 mb-6">
