@@ -27,7 +27,6 @@ const ProductItem = memo(({ id, description, size, image, name, newPrice, oldPri
   const hasMultipleImages = image && image.length > 1;
 
   return (
-    <Link to={`/product/${id}`}>
       <div
         className="flex relative w-full h-auto flex-col text-gray-700 cursor-pointer bg-white overflow-hidden transform transition-all border rounded"
         onMouseEnter={() => setIsHovered(true)}
@@ -41,7 +40,7 @@ const ProductItem = memo(({ id, description, size, image, name, newPrice, oldPri
         )}
 
         {/* Image Section */}
-        <div className="relative overflow-hidden aspect-w-1 aspect-h-1 w-full">
+        <div className="relative overflow-hidden w-full">
           {/* First Image (Default/Always Visible) */}
           <LazyLoadImage
             src={image[0]}
@@ -93,7 +92,6 @@ const ProductItem = memo(({ id, description, size, image, name, newPrice, oldPri
           </div>
         </div>
       </div>
-    </Link>
   );
 });
 

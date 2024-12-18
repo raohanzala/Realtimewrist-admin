@@ -5,6 +5,8 @@ import HeadingLink from "../components/HeadingLink";
 import Loader from "../components/Loader";
 import { IoMdMore } from 'react-icons/io';
 import { assets } from "../assets/assets";
+import { IoPerson } from "react-icons/io5";
+import { BsFillPersonFill } from "react-icons/bs";
 
 const Dashboard = () => {
   const { setPageTitle, allUsers, formatAmount, orders, initialLoading, allProducts, currency, productLoading,
@@ -19,15 +21,14 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="">
+    <div className="max-w-screen-lg mx-auto">
       {initialLoading && <Loader type='full' />}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <Box>
           <div className="ml-4">
             <h3 className="text-lg font-semibold text-gray-600">Total Orders</h3>
             {ordersLoading ? <p>Loading...</p> : <>
-              <p className="text-3xl font-bold text-blue-600 mt-2">{orders?.length}</p>
-              <p className="text-sm text-gray-500 mt-1">+10% from last month</p></>}
+              <p className="text-3xl font-bold text-blue-600 mt-2">{orders?.length}</p></>}
           </div>
         </Box>
 
@@ -35,25 +36,22 @@ const Dashboard = () => {
           <div className="ml-4">
             <h3 className="text-lg font-semibold text-gray-600">Total Revenue</h3>
             {ordersLoading ? <p>Loading...</p> : <><p className="text-3xl font-bold text-green-600 mt-2">
-              {formatAmount(totalRevenue || 9000)} {currency}
-            </p>
-              <p className="text-sm text-gray-500 mt-1">+15% from last month</p></>}
+              {formatAmount(totalRevenue)} {totalRevenue ? currency : ''}
+            </p></>}
           </div>
         </Box>
 
         <Box>
           <div className="ml-4">
             <h3 className="text-lg font-semibold text-gray-600">Total Products</h3>
-            {productLoading ? <p>Loading...</p> : <><p className="text-3xl font-bold text-purple-600 mt-2">{allProducts?.length}</p>
-              <p className="text-sm text-gray-500 mt-1">+5% from last month</p></>}
+            {productLoading ? <p>Loading...</p> : <><p className="text-3xl font-bold text-purple-600 mt-2">{allProducts?.length}</p></>}
           </div>
         </Box>
 
         <Box>
           <div className="ml-4">
             <h3 className="text-lg font-semibold text-gray-600">Active Users</h3>
-            {usersLoading ? <p>Loading...</p> : <> <p className="text-3xl font-bold text-yellow-600 mt-2">{allUsers?.length}</p>
-              <p className="text-sm text-gray-500 mt-1">+8% from last week</p></>}
+            {usersLoading ? <p>Loading...</p> : <> <p className="text-3xl font-bold text-yellow-600 mt-2">{allUsers?.length}</p></>}
           </div>
         </Box>
       </div>
@@ -69,7 +67,7 @@ const Dashboard = () => {
             {allProducts.slice(0, 3).map((product) => (
               <li key={23892389} className={`flex justify-between ${'border-b'} items-center py-2 px-2 text-gray-700`}>
                 <div className="flex gap-2 items-center">
-                  <img src={product.image[0]} className="size-12 rounded-full" alt="" />
+                  <img src={product.image[0]} className="size-12 rounded-full object-cover" alt="" />
                   <div>
                   <h3>{product.name}</h3>
                   <div className="space-x-2 text-xs text-gray-400">
@@ -96,7 +94,7 @@ const Dashboard = () => {
                     <div className="space-y-1">
 
                       <div className="flex gap-2 items-center">
-                        <h2 className="font-medium text-lg">{892389}</h2>
+                        <h2 className="font-medium text-lg">{order._id}</h2>
                         <span
                           className={`py-1 px-2 rounded-sm text-xs font-bold 
                       ${order.status === 'Order Placed' ? 'bg-blue-100 text-blue-800' : ''} 
@@ -132,10 +130,14 @@ const Dashboard = () => {
         <Box>
           <HeadingLink title="Latest Customers" link='/users' />
           {usersLoading ? <p>Loading...</p> : allUsers?.length > 0 ?
-            allUsers.slice(0, 6).map((user, index)=> (
-          <div className={`flex  ${index !== 5 && 'border-b'} justify-between items-center py-2 px-2 cursor-pointer hover:bg-gray-100`} key={user._id}>
+            allUsers.slice(0, 5).map((user, index)=> (
+          <div className={`flex  ${index !== 4 && 'border-b'} justify-between items-center py-2 px-2 cursor-pointer hover:bg-gray-100`} key={user._id}>
             <div className="flex gap-3 items-center">
-              <img src={assets.rolex_yatch_master_1} className="size-10 rounded-full" />
+              <div className="bg-gray-300 rounded-full text-xl p-3 text-white">
+              <BsFillPersonFill />
+
+              </div>
+
               <div>
                 <p>{user.name}</p>
                 <p className="text-xs text-gray-600">{user.email}</p>

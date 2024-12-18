@@ -34,6 +34,8 @@ const ListProduct = () => {
     setActiveDropdown((prev) => (prev === productId ? null : productId));
   }, []);
 
+  console.log(allProducts)
+
   const observerRef = useRef(null);
   const scrollTargetRef = useRef(null);
 
@@ -160,7 +162,7 @@ const ListProduct = () => {
             ))
           )}
         </div>
-
+{allProducts.length === 0 && <p className='py-10 text-center'>No products found.</p>}
 
 
 

@@ -8,28 +8,28 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
   const { setPageTitle } = useContext(ShopContext);
 
-  useEffect(() => {
-    const socket = io(backendUrl || 'http://localhost:3001'); 
+  // useEffect(() => {
+  //   const socket = io(backendUrl || 'http://localhost:3001'); 
 
-    socket.on('notification', (data) => {
-      console.log('Notification received:', data);
+  //   socket.on('notification', (data) => {
+  //     console.log('Notification received:', data);
       
-      if (data && data.fullDocument && data.items) {
-        setNotifications((prev) => [...prev, data]); 
-      }
-    });
+  //     if (data && data.fullDocument && data.items) {
+  //       setNotifications((prev) => [...prev, data]); 
+  //     }
+  //   });
 
-    setPageTitle('Notifications');
+  //   setPageTitle('Notifications');
 
-    return () => {
-      socket.off('notification');
-      socket.disconnect();
-    };
-  }, [backendUrl, setPageTitle]); 
+  //   return () => {
+  //     socket.off('notification');
+  //     socket.disconnect();
+  //   };
+  // }, [backendUrl, setPageTitle]); 
 
-  useEffect(() => {
-    console.log('Updated Notifications in state:', notifications);
-  }, [notifications]);
+  // useEffect(() => {
+  //   console.log('Updated Notifications in state:', notifications);
+  // }, [notifications]);
 
   return (
     <div className='min-h-screen'>
