@@ -1,23 +1,24 @@
-import React, { useContext } from 'react';
-import Loader from './Loader';
-import { ShopContext } from '../contexts/ShopContext';
+import React from 'react'
 
-const Button = ({ children, className = '', btnType, ...rest }) => {
-  const { actionLoading } = useContext(ShopContext);
+const Button = ({ children, startIcon, variant = 'primary', ...rest }) => {
 
-  const baseClasses = 'bg-[#232323] py-2 text-white px-6 rounded-md text-base min-w-8';
-  const loadingClasses = actionLoading ? 'bg-gray-400 cursor-not-allowed' : '';
-  const cancelClasses = btnType === 'cancel' ? 'bg-transparent border-2 text-[#000]' : '';
+  const baseStyles = 'flex items-center justify-center rounded-sm text-nowrap disabled:opacity-75 disabled:cursor-not-allowed text-sm py-2  px-4 space-x-2 transition-all'
+
+  const variantStyles = {
+    primary: 'bg-dark-2 text-white hover:bg-dark-1',
+    primaryBig: 'bg-dark-2 text-white hover:bg-dark-1 py-3 px-8 uppercase rounded',
+    cancel: 'bg-white border-2 border-[#cccc] text-dark-3',
+    secondary: 'bg-primary-1 hover:bg-primary-2 text-[#fff]',
+  }
 
   return (
     <button
-      className={`${baseClasses} ${loadingClasses} ${cancelClasses} ${className} min-w-`}
-      disabled={actionLoading && btnType !== 'cancel'}
       {...rest}
+      className={`${baseStyles} ${variantStyles[variant]} ${rest.className}`}
     >
-      {actionLoading && btnType !== 'cancel' ? <Loader className='size-5 border-white' /> : children}
+      {startIcon && <span className='mr-2'>{startIcon}</span>} {children}
     </button>
-  );
+  )
 }
 
-export default Button;
+export default Button

@@ -53,12 +53,12 @@ const SearchSortBar = ({
   return (
     <div className={`w-full flex justify-between ${className}`}>
       {/* 🔍 Search Box */}
-      <div className="flex items-center border border-gray-300 bg-white rounded-md overflow-hidden">
+      <div className="flex items-center border border-gray-300 bg-white rounded overflow-hidden">
         <span className="flex items-center pl-3 text-[#5c5c5c]">
           <RiSearchLine />
         </span>
         <input
-          className="py-[10px] px-2 text-sm w-64 focus:outline-none shadow-sm"
+          className="py-[10px] px-2 text-sm w-64 focus:outline-none "
           type="text"
           placeholder={placeholder}
           value={searchQuery}
@@ -73,7 +73,7 @@ const SearchSortBar = ({
         <select
           value={sortBy}
           onChange={handleSortChange}
-          className="border border-gray-300 py-[10px] px-2 pl-2 bg-white rounded-md shadow-sm focus:outline-none text-sm"
+          className="border border-gray-300 py-[10px] px-2 pl-2 bg-white rounded focus:outline-none text-sm"
         >
           {sortOptions.map((option) => (
             <option key={option} value={option}>
@@ -88,7 +88,7 @@ const SearchSortBar = ({
         <select
           value={filterBy}
           onChange={handleFilterChange}
-          className="border border-gray-300 py-[10px] px-2 pl-2 bg-white rounded-md shadow-sm focus:outline-none text-sm"
+          className="border border-gray-300 py-[10px] px-2 pl-2 bg-white rounded  focus:outline-none text-sm"
         >
           <option value="">All Categories</option> 
           {filterOptions.map((option) => (

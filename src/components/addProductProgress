@@ -1,0 +1,196 @@
+import { useContext, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import { backendUrl } from '../App';
+import Cropper from "react-easy-crop";
+import { ShopContext } from '../contexts/ShopContext';
+import Button from './Button';
+import { assets } from '../assets/assets';
+import getCroppedImg from '../utils/getCroppedImg';
+import Modal from './Modal';
+
+const AddProductModal = ({ onClose, productToEdit }) => {
+  const [image1, setImage1] = useState(false);
+  const [image2, setImage2] = useState(false);
+  const [image3, setImage3] = useState(false);
+  const [image4, setImage4] = useState(false);
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [oldPrice, setOldPrice] = useState("");
+  const [newPrice, setNewPrice] = useState("");
+  const [category, setCategory] = useState("Men");
+  const [subCategory, setSubcategory] = useState("quartz");
+  const [bestSeller, setBestSeller] = useState(false);
+  const [availability, setAvailability] = useState("in_stock");
+
+  const { setActionLoading, actionLoading, setPageTitle, fetchProducts, token } =
+    useContext(ShopContext);
+
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [croppingImage, setCroppingImage] = useState(null);
+  const [currentImageSetter, setCurrentImageSetter] = useState(null);
+
+  const onCropComplete = (_, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const showCropper = (file, imageSetter) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCroppingImage(reader.result);
+      setCurrentImageSetter(() => imageSetter);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleCrop = async () => {
+    try {
+      const croppedImage = await getCroppedImg(croppingImage, croppedAreaPixels);
+      const croppedFile = new File([croppedImage], `image-${Date.now()}.jpeg`, { type: "image/jpeg" });
+
+      currentImageSetter(croppedFile);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to crop the image!");
+    } finally {
+      setCroppingImage(null);
+    }
+  };
+
+  useEffect(() => {
+    if (productToEdit) {
+      setName(productToEdit.name);
+      setDescription(productToEdit.description);
+      setOldPrice(productToEdit.oldPrice);
+      setNewPrice(productToEdit.newPrice);
+      setCategory(productToEdit.category);
+      setSubcategory(productToEdit.subCategory);
+      setBestSeller(productToEdit.bestSeller);
+      setAvailability(productToEdit.availability || "in_stock");
+
+      // Images can be pre-loaded here if required
+    }
+  }, [productToEdit]);
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+
+    if (!oldPrice || isNaN(Number(oldPrice))) {
+      toast.error("Please enter a valid Old Price");
+      return;
+    }
+    if (!newPrice || isNaN(Number(newPrice))) {
+      toast.error("Please enter a valid New Price");
+      return;
+    }
+    if (!subCategory) {
+      toast.error("Please select a Sub-Category");
+      return;
+    }
+    if (!availability) {
+      toast.error("Please select Availability");
+      return;
+    }
+
+    setActionLoading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("oldPrice", oldPrice);
+      formData.append("newPrice", newPrice);
+      formData.append("category", category);
+      formData.append("subCategory", subCategory);
+      formData.append("bestSeller", bestSeller);
+
+      if (image1) formData.append("image1", image1);
+      if (image2) formData.append("image2", image2);
+      if (image3) formData.append("image3", image3);
+      if (image4) formData.append("image4", image4);
+
+      let response;
+      if (productToEdit) {
+        // Update Product
+        response = await axios.put(
+          `${backendUrl}/api/product/edit/${productToEdit._id}`,
+          formData,
+          { headers: { token } }
+        );
+      } else {
+        // Add New Product
+        response = await axios.post(`${backendUrl}/api/product/add`, formData, {
+          headers: { token },
+        });
+      }
+
+      if (response.data.success) {
+        toast.success(response.data.message);
+        fetchProducts();
+        onClose();
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setPageTitle(productToEdit ? "Edit Product" : "Add Product");
+  }, [productToEdit]);
+
+  return (
+    <div className="bg-white rounded-sm-lg w-full max-w-3xl max-h-[90vh] relative">
+      <form onSubmit={onSubmitHandler}>
+        {/* Form Content */}
+        {/* (Same form fields as before) */}
+        <div className='flex justify-between items-center mt-6'>
+          <Button type='button' btnType='cancel' onClick={onClose}>
+            Cancel
+          </Button>
+          <Button type="submit"
+            disabled={actionLoading} isLoading={actionLoading}>
+            {productToEdit ? "Update Product" : "Add Product"}
+          </Button>
+        </div>
+      </form>
+
+      {/* Image Cropper */}
+      <Modal title='Crop Product Image' isOpen={croppingImage} onClose={() => setCroppingImage(null)}>
+        <div className="relative w-96 h-96">
+          <Cropper
+            image={croppingImage}
+            crop={crop}
+            zoom={zoom}
+            aspect={1}
+            onCropChange={setCrop}
+            onZoomChange={setZoom}
+            onCropComplete={onCropComplete}
+          />
+        </div>
+        <div className="mt-4 flex justify-end gap-2">
+          <Button
+            variant='cancel'
+            onClick={() => setCroppingImage(null)}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant='secondary'
+            onClick={handleCrop}
+          >
+            Crop
+          </Button>
+        </div>
+      </Modal>
+    </div>
+  );
+};
+
+export default AddProductModal;

@@ -14,8 +14,9 @@ import Box from './Box';
 import Loader from './Loader';
 import Modal from './Modal';
 import ProductDrawer from './ProductDrawer';
+import { assets } from '../assets/assets';
 
-const ListProduct = () => {
+const ListProductPrevious = () => {
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -25,17 +26,17 @@ const ListProduct = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isModalOpen, setModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
-  const columns = ["S.No", "Images", "Name", "Price", "Availability", "Category", "Action"];
+  const columns = ["Images", "Name", "Price", "Availability", "Category", "Action"];
   const [isFetchingMore, setIsFetchingMore] = useState(false);
 
-  const { initialLoading, productLoading, setPageTitle, currentPage, formatAmount, totalPages, allProducts, fetchPaginatedList, removeProduct } = useContext(ShopContext)
+  const { isLoading, productLoading, setPageTitle, currentPage, formatAmount, totalPages, allProducts, fetchPaginatedList, removeProduct } = useContext(ShopContext)
 
   const handleDropdownToggle = useCallback((productId) => {
     setActiveDropdown((prev) => (prev === productId ? null : productId));
   }, []);
 
-  const observerRef = useRef(null); 
-  const scrollTargetRef = useRef(null); 
+  const observerRef = useRef(null);
+  const scrollTargetRef = useRef(null);
 
   const loadMoreProducts = useCallback(() => {
     if (!isFetchingMore && currentPage < totalPages) {
@@ -45,8 +46,8 @@ const ListProduct = () => {
         .finally(() => setIsFetchingMore(false));
     }
   }, [isFetchingMore, currentPage, totalPages, fetchPaginatedList]);
-  
-  
+
+
 
   // Infinite scroll logic using IntersectionObserver
   useEffect(() => {
@@ -54,7 +55,7 @@ const ListProduct = () => {
     if (observerRef.current instanceof IntersectionObserver) {
       observerRef.current.disconnect();
     }
-  
+
     // Create a new instance of the IntersectionObserver
     observerRef.current = new IntersectionObserver(
       (entries) => {
@@ -65,11 +66,11 @@ const ListProduct = () => {
       },
       { threshold: 0.5 } // Trigger when 50% of the element is visible
     );
-  
+
     if (scrollTargetRef.current) {
       observerRef.current.observe(scrollTargetRef.current);
     }
-  
+
     // Cleanup function to disconnect the observer
     return () => {
       if (observerRef.current instanceof IntersectionObserver) {
@@ -77,7 +78,7 @@ const ListProduct = () => {
       }
     };
   }, [loadMoreProducts, isFetchingMore]);
-  
+
   const handleDeleteClick = (productId) => {
     setProductToDelete(productId);
     setIsModalVisible(true);
@@ -137,7 +138,7 @@ const ListProduct = () => {
 
   return (
     <div>
-      {initialLoading && <Loader type='full' />}
+      {isLoading && <Loader type='full' />}
       <div className='flex gap-5 mb-4'>
         <SearchSortBar placeholder="Search product" sortOptions={['recent', 'date']} filterOptions={['recent', 'date']} />
         <button onClick={() => setModalOpen(true)} className='px-4 border-0 bg-primary text-nowrap rounded-md text-white flex items-center justify-center gap-2 text-sm font-medium'><FaPlus />
@@ -156,7 +157,7 @@ const ListProduct = () => {
         />
         <OverviewCard
           title="Out of Stock"
-          value={allProducts?.filter(prod => !prod.availibility).length}
+          value={allProducts?.filter(prod => !prod.availability).length}
           icon={<IoMdTrash className="text-xl text-red-500" />}
         />
         <OverviewCard
@@ -170,50 +171,47 @@ const ListProduct = () => {
           <thead>
             <tr className="bg-[#f2f2f2af] text-[#5c5c5c] text-sm">
               {columns.map((col) => (
-                <th key={col} className={`py-3 px-4 border ${col === "S.No" && 'max-w-7'} `}>{col}</th>
+                <th key={col} className={`py-3 px-4 border} `}>{col}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {productLoading ? (
-              Array(10).fill().map((_, i) => <SkeletonRow key={i} />)
-            ) : (allProducts?.length > 0 ? (
+            {productLoading ? <Loader/> : (allProducts?.length === 0 ? (
               allProducts.map((product, index) => (
-                <tr key={product._id} className="border-b text-center text-sm">
-                  <td className="border py-2 px-4 border-r">{index + 1}</td>
+                <tr key={product?._id} className="border-b text-center text-sm">
                   <td className="py-2 px-4">
                     <LazyLoadImage
-                      key={product.image[0]}
-                      src={product.image[0]}
+                      // key={product.image[0]}
+                      src={assets.rolex_yatch_master_1}
                       effect='blur'
-                      alt={`Product ${product.name}`}
+                      alt={`Product ${product?.name}`}
                       className="w-8 h-8 shrink-0 object-cover mx-auto rounded-sm transition-transform transform hover:scale-105 cursor-pointer"
                     />
                   </td>
 
-                  <td className="border py-2 px-4 text-left">{product.name || 'Rolex Watch'}</td>
-                  <td className="border py-2 px-4">{formatAmount(product.newPrice) || '3,999'}</td>
+                  <td className=" py-2 px-4 text-left">{product?.name || 'Rolex Watch'}</td>
+                  {/* <td className=" py-2 px-4">{formatAmount(product?.newPrice) || '3,999'}</td> */}
                   <td
-                    className={`border py-2 px-4 text-left 
-    ${product.availibility ? 'text-green-600 font-semibold' : 'text-red-500 font-semibold'}`}
+                    className={` py-2 px-4 text-left 
+    ${product?.availability ? 'text-green-600 font-semibold' : 'text-red-500 font-semibold'}`}
                   >
-                    {product.availibility ? 'In Stock' : 'Out of Stock'}
+                    {product?.availability ? 'In Stock' : 'Out of Stock'}
                   </td>
-                  <td className="border py-2 px-4 capitalize">{product.category || "Men's"}</td>
+                  <td className=" py-2 px-4 capitalize">{product?.category || "Men's"}</td>
 
-                  <td className="border py-2 px-4 text-xl relative cursor-pointer">
+                  <td className=" py-2 px-4 text-xl relative cursor-pointer">
                     <button
-                      aria-label={`Open actions for product ${product.name}`}
+                      aria-label={`Open actions for product ${product?.name}`}
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleDropdownToggle(product._id);
+                        handleDropdownToggle(product?._id);
                         setSelectedItem(product);
                       }}
                     >
                       <IoMdMore className="m-auto" />
                     </button>
 
-                    {activeDropdown === product._id && (
+                    {activeDropdown === product?._id && (
                       <div
                         className="absolute text-sm right-4 top-10 bg-white shadow-lg z-20 border rounded-sm p-1 w-36"
                         onClick={(e) => {
@@ -255,14 +253,14 @@ const ListProduct = () => {
           </tbody>
         </table>
 
-<div ref={observerRef} className="h-10 w-full bg-red-300"></div>
-{isFetchingMore && <Loader />}
+        <div ref={observerRef} className="h-10 w-full bg-red-300"></div>
+        {isFetchingMore && <Loader />}
         {/* { <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
         /> */}
-      </div> 
+      </div>
 
       {isDrawerOpen && <ProductDrawer title={'Product Details'} selectedItem={selectedItem} closeDrawer={closeDrawer} isAnimating={isAnimating} />}
 
@@ -323,4 +321,4 @@ const SkeletonRow = () => (
 );
 
 
-export default ListProduct
+export default ListProductPrevious

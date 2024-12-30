@@ -1,19 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
-import SearchSortBar from '../components/SearchSortBar'; // Import your custom SearchSortBar component
-import toast from 'react-hot-toast'; // Toast notifications
-import { backendUrl } from '../App'; // Import your backend URL
-import axios from 'axios'; // Axios for HTTP requests
+import SearchSortBar from '../components/SearchSortBar';
 import { ShopContext } from '../contexts/ShopContext';
 import Loader from '../components/Loader';
 import Pagination from '../components/Pagination';
 import OrderDrawer from '../components/OrderDrawer';
+import StatusLabel from '../components/StatusLabel';
+import { CURRENCY, PAGE_SIZE } from '../utils/constants';
+import { useSearchParams } from 'react-router-dom';
+import { formatAmount, timestampToShortDate } from '../helpers';
 
-const Orders = ({ token }) => {
+const Orders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [searchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get("page")) || 1;
 
-  const { isLoading, setIsLoading, formatAmount,currency, setPageTitle, timestampToShortDate, orders } = useContext(ShopContext)
+  const { isLoading, isOrdersLoading, setPageTitle, orders, ordersPageCount, fetchOrders, totalOrders } = useContext(ShopContext)
 
   console.log('Is Loading', orders)
 
@@ -24,7 +27,6 @@ const Orders = ({ token }) => {
     setTimeout(() => setIsAnimating(true), 10);
   };
 
-  // Close drawer
   const closeDrawer = () => {
     setIsAnimating(false);
     setTimeout(() => {
@@ -33,87 +35,114 @@ const Orders = ({ token }) => {
     }, 300);
   };
 
-  // Fetch orders on component mount
   useEffect(() => {
-    // fetchAllOrders();
     setPageTitle('Orders');
-    () => setIsLoading(false)
-  }, [setIsLoading]);
-
-
+  }, []);
 
   return (
     <div>
       {isLoading && <Loader type='full' />}
       <div className='mb-8'>
+        <SearchSortBar placeholder="Search product" sortOptions={['recent', 'date']} filterOptions={['recent', 'date']} />
+      </div>
 
-        <SearchSortBar placeholder="Search product" sortOptions={['recent', 'date']} filterOptions={['recent', 'date']} />      </div>
-
-      {/* Orders Table */}
-      <div className="mt-1">
-        <table className="min-w-full bg-white shadow-sm  border border-collapse table-auto">
+      <div>
+        <table className="min-w-full bg-white  border border-b-0 border-collapse table-auto">
           <thead>
-            <tr className="bg-[#f2f2f2af] text-[#5c5c5c] text-sm uppercase">
-              <th className=" py-3 px-1 max-w-fit ">S.No</th>
-              <th className=" py-3 px-4">Product</th>
-              <th className=" py-3 px-4">Customer</th>
-              <th className=" py-3 px-4">Address</th>
-              <th className=" py-3 px-4">Amount (PKR)</th>
-              <th className=" py-3 px-4">Status</th>
-              <th className=" py-3 px-4">Order Date</th>
+            <tr className="bg-[#f2f2f2af] text-[#5c5c5c] font-semibold py-4 text-sm uppercase">
+              <th className=" py-4 px-1 max-w-fit ">S.No</th>
+              <td className=" py-4 px-4">Product</td>
+              <td className=" py-4 px-4">Customer</td>
+              <td className=" py-4 px-4">Address</td>
+              <td className=" py-4 px-4">Amount</td>
+              <td className=" py-4 px-4">Status</td>
+              <td className=" py-4 px-4">Order Date</td>
             </tr>
           </thead>
           <tbody>
-            {orders?.length > 0 ? (
-              orders.map((order, index) => (
-                <tr
-                  key={order._id}
-                  onClick={() => handleOrderClick(order)}
-                  className=" hover:bg-gray-50 text-center cursor-pointer text-sm border"
-                >
-                  <td className=" py-3 px-4">{index + 1}</td>
-                  <td className=" py-3 px-4 text-left">{order.items[0]?.name || ''}</td>
-                  <td className=" py-3 px-4 text-left">{order.address.firstName || 'Kashif Ameen'}</td>
-                  <td className=" py-3 px-4 text-left truncate">{order.address.city || 'H-429, Lahore, Punjab'}</td>
-                  <td className=" py-3 px-4">{currency} {formatAmount(order.amount) || '0'}</td>
-                  <td
-                    className={`py-3  px-4 text-sm font-semibold ${order.status === 'Pending'
-                      ? 'text-yellow-500'
-                      : order.status === 'Delivered'
-                        ? 'text-green-500'
-                        : 'text-red-500'
-                      }`}
+            {isOrdersLoading ?
+              <SkeletonRow /> : orders?.length > 0 ? (
+                orders.map((order, index) => (
+                  <tr
+                    key={order._id}
+                    onClick={() => handleOrderClick(order)}
+                    className=" hover:bg-gray-50 cursor-pointer text-sm border"
                   >
-                    {order.status}
+                    <td className=" py-4 px-4 text-center">{(currentPage - 1) * PAGE_SIZE + (index + 1)}</td>
+                    <td className=" py-4 px-4 text-left">{order?.items?.[0]?.name || ''}</td>
+                    <td className=" py-4 px-4 text-left">{order?.address?.firstName || 'Kashif Ameen'}</td>
+                    <td className=" py-4 px-4 text-left truncate">{order?.address?.city || 'H-429, Lahore, Punjab'}</td>
+                    <td className=" py-4 px-4">{CURRENCY}{formatAmount(order?.amount) || '0'}</td>
+                    <td
+                      className={`py-4  px-4 text-sm font-semibold `}
+                    >
+                      <StatusLabel status={order?.status} />
+                    </td>
+                    <td className="py-4 px-4 text-sm ">{timestampToShortDate(order?.date) || 'N/A'}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="7"
+                    className="py-4 text-base text-center text-[#c3c3c3]"
+                  >
+                    No orders found.
                   </td>
-                  <td className="py-3 px-4 text-sm ">{timestampToShortDate(order.date) || 'N/A'}</td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan="7"
-                  className="py-4 text-base text-center text-[#c3c3c3]"
-                >
-                  No orders found.
-                </td>
-              </tr>
-            )}
+              )}
           </tbody>
         </table>
-        {/* <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-        // onPageChange={handlePageChange}
-        /> */}
+        <div className='border border-t-0'>
+          <Pagination pageCount={ordersPageCount} fectchData={fetchOrders} totalData={totalOrders} />
+        </div>
       </div>
 
-      {/* Drawer for Order Details */}
       {isDrawerOpen && <OrderDrawer selectedOrder={selectedOrder} closeDrawer={closeDrawer} isAnimating={isAnimating} />}
-
 
     </div>
   );
 };
+
+const SkeletonRow = () => {
+  const skeletons = Array(8).fill(0);
+
+  return (
+    <>
+      {skeletons.map((_, index) => (
+        <tr key={index} className="animate-pulse border">
+          <td className="text-center">
+            <div className="bg-gray-200 mx-auto rounded max-w-fit text-transparent">SNo</div>
+          </td>
+
+          <td className="py-4 px-4 text-left">
+            <div className="h-6 w-3/4 bg-gray-200 rounded"></div>
+          </td>
+
+          <td className="py-4 px-4 text-left">
+            <div className="h-6 w-1/2 bg-gray-200 rounded"></div>
+          </td>
+
+          <td className="py-4 px-4 text-left truncate">
+            <div className="h-6 w-full bg-gray-200 rounded"></div>
+          </td>
+
+          <td className="py-4 px-4 text-left">
+            <div className="h-6 w-1/4 bg-gray-200 rounded"></div>
+          </td>
+
+          <td className="py-4 px-4 text-left">
+            <div className="h-6 w-1/3 bg-gray-200 rounded"></div>
+          </td>
+
+          <td className="py-4 px-4 text-left">
+            <div className="h-6 w-1/2 bg-gray-200 rounded"></div>
+          </td>
+        </tr>
+      ))}
+    </>
+  );
+};
+
 
 export default Orders;

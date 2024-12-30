@@ -6,7 +6,6 @@ const notifications = [
   { id: 1, message: "New order placed by Alice Smith", time: "2 hours ago" },
   { id: 2, message: "Order #101 was delivered", time: "4 hours ago" },
   { id: 3, message: "New message from customer support", time: "1 day ago" },
-  // Add more notifications if needed
 ];
 
 const NotificationsPopup = () => {

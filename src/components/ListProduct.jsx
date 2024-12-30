@@ -28,7 +28,7 @@ const ListProduct = () => {
   const columns = ["S.No", "Images", "Name", "Price", "Availability", "Category", "Action"];
   const [isFetchingMore, setIsFetchingMore] = useState(false);
 
-  const { initialLoading, productLoading, setPageTitle, currentPage, formatAmount, totalPages, allProducts, fetchPaginatedList, removeProduct } = useContext(ShopContext)
+  const { isLoading, productLoading, setPageTitle, currentPage, totalPages, allProducts, fetchPaginatedList, removeProduct } = useContext(ShopContext)
 
   const handleDropdownToggle = useCallback((productId) => {
     setActiveDropdown((prev) => (prev === productId ? null : productId));
@@ -139,10 +139,10 @@ const ListProduct = () => {
 
   return (
     <div>
-      {initialLoading && <Loader type='full' />}
+      {isLoading && <Loader type='full' />}
       <div className='flex gap-5 mb-4'>
         <SearchSortBar placeholder="Search product" sortOptions={['recent', 'date']} filterOptions={['recent', 'date']} />
-        <button onClick={() => setModalOpen(true)} className='px-4 border-0 bg-primary text-nowrap rounded-md text-white flex items-center justify-center gap-2 text-sm font-medium'><FaPlus />
+        <button onClick={() => setModalOpen(true)} className='px-4 border-0 bg-primary-1 text-nowrap rounded-md text-white flex items-center justify-center gap-2 text-sm font-medium'><FaPlus />
           Add Product</button>
       </div>
 

@@ -8,26 +8,26 @@ const Modal = ({ title, children, isOpen, onClose }) => {
   };
 
   return (
-    <div 
-      className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center" 
+    <div
+      className="fixed inset-0 backdrop-blur bg-black bg-opacity-30 z-50 flex items-center justify-center"
       onClick={handleClose}
     >
-      <div 
-        onClick={(e) => e.stopPropagation()} 
-        className="relative bg-white rounded-lg shadow-lg max-h-[90vh] overflow-y-scroll scrollbar-hide p-6"
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="
+         bg-white rounded shadow-lg max-h-[90vh] overflow-y-scroll scrollbar-hide p-6"
       >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black"
-        >
-          &times;
-        </button>
+        <div className='flex w-full justify-between items-center'>
 
-        {/* Modal Title */}
-        {title && <h2 className="text-2xl mb-4 text-center font-semibold">{title}</h2>}
+          {title && <h2 className="text-2xl font-semibold">{title}</h2>}
+          <button
+            onClick={onClose}
+            className=" text-2xl ml-auto text-[#666666] hover:text-black "
+          >
+            &times;
+          </button>
+        </div>
 
-        {/* Modal Content */}
         <div className="mt-4">
           {children}
         </div>

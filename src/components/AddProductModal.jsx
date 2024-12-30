@@ -1,91 +1,102 @@
 import { useContext, useEffect, useState } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { backendUrl } from '../App';
 import { ShopContext } from '../contexts/ShopContext';
 import Button from './Button';
 import { assets } from '../assets/assets';
+import Modal from './Modal';
+import CropImageModal from './CropImageModal';
+import Input from './Input'
 
-const AddProductModal = ({onClose}) => {
+const AddProductModal = ({ onClose, productToEdit }) => {
   const [image1, setImage1] = useState(false);
   const [image2, setImage2] = useState(false);
   const [image3, setImage3] = useState(false);
   const [image4, setImage4] = useState(false);
+  const [croppingImage, setCroppingImage] = useState(null);
+  const [currentImageSetter, setCurrentImageSetter] = useState(null);
 
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('Quartz Machine, Stainless Steel Chain, Date Working, Master Lock, Best Quality.');
-  const [oldPrice, setOldPrice] = useState('');
-  const [newPrice, setNewPrice] = useState('');
-  const [category, setCategory] = useState('men');
-  const [subCategory, setSubcategory] = useState('quartz');
-  const [bestSeller, setBestSeller] = useState(false);
-  const [sizes, setSizes] = useState([]);
-  const [availability, setAvailability] = useState('in_stock');
+  const { setActionLoading, actionLoading, setPageTitle, fetchProducts, token } =
+    useContext(ShopContext);
 
-  const { setActionLoading,actionLoading, setPageTitle, fetchPaginatedList, token } = useContext(ShopContext);
+  const showCropper = (file, imageSetter) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCroppingImage(reader.result);
+      setCurrentImageSetter(() => imageSetter);
+    };
+    reader.readAsDataURL(file);
+  };
 
-  const onSubmitHandler = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    setPageTitle(productToEdit ? "Edit Product" : "Add Product");
+  }, [productToEdit]);
 
-    if (!oldPrice || isNaN(Number(oldPrice))) {
-      toast.error("Please enter a valid Old Price");
-      return;
-    }
-    if (!newPrice || isNaN(Number(newPrice))) {
-      toast.error("Please enter a valid New Price");
-      return;
-    }
-    if (!subCategory) {
-      toast.error("Please select a Sub-Category");
-      return;
-    }
-    if (!availability) {
-      toast.error("Please select Availability");
-      return;
-    }
+  const initialValues = {
+    name: productToEdit?.name || "",
+    description: productToEdit?.description || "Quartz Machine, Stainless Steel Chain, Date Working, Master Lock, Best Quality.",
+    oldPrice: productToEdit?.oldPrice || "",
+    newPrice: productToEdit?.newPrice || "",
+    category: productToEdit?.category || "Men",
+    subCategory: productToEdit?.subCategory || "quartz",
+    bestSeller: productToEdit?.bestSeller || false,
+  };
 
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Product name is required"),
+    description: Yup.string().required("Description is required"),
+    oldPrice: Yup.number().required("Price is required").min(0, "Price must be greater than 0"),
+    newPrice: Yup.number().min(0, "Sale price must be greater than 0").min(),
+    category: Yup.string().required("Category is required"),
+    subCategory: Yup.string().required("Sub-category is required"),
+  });
+
+  const onSubmitHandler = async (values, { setSubmitting }) => {
     setActionLoading(true);
-
     try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("oldPrice", oldPrice);
-      formData.append("newPrice", newPrice);
-      formData.append("category", category);
-      formData.append("subCategory", subCategory);
-      formData.append("bestSeller", bestSeller);
-      formData.append("availibility", availability === "in_stock");
-      formData.append("sizes", JSON.stringify(sizes));
+      // const formData = await new FormData();
+      // Object.entries(values).forEach(([key, value]) => {
+      //   formData.append(key, value);
+      // });
 
-      if (image1) formData.append("image1", image1);
-      if (image2) formData.append("image2", image2);
-      if (image3) formData.append("image3", image3);
-      if (image4) formData.append("image4", image4);
+      
+      // if (image1) formData.append("image1", image1);
+      // if (image2) formData.append("image2", image2);
+      // if (image3) formData.append("image3", image3);
+      // if (image4) formData.append("image4", image4);
 
-      const response = await axios.post(backendUrl + "/api/product/add", formData, {
-        headers: { token },
-      });
+      const formData = {
+        ...values,
+        image1 : image1 && image1,
+        image2 : image2 && image2,
+        image3 : image3 && image3,
+        image4 : image4 && image4,
 
-      console.log(response)
+      }
+
+      console.log(image1[0], 'FORMDATA')
+      
+      let response;
+      if (productToEdit) {
+        response = await axios.put(
+          `${backendUrl}/api/product/edit/${productToEdit._id}`,
+          values,
+          { headers: { token } }
+        );
+      } else {
+        console.log(formData, 'FORMDATA')
+        response = await axios.post(`${backendUrl}/api/product/add`, values, {
+          headers: { token },
+        });
+      }
 
       if (response.data.success) {
         toast.success(response.data.message);
-        setName("");
-        setDescription("");
-        setOldPrice("");
-        setNewPrice("");
-        setCategory("");
-        setSubcategory("");
-        setAvailability("in_stock");
-        setBestSeller(false);
-        setSizes([]);
-        setImage1(false);
-        setImage2(false);
-        setImage3(false);
-        setImage4(false);
-        fetchPaginatedList()
-        onClose()
+        fetchProducts();
+        onClose();
       } else {
         toast.error(response.data.message);
       }
@@ -93,171 +104,132 @@ const AddProductModal = ({onClose}) => {
       toast.error(error.message);
     } finally {
       setActionLoading(false);
+      setSubmitting(false);
     }
   };
 
-  useEffect(() => {
-    setPageTitle('Add Product');
-  }, []);
-
   return (
-      <div className="bg-white rounded-lg w-full max-w-3xl max-h-[90vh] relative">
-        <form onSubmit={onSubmitHandler}>
-          <div className="grid grid-cols-1 text-sm lg:grid-cols-2 gap-6">
-            {/* Left Column */}
-            <div>
-              <label className="block mb-4">
-                <span className="text-base">Product Title</span>
-                <input
-                  type="text"
-                  className="w-full mt-1 text-sm p-2 border rounded focus:outline-none focus:ring-primary focus:ring-2 "
+    <div className="bg-white rounded-sm-lg w-full max-w-3xl max-h-[90vh] relative">
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmitHandler}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <div className="grid grid-cols-1 text-sm lg:grid-cols-2 gap-6">
+              <div>
+                <Input
+                  label="Product Title"
+                  name="name"
                   placeholder="Enter product name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  disabled={actionLoading}
                 />
-              </label>
 
-              <label className="block mb-4">
-                <span className="text-base">Product Description</span>
-                <textarea
-                  className="w-full mt-1 text-sm p-2 border rounded focus:outline-none focus:ring-primary focus:ring-2 "
+                <Input
+                  label="Product Description"
+                  name="description"
+                  as="textarea"
+                  rows={3}
                   placeholder="Enter product description"
-                  value={'Quartz Machine, Stainless Steel Chain, Date Working, Master Lock, Best Quality.'}
-                  onChange={(e) => setDescription(e.target.value)}
+                  disabled={actionLoading}
                 />
-              </label>
 
-              <div className="grid grid-cols-2 gap-4">
-                <label className="block">
-                  <span className="text-base">Price</span>
-                  <input
+                <div className="grid grid-cols-2 gap-4">
+
+                  <Input
+                    label="Price"
+                    name="oldPrice"
                     type="number"
-                    className="w-full mt-1 text-sm p-2 border rounded focus:outline-none focus:ring-primary focus:ring-2 "
                     placeholder="Regular price"
                     min="0"
-                    value={oldPrice}
-                    onChange={(e) => setOldPrice(e.target.value)}
+                    disabled={actionLoading}
                   />
-                </label>
-                <label className="block">
-                  <span className="text-base">Sale Price</span>
-                  <input
+
+                  <Input
+                    label="Sale Price"
+                    name="newPrice"
                     type="number"
-                    className="w-full mt-1 text-sm p-2 border rounded focus:outline-none focus:ring-primary focus:ring-2 "
                     placeholder="Sale price"
-                    value={newPrice}
-                    onChange={(e) => setNewPrice(e.target.value)}
+                    min="0"
+                    disabled={actionLoading}
                   />
-                </label>
-              </div>
-
-              <label className="block mt-4">
-                <span className="text-base">Availability</span>
-                <select
-                  className="w-full mt-1 text-sm p-2 border rounded focus:outline-none focus:ring-primary focus:ring-2 "
-                  value={availability}
-                  onChange={(e) => setAvailability(e.target.value)}
-                >
-                  <option value="in_stock">In Stock</option>
-                  <option value="out_of_stock">Out of Stock</option>
-                </select>
-              </label>
-            </div>
-
-            {/* Right Column */}
-            <div>
-              {/* <label className="block mb-4">
-                <span className="text-base">Sizes</span>
-                <div className="flex gap-2 mt-2">
-                  {['S', 'M', 'L', 'XL', 'XXL'].map((size) => (
-                    <span
-                      key={size}
-                      onClick={() =>
-                        setSizes((prev) =>
-                          prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
-                        )
-                      }
-                      className={`px-3 py-1 text-sm cursor-pointer rounded ${
-                        sizes.includes(size) ? 'bg-black text-white' : 'bg-gray-200'
-                      }`}
-                    >
-                      {size}
-                    </span>
-                  ))}
                 </div>
-              </label> */}
-
-              <label className="block mb-4">
-                <span className="text-base">Upload Images</span>
-                <div className="flex gap-2 mt-2">
+              </div>
+              <div>
+                <label>Upload Images</label>
+                <div className="flex gap-2 mt-2 mb-2">
                   {[image1, image2, image3, image4].map((image, index) => (
                     <label key={index} className="cursor-pointer">
                       <img
                         src={!image ? assets.upload_area : URL.createObjectURL(image)}
                         alt=""
-                        className="w-24 h-24 object-cover border rounded"
+                        className="w-24 h-24 object-cover border rounded-sm"
                       />
                       <input
                         type="file"
                         hidden
+                        disabled={actionLoading}
                         onChange={(e) =>
-                          [setImage1, setImage2, setImage3, setImage4][index](e.target.files[0])
+                          showCropper(e.target.files[0], [setImage1, setImage2, setImage3, setImage4][index])
                         }
                       />
                     </label>
                   ))}
                 </div>
-              </label>
-
-              <label className="block mb-4">
-                <span className="text-base">Category</span>
-                <select
-                  className="w-full mt-1 text-sm p-2 border rounded focus:outline-none focus:ring-primary focus:ring-2 "
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                >
-                  <option value="women">Women</option>
-                  <option value="men">Men</option>
-                </select>
-              </label>
-
-              <label className="block mb-4">
-                <span className="text-base">Sub Category</span>
-                <select
-                  className="w-full mt-1 text-sm p-2 border rounded focus:outline-none focus:ring-primary focus:ring-2 "
-                  value={subCategory}
-                  onChange={(e) => setSubcategory(e.target.value)}
-                >
-                  <option value="automatic">Automatic</option>
-                  <option value="quartz">Quartz</option>
-                  <option value="chain">Chain</option>
-                  <option value="strap">Strap</option>
-                </select>
-              </label>
-
-              <div className="flex items-center gap-2 mt-4">
-                <input
-                  type="checkbox"
-                  checked={bestSeller}
-                  onChange={(e) => setBestSeller(e.target.checked)}
-                  name='bestseller'
-                />
-                <span className="text-base" id='bestseller'>Best Seller</span>
+                <div className="grid grid-cols-2 gap-4">
+                  <Input
+                    label="Category"
+                    name="category"
+                    as="select"
+                    disabled={actionLoading}
+                  >
+                    <option value="Women">Women</option>
+                    <option value="Men">Men</option>
+                  </Input>
+                  <Input
+                    label="Sub-Category"
+                    name="subCategory"
+                    as="select"
+                    disabled={actionLoading}
+                  >
+                    <option value="automatic">Automatic</option>
+                    <option value="quartz">Quartz</option>
+                    <option value="chain">Chain</option>
+                    <option value="strap">Strap</option>
+                  </Input>
+                </div>
+                <div className="flex items-center gap-2 mt-4">
+                  <Field
+                    type="checkbox"
+                    id='bestSeller'
+                    name="bestSeller"
+                    className="h-4 w-4"
+                    disabled={actionLoading}
+                  />
+                  <label htmlFor='bestSeller'>Add to Best Seller</label>
+                </div>
               </div>
             </div>
-          </div>
-          <div className='flex justify-between items-center mt-6'>
-            <Button type='button' btnType='cancel' onClick={onClose}>
-              Cancel
-            </Button>
-            <Button type="submit"
-              disabled={actionLoading} isLoading={actionLoading}>
-              Add product
-            </Button>
-          </div>
-        </form>
-      </div>
-    // </div>
+            <div className="flex justify-between items-center mt-6">
+              <Button type="button" disabled={isSubmitting || actionLoading} variant="cancel" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button type="submit" variant='secondary' disabled={isSubmitting || actionLoading}>
+                {productToEdit ? "Update Product" : "Add Product"}
+              </Button>
+            </div>
+          </Form>
+        )}
+      </Formik>
+      <Modal title="Crop Product Image" isOpen={croppingImage} onClose={() => setCroppingImage(null)}>
+        <CropImageModal
+          croppingImage={croppingImage}
+          currentImageSetter={currentImageSetter}
+          setCroppingImage={setCroppingImage}
+        />
+      </Modal>
+    </div>
   );
 };
 

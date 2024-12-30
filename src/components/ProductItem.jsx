@@ -74,7 +74,7 @@ const ProductItem = memo(({ id, description, size, image, name, newPrice, oldPri
         <div className="text-center relative py-3 px-2">
           <p
             className={`absolute duration-200 transition-all z-40 ease-in-out ${isHovered ? 'opacity-100' : 'opacity-0'
-              } -top-10 left-0 bg-primary py-2 font-semibold text-sm uppercase w-full text-center`}
+              } -top-10 left-0 bg-primary-1 py-2 font-semibold text-sm uppercase w-full text-center`}
           >
             Add to cart
           </p>

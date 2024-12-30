@@ -1,73 +1,67 @@
-import React from 'react';
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+import { useSearchParams } from "react-router-dom";
+import { useEffect, useContext } from "react";
+import { ShopContext } from "../contexts/ShopContext";
+import { PAGE_SIZE } from "../utils/constants";
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+function Pagination( {pageCount, fectchData, totalData}) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get("page")) || 1;
 
-  console.log(currentPage, totalPages, onPageChange, 'Pagination')
-  const handleClick = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      onPageChange(page);
+  useEffect(() => {
+    fectchData(currentPage, PAGE_SIZE);
+  }, [currentPage, fectchData]);
+
+  function nextPage() {
+    if (currentPage < pageCount) {
+      searchParams.set("page", currentPage + 1);
+      setSearchParams(searchParams);
     }
-  };
+  }
 
-  const renderPageNumbers = () => {
-    const pages = [];
-
-    // Define visible page numbers dynamically
-    const visibleRange = 3; // Number of pages to display before/after the current page
-    const startPage = Math.max(1, currentPage - visibleRange);
-    const endPage = Math.min(totalPages, currentPage + visibleRange);
-
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(
-        <button
-          key={i}
-          className={`mx-1 px-3 py-1 rounded-full text-xs font-semibold transition-all shadow-sm ${
-            i === currentPage
-              ? 'bg-primary text-white scale-110'
-              : 'bg-gray-200 text-gray-700 hover:bg-indigo-500 hover:text-white'
-          }`}
-          onClick={() => handleClick(i)}
-        >
-          {i}
-        </button>
-      );
+  function prevPage() {
+    if (currentPage > 1) {
+      searchParams.set("page", currentPage - 1);
+      setSearchParams(searchParams);
     }
+  }
 
-    return pages;
-  };
+  if (pageCount <= 1) return null;
 
   return (
-    <div className="flex justify-center items-center gap-2 mt-6">
-      {/* Previous Button */}
-      <button
-        className={`px-4 py-2 rounded-full text-xs font-semibold transition-all shadow-sm ${
-          currentPage === 1
-            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            : 'bg-[#232323] text-gray-700 hover:bg-[#000] hover:text-white'
-        }`}
-        disabled={currentPage === 1}
-        onClick={() => handleClick(currentPage - 1)}
-      >
-        &larr; Prev
-      </button>
+    <div className="flex justify-between items-center py-3 px-3 bg-[#f2f2f2af] text-[#525252] text-sm">
+      <p>
+        Showing{" "}
+        <span className="font-semibold">{(currentPage - 1) * PAGE_SIZE + 1}</span> to{" "}
+        <span className="font-semibold">
+          {currentPage === pageCount
+            ? totalData
+            : currentPage * PAGE_SIZE}
+        </span>{" "}
+        of <span className="font-semibold">{totalData}</span> results
+      </p>
 
-      {/* Page Numbers */}
-      {renderPageNumbers() }
+      <div className="flex gap-2">
+        <button
+          onClick={prevPage}
+          disabled={currentPage === 1}
+          className="pr-3 pl-2 flex items-center gap-1 py-1 hover:bg-primary-1 hover:text-white rounded disabled:opacity-50"
+        >
+          <HiChevronLeft />
+          Previous
+        </button>
 
-      {/* Next Button */}
-      <button
-        className={`px-4 py-2 rounded-full text-xs font-semibold transition-all shadow-sm ${
-          currentPage === totalPages
-            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            : 'bg-gray-200 text-gray-700 hover:bg-indigo-500 hover:text-white'
-        }`}
-        disabled={currentPage === totalPages}
-        onClick={() => handleClick(currentPage + 1)}
-      >
-        Next &rarr;
-      </button>
+        <button
+          onClick={nextPage}
+          disabled={currentPage === pageCount}
+          className="pl-3 pr-2 py-1 flex items-center gap-1 hover:bg-primary-1 disabled:bg-none disabled:cursor-not-allowed hover:text-white rounded disabled:opacity-50"
+        >
+          Next
+          <HiChevronRight />
+        </button>
+      </div>
     </div>
   );
-};
+}
 
 export default Pagination;

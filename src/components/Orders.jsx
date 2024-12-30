@@ -4,10 +4,11 @@ import { ShopContext } from '../contexts/ShopContext';
 
 const Orders = () => {
 
-const {orders, setIsLoading, fetchAllOrders, statusHandler} = useContext(ShopContext)
+const {orders, setIsLoading, statusHandler} = useContext(ShopContext)
+
+
 
   useEffect(() => {
-    // fetchAllOrders();
     return () => setIsLoading(false);
   }, [setIsLoading]);
 

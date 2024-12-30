@@ -1,7 +1,6 @@
 import React from 'react'
 
-const ConfirmationModal = ({ show = false,
-  title = 'Confirmation Modal',
+const ConfirmationModal = ({
   message = 'Are you sure?',
   confirmText = 'Ok',
   cancelText = 'Cancel',
@@ -9,16 +8,13 @@ const ConfirmationModal = ({ show = false,
   onCancel,
   onClose }) => {
 
-  if (!show) return null
 
   const handleClose=()=> {
     if(onClose) onClose()
   }
 
   return (
-    <div className='bg-black bg-opacity-20 w-full h-full fixed inset-0 flex justify-center items-center' onClick={handleClose}>
-      <div className='bg-white rounded py-5 px-8 shadow-lg' onClick={(e)=> e.stopPropagation()}>
-        <h1 className='font-semibold mb-3 text-lg'>{title}</h1>
+      <div>
         <p className='mb-4'>{message}</p>
 
         <div className='flex justify-between'>
@@ -32,7 +28,6 @@ const ConfirmationModal = ({ show = false,
             }}>{confirmText}</button>
         </div>
       </div>
-    </div>
   )
 }
 

@@ -7,13 +7,23 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#e2c765',
-        charcoalGray: '#2e2e2e',
-        buttonCta: '#c7a647',
-        linkIcons: '#6574e2',
+        'primary-1': '#e2c765',
+        'primary-2': '#c7a647',
+        'dark-1': '#2e2e2e',
+        'dark-2': '#232323',
+        'dark-3' : '#333',
       },
       fontFamily: {
         sans: ["Roboto", "sans-serif"],
+      },
+      animation: {
+        spin: "spin 1s linear infinite",
+      },
+      keyframes: {
+        spin: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
       },
     },
   },

@@ -6,6 +6,7 @@ import Logo from './Logo';
 import { useContext } from 'react';
 import { ShopContext } from '../contexts/ShopContext';
 import { useNavigate } from 'react-router-dom';
+import { assets } from '../assets/assets';
 
 function Login() {
 
@@ -33,15 +34,15 @@ function Login() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen fixed inset-0 bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-3 bg-white rounded shadow-lg">
+    <div className="flex items-center justify-center min-h-screen px-5 fixed backdrop-blur-md inset-0 bg-gray-100">
+      <div className="w-full max-w-md p-4 sm:p-6 md:p-8 bg-white rounded shadow-lg">
         <img
-          src={''}
+          src={assets.logo2}
           alt="Logo"
-          className="w-[50%] m-auto"
+          className="w-[50%] m-auto mb-3"
         />
-        <h2 className="text-2xl font-bold text-center text-gray-800">Admin Dashboard</h2>
-        <p className="text-center text-gray-600">Sign in to your admin account</p>
+        <h2 className=" font-bold text-center text-xl sm:text-2xl text-gray-800 mb-1">Admin Dashboard</h2>
+        <p className="text-center text-gray-600 text-sm sm:text-base mb-5">Sign in to your admin account</p>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">Admin Email</label>
@@ -49,7 +50,7 @@ function Login() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 mt-1 text-gray-900 border border-gray-300 rounded-sm focus:ring-primary focus:ring-2 focus:outline-none"
+              className="w-full px-4 py-2 mt-1 text-gray-900 border border-gray-300 rounded-sm focus:ring-primary text-sm sm:text-base focus:ring-2 focus:outline-none"
               placeholder="Enter your email"
             />
           </div>
@@ -60,7 +61,7 @@ function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 mt-1 text-gray-900 border border-gray-300 rounded-sm  focus:outline-none"
+              className="w-full px-4 py-2 mt-1 text-sm sm:text-base text-gray-900 border border-gray-300 rounded-sm  focus:outline-none"
               placeholder="Enter your password"
             />
           </div>

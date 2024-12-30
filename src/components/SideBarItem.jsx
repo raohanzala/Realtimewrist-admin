@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import { backendUrl } from "../App";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   MdOutlineDashboard,
   MdOutlineShoppingCart,
   MdOutlineFormatListBulleted
 } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
-import { IoMdNotificationsOutline } from "react-icons/io";
-
 
 function SideBarItem() {
 
@@ -18,11 +15,6 @@ function SideBarItem() {
     { name: "list Products", icon: <MdOutlineFormatListBulleted />, route: "/list" },
     { name: "orders", icon: <MdOutlineShoppingCart />, route: "/orders" },
     { name: "users", icon: <CgProfile />, route: "/users" },
-    {
-      name: "notifications",
-      icon: <IoMdNotificationsOutline />,
-      route: "/notifications",
-    },
   ];
 
 
@@ -35,7 +27,7 @@ function SideBarItem() {
           className={({ isActive }) =>
             `flex items-center gap-0 md:gap-3 px-3 py-4 rounded-sm w-full capitalize font-medium transition-all duration-200
             ${isActive
-              ? "bg-[#4f4f4f] text-primary"
+              ? "bg-[#4f4f4f] text-primary-1"
               : "text-[#797979] hover:text-[#e4e4e4] "
             }`
           }
