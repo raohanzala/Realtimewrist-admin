@@ -105,7 +105,7 @@ const Orders = () => {
 };
 
 const SkeletonRow = () => {
-  const skeletons = Array(8).fill(0);
+  const skeletons = Array(10).fill(0);
 
   return (
     <>

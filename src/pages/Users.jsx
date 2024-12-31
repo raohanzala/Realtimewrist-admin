@@ -8,8 +8,8 @@ import { timestampToShortDate } from '../helpers'
 
 const Users = () => {
 
-  const { isLoading, allUsers } = useContext(ShopContext)
-  const usersLoading = true
+  const { isLoading, allUsers, usersLoading } = useContext(ShopContext)
+  // const usersLoading = true
 
   return (
     <div>

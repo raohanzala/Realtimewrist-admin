@@ -7,19 +7,37 @@ import { useContext } from 'react';
 import { ShopContext } from '../contexts/ShopContext';
 import { useNavigate } from 'react-router-dom';
 import { assets } from '../assets/assets';
+import Button from './Button';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { CgSpinner } from 'react-icons/cg';
+import SpinnerMini from './SpinnerMini';
+
+
 
 function Login() {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const { login } = useContext(ShopContext);
   const navigate = useNavigate();
 
+const initialValues = {
+  email : '',
+  password : ''
+}
 
-  const handleLogin = async () => {
+const validationSchema = Yup.object({
+  email: Yup.string()
+    .email('Invalid email format')
+    .required('Email is required'),
+  password: Yup.string()
+    .min(6, 'Password must be at least 6 characters')
+    .required('Password is required'),
+});
 
+
+  const handleSubmit = async (values, {setSubmitting}) => {
     try {
-      const response = await axios.post(backendUrl + '/api/user/admin', { email, password })
+      const response = await axios.post(backendUrl + '/api/user/admin',values)
       console.log(response, 'asdf')
       if (response.data.success) {
         login(response.data.token);
@@ -30,6 +48,8 @@ function Login() {
     } catch (error) {
       console.log(error)
       toast.error(error.message)
+    }finally {
+      setSubmitting(false);
     }
   }
 
@@ -43,36 +63,48 @@ function Login() {
         />
         <h2 className=" font-bold text-center text-xl sm:text-2xl text-gray-800 mb-1">Admin Dashboard</h2>
         <p className="text-center text-gray-600 text-sm sm:text-base mb-5">Sign in to your admin account</p>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Admin Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 mt-1 text-gray-900 border border-gray-300 rounded-sm focus:ring-primary text-sm sm:text-base focus:ring-2 focus:outline-none"
-              placeholder="Enter your email"
-            />
-          </div>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="email">Admin Email</label>
+                <Field
+                  type="email"
+                  name="email"
+                  id="email"
+                  className="w-full px-4 py-2 mt-1 text-gray-900 border border-gray-300 rounded-sm text-sm sm:text-base focus:outline-none focus:ring-primary-1 focus:ring-2"
+                  placeholder="Enter your email"
+                />
+                <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
+              </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 mt-1 text-sm sm:text-base text-gray-900 border border-gray-300 rounded-sm  focus:outline-none"
-              placeholder="Enter your password"
-            />
-          </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="password">Password</label>
+                <Field
+                  type="password"
+                  name="password"
+                  id="password"
+                  className="w-full px-4 py-2 mt-1 text-gray-900 border border-gray-300 rounded-sm text-sm sm:text-base focus:outline-none focus:ring-primary-1 focus:ring-2"
+                  placeholder="Enter your password"
+                />
+                <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
+              </div>
 
-          <button
-            onClick={handleLogin}
-            className="w-full py-2 text-white bg-[#232323] rounded-sm"
-          >
-            Login
-          </button>
-        </div>
+              <Button
+                type="submit"
+                variant='primaryBig'
+                className="w-full"
+                disabled={isSubmitting}
+              >
+                {!isSubmitting ? 'Login' : <SpinnerMini/>}
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );

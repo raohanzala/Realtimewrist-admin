@@ -140,6 +140,8 @@ setIsOrdersLoading(true)
       setTotalUsers(response.data.totalUsers)
     } catch (error) {
       handleError(error, 'Failed to fetch users.');
+    }finally{
+      setUsersLoading(false)
     }
   };
 

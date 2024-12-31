@@ -10,6 +10,7 @@ import { assets } from '../assets/assets';
 import Modal from './Modal';
 import CropImageModal from './CropImageModal';
 import Input from './Input'
+import SpinnerMini from './SpinnerMini';
 
 const AddProductModal = ({ onClose, productToEdit }) => {
   const [image1, setImage1] = useState(false);
@@ -57,38 +58,28 @@ const AddProductModal = ({ onClose, productToEdit }) => {
   const onSubmitHandler = async (values, { setSubmitting }) => {
     setActionLoading(true);
     try {
-      // const formData = await new FormData();
-      // Object.entries(values).forEach(([key, value]) => {
-      //   formData.append(key, value);
-      // });
+      const formData = await new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
 
       
-      // if (image1) formData.append("image1", image1);
-      // if (image2) formData.append("image2", image2);
-      // if (image3) formData.append("image3", image3);
-      // if (image4) formData.append("image4", image4);
+      if (image1) formData.append("image1", image1);
+      if (image2) formData.append("image2", image2);
+      if (image3) formData.append("image3", image3);
+      if (image4) formData.append("image4", image4);
 
-      const formData = {
-        ...values,
-        image1 : image1 && image1,
-        image2 : image2 && image2,
-        image3 : image3 && image3,
-        image4 : image4 && image4,
-
-      }
-
-      console.log(image1[0], 'FORMDATA')
       
       let response;
       if (productToEdit) {
         response = await axios.put(
           `${backendUrl}/api/product/edit/${productToEdit._id}`,
-          values,
+          formData,
           { headers: { token } }
         );
       } else {
         console.log(formData, 'FORMDATA')
-        response = await axios.post(`${backendUrl}/api/product/add`, values, {
+        response = await axios.post(`${backendUrl}/api/product/add`, formData, {
           headers: { token },
         });
       }
@@ -216,7 +207,7 @@ const AddProductModal = ({ onClose, productToEdit }) => {
                 Cancel
               </Button>
               <Button type="submit" variant='secondary' disabled={isSubmitting || actionLoading}>
-                {productToEdit ? "Update Product" : "Add Product"}
+              {!isSubmitting ? (productToEdit ? "Update Product" : "Add Product") : <SpinnerMini />}
               </Button>
             </div>
           </Form>

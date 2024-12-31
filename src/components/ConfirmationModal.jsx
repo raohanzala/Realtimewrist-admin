@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from './Button'
 
 const ConfirmationModal = ({
   message = 'Are you sure?',
@@ -18,14 +19,14 @@ const ConfirmationModal = ({
         <p className='mb-4'>{message}</p>
 
         <div className='flex justify-between'>
-          <button className='text-[#333] border-0' onClick={()=> {
+          <Button variant='cancel' onClick={()=> {
             if (onCancel) onCancel();
             handleClose();
-            }}>{cancelText}</button>
-          <button className=' text-[red] border-0' onClick={() => {
+            }}>{cancelText}</Button>
+          <Button className=' bg-[red]' onClick={() => {
               if (onConfirm) onConfirm();
               handleClose();
-            }}>{confirmText}</button>
+            }}>{confirmText}</Button>
         </div>
       </div>
   )

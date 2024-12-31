@@ -9,7 +9,7 @@ import DashboardStats from "../components/DashboardStats";
 
 const Dashboard = () => {
   const { setPageTitle, isLoading } = useContext(ShopContext);
-
+// const isLoading = true
   useEffect(() => {
     setPageTitle("Dashboard");
   }, []);
