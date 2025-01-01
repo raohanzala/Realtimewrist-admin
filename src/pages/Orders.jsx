@@ -17,6 +17,7 @@ const Orders = () => {
   const currentPage = parseInt(searchParams.get("page")) || 1;
 
   const { isLoading, isOrdersLoading, setPageTitle, orders, ordersPageCount, fetchOrders, totalOrders } = useContext(ShopContext)
+  // const isOrdersLoading = false
 
   console.log('Is Loading', orders)
 
@@ -68,7 +69,7 @@ const Orders = () => {
                     onClick={() => handleOrderClick(order)}
                     className=" hover:bg-gray-50 cursor-pointer text-sm border"
                   >
-                    <td className=" py-4 px-4 text-center">{(currentPage - 1) * PAGE_SIZE + (index + 1)}</td>
+                    <td className=" py-4 px-1 text-center">{(currentPage - 1) * PAGE_SIZE + (index + 1)}</td>
                     <td className=" py-4 px-4 text-left">{order?.items?.[0]?.name || ''}</td>
                     <td className=" py-4 px-4 text-left">{order?.address?.firstName || 'Kashif Ameen'}</td>
                     <td className=" py-4 px-4 text-left truncate">{order?.address?.city || 'H-429, Lahore, Punjab'}</td>
@@ -111,7 +112,7 @@ const SkeletonRow = () => {
     <>
       {skeletons.map((_, index) => (
         <tr key={index} className="animate-pulse border">
-          <td className="text-center">
+          <td className="text-center py-4 px-1">
             <div className="bg-gray-200 mx-auto rounded max-w-fit text-transparent">SNo</div>
           </td>
 
@@ -124,7 +125,7 @@ const SkeletonRow = () => {
           </td>
 
           <td className="py-4 px-4 text-left truncate">
-            <div className="h-6 w-full bg-gray-200 rounded"></div>
+            <div className="h-6 w-1/2 bg-gray-200 rounded"></div>
           </td>
 
           <td className="py-4 px-4 text-left">

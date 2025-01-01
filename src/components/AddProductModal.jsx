@@ -50,7 +50,7 @@ const AddProductModal = ({ onClose, productToEdit }) => {
     name: Yup.string().required("Product name is required"),
     description: Yup.string().required("Description is required"),
     oldPrice: Yup.number().required("Price is required").min(0, "Price must be greater than 0"),
-    newPrice: Yup.number().min(0, "Sale price must be greater than 0").min(),
+    newPrice: Yup.number().min(0, "Sale price must be greater than 0"),
     category: Yup.string().required("Category is required"),
     subCategory: Yup.string().required("Sub-category is required"),
   });

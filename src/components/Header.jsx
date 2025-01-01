@@ -13,22 +13,20 @@ import { useEffect } from 'react';
 
 
 function Header() {
-  // const socket = io(backendUrl)
+  const socket = io(backendUrl)
   const [hasNotification, setHasNotification] = useState([]);
   const [openNotificationPopup, setOpenNotificationPopup] = useState(false)
   const navigate = useNavigate();
   const { pageTitle, logout } = useContext(ShopContext);
 
-  // useEffect(() => {
-  //   // Listen for notifications
-  //   socket.on('notification', (data) => {
-  //     console.log('Notification received:', data);
-  //     setHasNotification((prev) => [...prev, data]);
-  //   });
+  useEffect(() => {
+    socket.on('notification', (data) => {
+      console.log('Notification received:', data);
+      setHasNotification((prev) => [...prev, data]);
+    });
 
-  //   // Cleanup listener on unmount
-  //   return () => socket.off('notification');
-  // }, []);
+    return () => socket.off('notification');
+  }, []);
 
   const handleNotification = () => {
     setOpenNotificationPopup((open) => !open)
@@ -98,7 +96,7 @@ function Header() {
         </div>
       </div>
 
-      {openNotificationPopup && <NotificationsPopup />}
+      {openNotificationPopup && <NotificationsPopup notifications={hasNotification} />}
     </div>
   );
 }

@@ -37,7 +37,7 @@ const OrderDrawer = ({ selectedOrder, closeDrawer, isAnimating }) => {
               <h3 className="text-xl font-semibold text-gray-700 mb-2">Order Information</h3>
               <div className='mb-4'>
                 <p className="text-gray-500 font-medium">Date</p>
-                <p className="text-gray-800">{formatTimestamp(selectedOrder.date)}</p>
+                <p className="text-gray-800 text-sm">{formatTimestamp(selectedOrder.date)}</p>
               </div>
               <div className="gap-5 text-sm">
                 <div className='mb-4'>
@@ -78,15 +78,17 @@ const OrderDrawer = ({ selectedOrder, closeDrawer, isAnimating }) => {
                   <p className="text-gray-800">{selectedOrder.address.name}</p>
                 </div>
                 <div>
-                  <p className="text-gray-500 font-medium">Contact</p>
-                  <div className='flex gap-1'>
+                  <p className="text-gray-500 font-medium">Phone</p>
                   <p className="text-gray-800">{selectedOrder.address.phone}</p>
-                  <p className="text-gray-800">{selectedOrder.address.whatsapp}</p>
-                  </div>
                 </div>
-                <div className="col-span-2">
+                
+                <div className="text-gray-500 font-medium">
                   <p className="text-gray-500 font-medium">Address</p>
                   <p className="text-gray-800">{selectedOrder.address.city}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 font-medium">WhatsApp</p>
+                  <p className="text-gray-800">{selectedOrder.address.whatsapp}</p>
                 </div>
               </div>
             </div>
