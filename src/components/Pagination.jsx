@@ -1,7 +1,6 @@
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useContext } from "react";
-import { ShopContext } from "../contexts/ShopContext";
 import { PAGE_SIZE } from "../utils/constants";
 
 function Pagination( {pageCount, fectchData, totalData}) {
@@ -40,26 +39,32 @@ function Pagination( {pageCount, fectchData, totalData}) {
         </span>{" "}
         of <span className="font-semibold">{totalData}</span> results
       </p>
-
       <div className="flex gap-2">
-        <button
-          onClick={prevPage}
-          disabled={currentPage === 1}
-          className="pr-3 pl-2 flex items-center gap-1 py-1 hover:bg-primary-1 hover:text-white rounded disabled:opacity-50"
-        >
-          <HiChevronLeft />
-          Previous
-        </button>
+  <button
+    onClick={prevPage}
+    disabled={currentPage === 1}
+    className="pr-3 pl-2 flex items-center gap-1 py-1 rounded-sm 
+      disabled:opacity-50 disabled:cursor-not-allowed 
+      hover:bg-primary-1 hover:text-white disabled:hover:text-[#525252]
+      disabled:hover:bg-transparent"
+  >
+    <HiChevronLeft />
+    Previous
+  </button>
 
-        <button
-          onClick={nextPage}
-          disabled={currentPage === pageCount}
-          className="pl-3 pr-2 py-1 flex items-center gap-1 hover:bg-primary-1 disabled:bg-none disabled:cursor-not-allowed hover:text-white rounded disabled:opacity-50"
-        >
-          Next
-          <HiChevronRight />
-        </button>
-      </div>
+  <button
+    onClick={nextPage}
+    disabled={currentPage === pageCount}
+    className="pl-3 pr-2 py-1 flex items-center gap-1 rounded-sm 
+      disabled:opacity-50 disabled:cursor-not-allowed 
+      hover:bg-primary-1 hover:text-white disabled:hover:text-[#525252]
+      disabled:hover:bg-transparent"
+  >
+    Next
+    <HiChevronRight />
+  </button>
+</div>
+
     </div>
   );
 }

@@ -23,7 +23,7 @@ const ConfirmationModal = ({
             if (onCancel) onCancel();
             handleClose();
             }}>{cancelText}</Button>
-          <Button className=' bg-[red]' onClick={() => {
+          <Button variant='delete' onClick={() => {
               if (onConfirm) onConfirm();
               handleClose();
             }}>{confirmText}</Button>

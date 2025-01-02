@@ -19,14 +19,14 @@ function Header() {
   const navigate = useNavigate();
   const { pageTitle, logout } = useContext(ShopContext);
 
-  useEffect(() => {
-    socket.on('notification', (data) => {
-      console.log('Notification received:', data);
-      setHasNotification((prev) => [...prev, data]);
-    });
+  // useEffect(() => {
+  //   socket.on('notification', (data) => {
+  //     console.log('Notification received:', data);
+  //     setHasNotification((prev) => [...prev, data]);
+  //   });
 
-    return () => socket.off('notification');
-  }, []);
+  //   return () => socket.off('notification');
+  // }, []);
 
   const handleNotification = () => {
     setOpenNotificationPopup((open) => !open)

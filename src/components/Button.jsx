@@ -16,9 +16,8 @@ const Button = ({ children, startIcon, variant = 'primary', ...rest }) => {
     <button
       {...rest}
       className={`${baseStyles} ${variantStyles[variant]} ${rest.className}`}
-      // style={{ minWidth: '120px' }} // Set a fixed minimum width for consistency
     >
-      {startIcon && <span className="mr-2">{startIcon}</span>}
+      {startIcon && <span className="mr-1">{startIcon}</span>}
       <div className="flex items-center justify-center w-full">
         {children}
       </div>

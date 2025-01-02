@@ -101,6 +101,7 @@ const ListProductTable = () => {
           onClick={() => setIsProductModal(true)}
           startIcon={<FaPlus />}
           variant="secondary"
+          className='rounded font-semibold'
         >
           Add Product
         </Button>
@@ -184,7 +185,7 @@ const ListProductTable = () => {
               ))
             ) : (
               <p className="py-4 text-base text-center text-[#c3c3c3]">
-                {/* No products found. */}
+                No products found.
               </p>
             )}
           </div>
@@ -228,7 +229,7 @@ const ListProductTable = () => {
 };
 
 const SkeletonRow = () => {
-  const skeletons = Array(4).fill(0);
+  const skeletons = Array(10).fill(0);
 
   return (
     <>

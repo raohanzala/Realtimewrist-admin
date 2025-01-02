@@ -17,7 +17,7 @@ const Orders = () => {
   const currentPage = parseInt(searchParams.get("page")) || 1;
 
   const { isLoading, isOrdersLoading, setPageTitle, orders, ordersPageCount, fetchOrders, totalOrders } = useContext(ShopContext)
-  // const isOrdersLoading = false
+  // const isOrdersLoading = true
 
   console.log('Is Loading', orders)
 
@@ -49,50 +49,46 @@ const Orders = () => {
 
       <div>
         <table className="min-w-full bg-white  border border-b-0 border-collapse table-auto">
-          <thead>
-            <tr className="bg-[#f2f2f2af] text-[#5c5c5c] font-semibold py-4 text-sm uppercase">
-              <th className=" py-4 px-1 max-w-fit ">S.No</th>
-              <td className=" py-4 px-4">Product</td>
-              <td className=" py-4 px-4">Customer</td>
-              <td className=" py-4 px-4">Address</td>
-              <td className=" py-4 px-4">Amount</td>
-              <td className=" py-4 px-4">Status</td>
-              <td className=" py-4 px-4">Order Date</td>
-            </tr>
-          </thead>
-          <tbody>
+          <div className="bg-[#f2f2f2af] grid grid-cols-[0.3fr_1fr_1fr_1fr_0.5fr_0.5fr_0.8fr] text-[#5c5c5c] font-semibold py-4 px-8 text-sm uppercase">
+            <div >S.No</div>
+            <div>Product</div>
+            <div>Customer</div>
+            <div>Address</div>
+            <div>Amount</div>
+            <div>Status</div>
+            <div>Order Date</div>
+          </div>
+          <div>
             {isOrdersLoading ?
               <SkeletonRow /> : orders?.length > 0 ? (
                 orders.map((order, index) => (
-                  <tr
+                  <div
                     key={order._id}
                     onClick={() => handleOrderClick(order)}
-                    className=" hover:bg-gray-50 cursor-pointer text-sm border"
+                    className={` hover:bg-gray-50 cursor-pointer grid grid-cols-[0.3fr_1fr_1fr_1fr_0.5fr_0.5fr_0.8fr]  py-4 px-8  text-sm ${index === orders.length - 1 ? "" : "border-b"
+                      }`}
                   >
-                    <td className=" py-4 px-1 text-center">{(currentPage - 1) * PAGE_SIZE + (index + 1)}</td>
-                    <td className=" py-4 px-4 text-left">{order?.items?.[0]?.name || ''}</td>
-                    <td className=" py-4 px-4 text-left">{order?.address?.firstName || 'Kashif Ameen'}</td>
-                    <td className=" py-4 px-4 text-left truncate">{order?.address?.city || 'H-429, Lahore, Punjab'}</td>
-                    <td className=" py-4 px-4">{CURRENCY}{formatAmount(order?.amount) || '0'}</td>
-                    <td
-                      className={`py-4  px-4 text-sm font-semibold `}
+                    <div >{(currentPage - 1) * PAGE_SIZE + (index + 1)}</div>
+                    <div >{order?.items?.[0]?.name || ''}</div>
+                    <div >{order?.address?.firstName || 'Kashif Ameen'}</div>
+                    <div >{order?.address?.city || 'H-429, Lahore, Punjab'}</div>
+                    <div>{CURRENCY}{formatAmount(order?.amount) || '0'}</div>
+                    <div
+                      className={`text-sm font-semibold `}
                     >
                       <StatusLabel status={order?.status} />
-                    </td>
-                    <td className="py-4 px-4 text-sm ">{timestampToShortDate(order?.date) || 'N/A'}</td>
-                  </tr>
+                    </div>
+                    <div className="text-sm ">{timestampToShortDate(order?.date) || 'N/A'}</div>
+                  </div>
                 ))
               ) : (
-                <tr>
-                  <td
-                    colSpan="7"
-                    className="py-4 text-base text-center text-[#c3c3c3]"
-                  >
-                    No orders found.
-                  </td>
-                </tr>
+                <p
+                  className="py-4 text-base text-center text-[#c3c3c3]"
+                >
+                  No orders found.
+                </p>
               )}
-          </tbody>
+          </div>
         </table>
         <div className='border border-t-0'>
           <Pagination pageCount={ordersPageCount} fectchData={fetchOrders} totalData={totalOrders} />
@@ -111,35 +107,15 @@ const SkeletonRow = () => {
   return (
     <>
       {skeletons.map((_, index) => (
-        <tr key={index} className="animate-pulse border">
-          <td className="text-center py-4 px-1">
-            <div className="bg-gray-200 mx-auto rounded max-w-fit text-transparent">SNo</div>
-          </td>
-
-          <td className="py-4 px-4 text-left">
-            <div className="h-6 w-3/4 bg-gray-200 rounded"></div>
-          </td>
-
-          <td className="py-4 px-4 text-left">
-            <div className="h-6 w-1/2 bg-gray-200 rounded"></div>
-          </td>
-
-          <td className="py-4 px-4 text-left truncate">
-            <div className="h-6 w-1/2 bg-gray-200 rounded"></div>
-          </td>
-
-          <td className="py-4 px-4 text-left">
-            <div className="h-6 w-1/4 bg-gray-200 rounded"></div>
-          </td>
-
-          <td className="py-4 px-4 text-left">
-            <div className="h-6 w-1/3 bg-gray-200 rounded"></div>
-          </td>
-
-          <td className="py-4 px-4 text-left">
-            <div className="h-6 w-1/2 bg-gray-200 rounded"></div>
-          </td>
-        </tr>
+        <div key={index} className="animate-pulse border-b grid grid-cols-[0.3fr_1fr_1fr_1fr_0.5fr_0.5fr_0.8fr]  py-4 px-8">
+          <div className="w-1/2 h-5 bg-gray-200  rounded"></div>
+          <div className="h-5 w-3/4 bg-gray-200 rounded"></div>
+          <div className="h-5 w-3/4 bg-gray-200 rounded"></div>
+          <div className="h-5 w-3/4 bg-gray-200 rounded"></div>
+          <div className="h-5 w-1/4 bg-gray-200 rounded"></div>
+          <div className="h-5 w-1/3 bg-gray-200 rounded"></div>
+          <div className="h-5 w-1/2 bg-gray-200 rounded"></div>
+        </div>
       ))}
     </>
   );
