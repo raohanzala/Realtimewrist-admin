@@ -9,7 +9,7 @@ const Notifications = () => {
   const { setPageTitle } = useContext(ShopContext);
 
   // useEffect(() => {
-  //   const socket = io(backendUrl || 'http://localhost:3001'); 
+  //   constt = io(backendUrl || 'http://localhost:3001'); 
 
   //   socket.on('notification', (data) => {
   //     console.log('Notification received:', data);
@@ -31,8 +31,13 @@ const Notifications = () => {
   //   console.log('Updated Notifications in state:', notifications);
   // }, [notifications]);
 
+  useEffect(()=> {
+    setPageTitle('Notifications')
+  }, [])
+
   return (
     <div className='min-h-screen'>
+      <h2 className='mb-5 text-xl text-[#333]'>Today (23)</h2>
       <ul>
         {notifications.length > 0 ? (
           notifications.map((notif, index) => (

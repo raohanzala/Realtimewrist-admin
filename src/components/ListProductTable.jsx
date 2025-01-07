@@ -68,21 +68,6 @@ const ListProductTable = () => {
     setIsConfirmModal(false);
   };
 
-  const wrapperRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        setActiveDropdown(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   useEffect(() => {
     setPageTitle("All Products");
   }, []);
@@ -98,10 +83,10 @@ const ListProductTable = () => {
         />
 
         <Button
-          onClick={() => setIsProductModal(true)}
+          onClick={(e) => {setIsProductModal(true); e.stopPropagation()}}
           startIcon={<FaPlus />}
           variant="secondary"
-          className='rounded font-semibold'
+          className='rounded'
         >
           Add Product
         </Button>
@@ -139,7 +124,7 @@ const ListProductTable = () => {
                   </p>
                   <p>
                     {CURRENCY}
-                    {formatAmount(product?.newPrice) || "N/A"}
+                    {formatAmount(product?.newPrice || 8999) || "N/A"}
                   </p>
                   <div>
                     <p className="text-gray-500 font-medium flex gap-1 items-center">
@@ -172,7 +157,6 @@ const ListProductTable = () => {
 
                     {activeDropdown === product?._id && (
                       <MenuPopup
-                        wrapperRef={wrapperRef}
                         setActiveDropdown={setActiveDropdown}
                         handleDeleteClick={() =>
                           handleDeleteClick(product?._id)

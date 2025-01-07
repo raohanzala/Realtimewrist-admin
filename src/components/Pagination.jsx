@@ -44,7 +44,7 @@ function Pagination( {pageCount, fectchData, totalData}) {
     onClick={prevPage}
     disabled={currentPage === 1}
     className="pr-3 pl-2 flex items-center gap-1 py-1 rounded-sm 
-      disabled:opacity-50 disabled:cursor-not-allowed 
+      disabled:opacity-50
       hover:bg-primary-1 hover:text-white disabled:hover:text-[#525252]
       disabled:hover:bg-transparent"
   >

@@ -13,7 +13,7 @@ const Input = ({ label, name, type = "text", as = "input", ...props }) => {
         id={name}
         name={name}
         type={type}
-        className="w-full mt-1 text-sm p-2 border rounded-sm focus:outline-none disabled:cursor-not-allowed focus:ring-primary-1 focus:ring-2 "
+        className="w-full mt-1 text-sm p-2 border rounded-sm"
         {...props}
       />
       <ErrorMessage name={name} component="div" className="text-red-500 text-xs mt-1" />

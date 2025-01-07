@@ -41,7 +41,11 @@ function App() {
                 <Route path="/orders" element={< Orders />} />
                 <Route path="/users" element={< Users />} />
                 <Route path="/notifications" element={< Notifications />} />
+                <Route path="/store" element={< Notifications />} />
                 <Route path="/profile" element={< Profile />} />
+                <Route path="/online-store/customization" element={< Profile />} />
+                <Route path="/online-store/settings" element={< Profile />} />
+                <Route path="/online-store/view" element={< Profile />} />
               </Route>
               <Route path="*" element={<PageNotFound/>} />
             </Routes>

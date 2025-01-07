@@ -2,19 +2,20 @@ import React from 'react'
 import { BiPencil } from 'react-icons/bi';
 import { IoMdTrash } from 'react-icons/io';
 import { MdRemoveRedEye } from 'react-icons/md';
+import { useOutsideClick } from '../hooks/useOutsideClick';
 
-const MenuPopup = ({wrapperRef, handleDeleteClick, handleEditClick, setActiveDropdown}) => {
+const MenuPopup = ({handleDeleteClick, handleEditClick, setActiveDropdown}) => {
 
+  const close = ()=> setActiveDropdown(null)
+
+  const ref = useOutsideClick(close, false)
 
   return (
     <div
             className="absolute text-sm right-2 top-5 bg-white z-20 rounded-sm w-44"
             style={{boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'}}
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveDropdown(null);
-            }}
-            ref={wrapperRef}
+            ref={ref}
+            onClick={(e)=> e.stopPropagation()}
           >
             <ul className="text-left ">
               <li 

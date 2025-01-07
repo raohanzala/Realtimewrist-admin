@@ -76,7 +76,8 @@ const validationSchema = Yup.object({
                   type="email"
                   name="email"
                   id="email"
-                  className="w-full px-4 py-2 mt-1 text-gray-900 border border-gray-300 rounded-sm text-sm sm:text-base focus:outline-none focus:ring-primary-1 focus:ring-2"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-2 mt-1 text-gray-900 border border-gray-300 rounded-sm text-sm sm:text-base "
                   placeholder="Enter your email"
                 />
                 <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
@@ -88,7 +89,8 @@ const validationSchema = Yup.object({
                   type="password"
                   name="password"
                   id="password"
-                  className="w-full px-4 py-2 mt-1 text-gray-900 border border-gray-300 rounded-sm text-sm sm:text-base focus:outline-none focus:ring-primary-1 focus:ring-2"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-2 mt-1 text-gray-900 border border-gray-300 rounded-sm text-sm sm:text-base "
                   placeholder="Enter your password"
                 />
                 <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />

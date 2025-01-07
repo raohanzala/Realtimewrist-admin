@@ -1,61 +1,58 @@
-import React, { useContext, useState } from 'react'
-import { backendUrl } from '../App';
+import React, { useContext, useState } from "react";
 import { FaBell } from "react-icons/fa";
-import NotificationsPopup from './NotificationsPopup';
-import adminPhoto from '../assets/admin-photo.jpeg';
-import { ShopContext } from '../contexts/ShopContext';
-import { useNavigate } from 'react-router-dom';
-import { MdArrowBack } from 'react-icons/md';
+import NotificationsPopup from "./NotificationsPopup";
+import adminPhoto from "../assets/admin-photo.jpeg";
+import { ShopContext } from "../contexts/ShopContext";
+import { useNavigate } from "react-router-dom";
+import { MdArrowBack } from "react-icons/md";
 import { IoLogOutOutline } from "react-icons/io5";
-
-import { io } from 'socket.io-client';
-import { useEffect } from 'react';
-
+import useNotifications from "../hooks/useNotifications";
 
 function Header() {
-  const socket = io(backendUrl)
-  const [hasNotification, setHasNotification] = useState([]);
-  const [openNotificationPopup, setOpenNotificationPopup] = useState(false)
+  const [isNotificationPopup, setNotificationPopup] = useState(false);
+  const [isProfilePopup, setProfilePopup] = useState(false);
+  
   const navigate = useNavigate();
   const { pageTitle, logout } = useContext(ShopContext);
 
-  // useEffect(() => {
-  //   socket.on('notification', (data) => {
-  //     console.log('Notification received:', data);
-  //     setHasNotification((prev) => [...prev, data]);
-  //   });
+  const {
+    notifications,
+    isIncoming,
+    setIsincoming,
+    handleClearAll,
+    handleRemove,
+  } = useNotifications();
 
-  //   return () => socket.off('notification');
-  // }, []);
-
-  const handleNotification = () => {
-    setOpenNotificationPopup((open) => !open)
-  }
+  const handleNotification = (e) => {
+    e.stopPropagation();
+    setNotificationPopup((prevState) => !prevState);
+    setIsincoming(false);
+  };
+  const handleProfile = (e) => {
+    e.stopPropagation();
+    setProfilePopup((prevState) => !prevState);
+  };
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
-  console.log(hasNotification, 'Notification')
+  console.log("Notification");
 
   return (
     <div className="flex w-full items-center justify-between px-5 py-4 bg-white border-b border-gray-200 shadow-md">
+      <div className="flex items-center gap-2 text-[#919191]">
+        <div className="cursor-pointer" onClick={() => navigate(-1)}>
+          <MdArrowBack />
+        </div>
 
-      <div className='flex items-center gap-2 text-[#919191]'>
-        <div className='cursor-pointer' onClick={() => navigate(-1)}><MdArrowBack /></div>
-
-        <h1 className='text-lg  '>{pageTitle}</h1>
+        <h1 className="text-lg  ">{pageTitle}</h1>
       </div>
 
-      {/* Right Section - Notifications, Profile, and Logout */}
       <div className="flex items-center space-x-4">
-
-        {/* Notification Bell */}
-
-        {/* Admin Profile Section */}
-        <div className="flex items-center space-x-2">
-          <div className="w-12 h-12 overflow-hidden rounded-full border-2 border-gray-300">
+        <div className="relative flex items-center space-x-2" onClick={handleProfile}>
+          <div className="w-12 h-12 overflow-hidden rounded-full border-2 border-primary-1">
             <img
               src={adminPhoto}
               className="w-full h-full object-cover"
@@ -75,19 +72,16 @@ function Header() {
             className="relative p-3 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
           >
             <FaBell className="text-xl text-gray-700" />
-            {hasNotification.length > 0 && (
-              <span
-                className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500 animate-ping"
-              ></span>
+            {isIncoming && notifications.length > 0 && (
+              <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 animate-ping"></span>
             )}
-            {hasNotification.length > 0 && (
-              <span
-                className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500"
-              ></span>
+            {notifications.length > 0 && (
+              <span className="absolute -top-1 -right-1 text-[9px] flex justify-center items-center text-white h-4 w-4 rounded-full bg-red-500">
+                {notifications.length}
+              </span>
             )}
           </div>
         </div>
-        {/* Logout Button */}
         <div
           onClick={handleLogout}
           className="flex items-center justify-center w-11 h-11 rounded-full bg-gray-100 hover:bg-red-100 text-red-600 transition-all cursor-pointer"
@@ -96,7 +90,19 @@ function Header() {
         </div>
       </div>
 
-      {openNotificationPopup && <NotificationsPopup notifications={hasNotification} />}
+      {isNotificationPopup && (
+        <NotificationsPopup
+          handleClearAll={handleClearAll}
+          handleRemove={handleRemove}
+          notifications={notifications}
+          setNotificationPopup={setNotificationPopup}
+        />
+      )}
+      {isProfilePopup && (
+       <div className="absolute right-52 top-[74px] w-32 p-3 overflow-y-scroll  scrollbar-hide bg-white shadow-lg rounded-lg  z-50 border-gray-200"
+       style={{ boxShadow: "rgba(100,100,111, 0.2) 0px 7px 29px 0px" }}
+       >Edit Profile</div>
+      )}
     </div>
   );
 }

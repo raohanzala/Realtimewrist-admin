@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ShopContext } from '../contexts/ShopContext';
+import Input from '../components/Input';
+import Box from '../components/Box';
+import Button from '../components/Button';
 
 const Profile = () => {
   const [firstName, setFirstName] = useState('');
@@ -8,9 +11,9 @@ const Profile = () => {
   const [email, setEmail] = useState('');
   const [image, setImage] = useState(null);
 
+  const {setPageTitle} = useContext(ShopContext)
   const handleImageChange = (e) => {
 
-    // const {setPageTitle} = useContext(ShopContext)
 
     const file = e.target.files[0];
     if (file) {
@@ -28,26 +31,25 @@ const Profile = () => {
     console.log('Image:', image);
   };
 
-  // useEffect(()=> {
-  //   setPageTitle("Settings")
-  // }, [])
+  useEffect(()=> {
+    setPageTitle("Edit Profile")
+  }, [])
 
   return (
     <div className='grid grid-cols-2'>
 
-    <div className="p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-semibold mb-4">Profile Setup</h2>
+    <Box >
       <form onSubmit={handleSubmit} className="space-y-4">
       <div className="flex items-center mt-4">
-          <div className="relative w-16 h-16">
+          <div className="relative size-20">
             {image ? (
               <img
                 src={image}
                 alt="Uploaded"
-                className="w-full h-full rounded-full object-cover border-2 border-[#4ED493] shadow-md"
+                className="w-full h-full rounded object-cover border shadow-md"
               />
             ) : (
-              <div className="w-full h-full rounded-full text-xs border-2 border-gray-300 flex items-center justify-center">
+              <div className="w-full h-full rounded text-xs border border-gray-300 flex items-center justify-center">
                 <span className="text-gray-400 text">No Image</span>
               </div>
             )}
@@ -63,11 +65,20 @@ const Profile = () => {
               onChange={handleImageChange}
               className="hidden"
             />
+            <div className='flex gap-3'>
+
             <div
               onClick={() => document.getElementById('image').click()}
-              className="bg-[#4ed4939f] text-white cursor-pointer py-2 px-4 text-sm rounded-md hover:bg-[#4bc1b2] transition duration-200"
+              className="  border cursor-pointer py-2 px-4 text-sm rounded text-gray-400 transition duration-200"
             >
-              Select New Image
+              Select Profile Image
+            </div>
+            <div
+              onClick={() => document.getElementById('image').click()}
+              className=" border cursor-pointer py-2 px-4 text-sm rounded text-[red] transition duration-200"
+              >
+              Remove Photo
+              </div>
             </div>
           </div>
         </div>
@@ -131,15 +142,16 @@ const Profile = () => {
         </div>
 
         <div>
-          <button
+          <Button
             type="submit"
-            className="w-full bg-[#4ED493] text-white py-2 rounded-md hover:bg-[#4bc1b2] transition duration-200"
+            // className="w-full bg-[#4ED493] text-white py-2 rounded-md hover:bg-[#4bc1b2] transition duration-200"
+            variant='secondary'
             >
             Save Settings
-          </button>
+          </Button>
         </div>
       </form>
-    </div>
+    </Box>
               </div>
   );
 };

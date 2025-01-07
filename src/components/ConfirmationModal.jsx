@@ -17,7 +17,6 @@ const ConfirmationModal = ({
   return (
       <div>
         <p className='mb-4'>{message}</p>
-
         <div className='flex justify-between'>
           <Button variant='cancel' onClick={()=> {
             if (onCancel) onCancel();

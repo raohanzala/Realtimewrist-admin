@@ -7,7 +7,7 @@ function Loader() {
   return (
     <div
       className={`w-full h-full flex justify-center items-center z-[9999] ${
-        "backdrop-blur-sm bg-gray-800 bg-opacity-60 fixed inset-0"
+        "backdrop-blur-sm bg-black bg-opacity-60 fixed inset-0"
       }`}
     >
       <div>

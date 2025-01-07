@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useContext } from 'react'
 import { ShopContext } from '../contexts/ShopContext'
 import Loader from '../components/Loader'
@@ -8,8 +8,12 @@ import { timestampToShortDate } from '../helpers'
 
 const Users = () => {
 
-  const { isLoading, allUsers, usersLoading } = useContext(ShopContext)
+  const { isLoading, allUsers, usersLoading, setPageTitle } = useContext(ShopContext)
   // const usersLoading = true
+
+  useEffect(()=> {
+    setPageTitle('Notifications')
+  }, [])
 
   return (
     <div>

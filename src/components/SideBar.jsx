@@ -18,9 +18,9 @@ function SideBar() {
           <SideBarItem />
         </ul>
       </div>
-      <div className="text-[#6a6a6a] py-3 mt-auto">
+      <div className="text-[#6a6a6a] p-3 mt-auto">
         <p className="text-center text-xs">
-          Copyright 2024 @
+          Copyright {new Date().getFullYear()} @
           <Link to="/" className="hover:text-white  transition-colors duration-200">
             realtimewrist.pk
           </Link>

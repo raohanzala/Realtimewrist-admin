@@ -1,21 +1,23 @@
 import React from 'react';
+import { useOutsideClick } from '../hooks/useOutsideClick';
 
 const Modal = ({ title, children, isOpen, onClose }) => {
-  if (!isOpen) return null;
 
-  const handleClose = () => {
-    if (onClose) onClose();
-  };
+
+
+  const ref = useOutsideClick(onClose, false)
+
+  if (!isOpen) return null;
 
   return (
     <div
       className="fixed inset-0 backdrop-blur bg-black bg-opacity-30 z-50 flex items-center justify-center"
-      onClick={handleClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
         className="
          bg-white rounded shadow-lg max-h-[90vh] overflow-y-scroll scrollbar-hide p-6"
+         ref={ref}
       >
         <div className='flex w-full justify-between items-center'>
 

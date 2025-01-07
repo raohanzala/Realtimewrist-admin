@@ -2,7 +2,7 @@ import React from 'react';
 
 const Button = ({ children, startIcon, variant = 'primary', ...rest }) => {
   const baseStyles =
-    'flex items-center justify-center rounded-sm text-nowrap disabled:opacity-75 min-w-[120px] disabled:cursor-not-allowed text-sm py-2 px-5 space-x-2 transition-all';
+    'flex items-center justify-center rounded-sm text-nowrap min-w-[120px]  text-sm py-2 px-5 space-x-2 transition-all';
 
   const variantStyles = {
     primary: 'bg-dark-2 text-white hover:bg-dark-1',
