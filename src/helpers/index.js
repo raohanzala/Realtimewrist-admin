@@ -33,6 +33,11 @@ export function formatTimeAgo(timestamp) {
   return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
 }
 
+export const playSound = (url) => {
+  const audio = new Audio(url);
+  audio.play().catch(error => console.log('Error playing sound:', error));
+};
+
 
 export  function timestampToShortDate(timestamp) {
   const date = new Date(timestamp);

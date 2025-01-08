@@ -29,7 +29,7 @@ const NotificationsPopup = ({ setNotificationPopup, notifications, handleClearAl
     >
           <div className="flex justify-between items-center px-5 py-3 border-b ">
             <h3 className="text-lg text-[#333] ">Notifications</h3>
-            {notifications.length > 0 && <p onClick={handleClearAll} className="text-sm text-[gray] hover:opacity-95 cursor-pointer opacity-65 ">
+            {notifications.length > 0 && <p onClick={handleClearAll} className="text-sm text-[#333] hover:opacity-95 cursor-pointer opacity-65 ">
               Clear all{" "}
             </p>}
           </div>

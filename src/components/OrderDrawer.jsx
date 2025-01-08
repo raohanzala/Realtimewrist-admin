@@ -14,7 +14,7 @@ const OrderDrawer = ({ selectedOrder, closeDrawer, isAnimating }) => {
       onClick={closeDrawer}
     >
       <div
-        className={`bg-white max-w-[400px] p-6 shadow-2xl transform overflow-y-scroll transition-transform duration-300 
+        className={`bg-white w-[400px] p-6 shadow-2xl transform overflow-y-scroll transition-transform duration-300 
         ${isAnimating ? 'translate-x-0' : 'translate-x-full'}`}
         onClick={(e) => e.stopPropagation()}
       >

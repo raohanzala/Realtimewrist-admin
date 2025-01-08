@@ -153,7 +153,7 @@ setIsOrdersLoading(true)
         toast.success('Product deleted successfully')
       }
     } catch (error) {
-      handleError(error, 'Failed to remove product.');
+      handleError(error, 'Failed to delete product.');
     } 
   };
 

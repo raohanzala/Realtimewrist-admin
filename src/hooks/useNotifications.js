@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { io } from 'socket.io-client';
 import { backendUrl } from "../App";
+import { playSound } from "../helpers";
+import { assets } from "../assets/assets";
 
 const useNotifications = () => {
   const socketRef = useRef(null);
@@ -14,11 +16,11 @@ const useNotifications = () => {
       socketRef.current.on('notification', (data) => {
         console.log('Notification received:', data);
         setNotifications((prev) => [...prev, data]);
+        playSound(assets.notification_sound)
         setIsincoming(true);
       });
     }
-
-    // Cleanup function
+    
     return () => {
       if (socketRef.current) {
         socketRef.current.off('notification');
@@ -29,10 +31,12 @@ const useNotifications = () => {
   const handleRemove = (notificationId) => {
     console.log(notificationId);
     setNotifications((prev) => prev.filter(notification => notification !== notificationId));
+    playSound(assets.notification_sound)
   };
 
   const handleClearAll = () => {
     console.log('clear');
+    playSound(assets.notification_arrive)
     setNotifications([]);
   };
 

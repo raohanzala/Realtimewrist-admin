@@ -13,6 +13,7 @@ import { FaBellSlash } from "react-icons/fa6";
 import { BiArrowToBottom, BiArrowToTop } from "react-icons/bi";
 import { BsArrow90DegRight, BsArrowBarDown, BsArrowDownUp } from "react-icons/bs";
 import { IoIosArrowDown, IoIosArrowForward, IoIosArrowUp } from "react-icons/io";
+import { LuUsers } from "react-icons/lu";
 
 function SideBarItem() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -21,7 +22,7 @@ function SideBarItem() {
     { name: "dashboard", icon: <MdOutlineDashboard />, route: "/" },
     { name: "list Products", icon: <MdOutlineFormatListBulleted />, route: "/list" },
     { name: "orders", icon: <MdOutlineShoppingCart />, route: "/orders" },
-    { name: "users", icon: <CgProfile />, route: "/users" },
+    { name: "users", icon: <LuUsers />, route: "/users" },
     {
       name: "online store",
       icon: <MdOutlineStoreMallDirectory />,
@@ -32,7 +33,7 @@ function SideBarItem() {
         { name: "store settings", route: "/online-store/settings" },
       ]
     },
-    { name: "notifications", icon: <FaBellSlash />, route: "/notifications" },
+    // { name: "notifications", icon: <FaBellSlash />, route: "/notifications" },
   ];
 
   const toggleDropdown = () => {
@@ -44,10 +45,10 @@ function SideBarItem() {
       {sideBarItems.map((item, index) => (
         <div key={index} className="w-full">
           <NavLink
-            to={item.route ||  '#'}
+            to={item.route || '#'}
             className={({ isActive }) =>
               `flex items-center gap-0 md:gap-3 px-3 py-4 rounded-sm w-full capitalize font-medium transition-all duration-200
-              ${(isActive && item.route && (!item.route && item.subItems))
+              ${(isActive && item.route)
                 ? "bg-[#4f4f4f] text-primary-1"
                 : "text-[#797979] hover:text-[#e4e4e4] "
               }`
@@ -56,31 +57,28 @@ function SideBarItem() {
           >
             <span className="text-2xl w-fit">{item.icon}</span>
             <span className="text-base hidden md:inline">{item.name}</span>
-            {item.subItems &&  <div className="ml-auto">{!isDropdownOpen ? <IoIosArrowForward />
-
-
- : <IoIosArrowDown />
-
+            {item.subItems && <div className="ml-auto">{!isDropdownOpen ? <IoIosArrowForward />
+              : <IoIosArrowDown />
             }</div>}
           </NavLink>
-          { item.subItems && isDropdownOpen && (
+          {item.subItems && isDropdownOpen && (
             <div className="overflow-hidden">
-            <div className={`ml-6 mt-2 space-y-2`}>
-              {item.subItems.map((subItem, subIndex) => (
-                <NavLink
-                  key={subIndex}
-                  to={subItem.route}
-                  className={({ isActive }) =>
-                    `block text-sm px-3 py-2 rounded-sm w-full capitalize font-medium transition-all duration-200
+              <div className={`ml-6 mt-2 space-y-2`}>
+                {item.subItems.map((subItem, subIndex) => {
+                  return  <NavLink
+                    key={subIndex}
+                    to={subItem.route}
+                    className={({ isActive }) =>
+                      `block text-sm px-3 py-2 rounded-sm w-full capitalize font-medium transition-all duration-200
                     ${isActive
-                      ? "bg-[#4f4f4f] text-primary-1"
-                      : "text-[#797979] hover:text-[#e4e4e4] "
-                    }`
-                  }
+                        ? "bg-[#4f4f4f] text-primary-1"
+                        : "text-[#797979] hover:text-[#e4e4e4] "
+                      }`
+                    }
                   >
-                  -- {subItem.name}
-                </NavLink>
-              ))}
+                    -- {subItem.name}
+                  </NavLink>
+})}
               </div>
             </div>
           )}

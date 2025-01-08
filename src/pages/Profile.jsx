@@ -37,19 +37,18 @@ const Profile = () => {
 
   return (
     <div className='grid grid-cols-2'>
-
-    <Box >
+    <Box>
       <form onSubmit={handleSubmit} className="space-y-4">
       <div className="flex items-center mt-4">
-          <div className="relative size-20">
+          <div className="relative size-24">
             {image ? (
               <img
                 src={image}
                 alt="Uploaded"
-                className="w-full h-full rounded object-cover border shadow-md"
+                className="w-full h-full rounded-full object-cover border shadow-md"
               />
             ) : (
-              <div className="w-full h-full rounded text-xs border border-gray-300 flex items-center justify-center">
+              <div className="w-full h-full rounded-full text-xs border border-gray-300 flex items-center justify-center">
                 <span className="text-gray-400 text">No Image</span>
               </div>
             )}
@@ -69,13 +68,13 @@ const Profile = () => {
 
             <div
               onClick={() => document.getElementById('image').click()}
-              className="  border cursor-pointer py-2 px-4 text-sm rounded text-gray-400 transition duration-200"
+              className="  border cursor-pointer py-2 px-4 text-xs rounded text-gray-400 transition duration-200"
             >
               Select Profile Image
             </div>
             <div
               onClick={() => document.getElementById('image').click()}
-              className=" border cursor-pointer py-2 px-4 text-sm rounded text-[red] transition duration-200"
+              className=" border cursor-pointer py-2 px-4 text-xs rounded text-[red] transition duration-200"
               >
               Remove Photo
               </div>

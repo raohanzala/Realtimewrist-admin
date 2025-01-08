@@ -12,8 +12,8 @@ const DashboardStats = () => {
   
   const statsData = [
     { bgColor: 'bg-blue-100', icon: <IoBagCheckOutline className="text-blue-600 text-3xl" />, title: 'Total Orders', isLoadingKey: usersLoading, valueKey: 'orders', valueColor: 'text-blue-600', value: totalOrders },
-    { bgColor: 'bg-green-100', icon: <IoCashOutline className="text-green-600 text-3xl" />, title: 'Revenue', isLoadingKey: isOrdersLoading, valueKey: 'totalRevenue', valueColor: 'text-green-600', value: 89},
-    { bgColor: 'bg-purple-100', icon: <IoCubeOutline className="text-purple-600 text-3xl" />, title: ' Products', isLoadingKey: isProductLoading, valueKey: 'allProducts', valueColor: 'text-purple-600', value: totalProducts },
+    { bgColor: 'bg-green-100', icon: <IoCashOutline className="text-green-600 text-3xl" />, title: 'Total Revenue', isLoadingKey: isOrdersLoading, valueKey: 'totalRevenue', valueColor: 'text-green-600', value: 89},
+    { bgColor: 'bg-purple-100', icon: <IoCubeOutline className="text-purple-600 text-3xl" />, title: 'Total  Products', isLoadingKey: isProductLoading, valueKey: 'allProducts', valueColor: 'text-purple-600', value: totalProducts },
     { bgColor: 'bg-yellow-100', icon: <IoPeopleOutline className="text-yellow-600 text-3xl" />, title: 'Active Users', isLoadingKey: usersLoading, valueKey: 'allUsers', valueColor: 'text-yellow-600', value: totalUsers }
   ];
 

@@ -8,6 +8,8 @@ import StatusLabel from '../components/StatusLabel';
 import { CURRENCY, PAGE_SIZE } from '../utils/constants';
 import { useSearchParams } from 'react-router-dom';
 import { formatAmount, timestampToShortDate } from '../helpers';
+import { LiaSearchPlusSolid } from 'react-icons/lia';
+import { FiPrinter } from 'react-icons/fi';
 
 const Orders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -49,7 +51,7 @@ const Orders = () => {
 
       <div>
         <table className="min-w-full bg-white  border border-b-0 border-collapse table-auto">
-          <div className="bg-[#f2f2f2af] grid grid-cols-[0.3fr_1fr_1fr_1fr_0.5fr_0.5fr_0.8fr] text-[#5c5c5c] font-semibold py-4 px-8 text-sm uppercase">
+          <div className="bg-[#f2f2f2af] grid grid-cols-[0.3fr_1fr_1fr_1fr_1fr_1fr_1fr_0.5fr] text-[#5c5c5c] font-semibold py-4 px-8 text-sm uppercase">
             <div >S.No</div>
             <div>Product</div>
             <div>Customer</div>
@@ -57,6 +59,7 @@ const Orders = () => {
             <div>Amount</div>
             <div>Status</div>
             <div>Order Date</div>
+            <div className='ml-auto'>Invoice</div>
           </div>
           <div>
             {isOrdersLoading ?
@@ -65,7 +68,7 @@ const Orders = () => {
                   <div
                     key={order._id}
                     onClick={() => handleOrderClick(order)}
-                    className={` hover:bg-gray-50 cursor-pointer grid grid-cols-[0.3fr_1fr_1fr_1fr_0.5fr_0.5fr_0.8fr]  py-4 px-8  text-sm ${index === orders.length - 1 ? "" : "border-b"
+                    className={` hover:bg-gray-50 cursor-pointer grid grid-cols-[0.3fr_1fr_1fr_1fr_1fr_1fr_1fr_0.5fr]  py-4 px-8  text-sm ${index === orders.length - 1 ? "" : "border-b"
                       }`}
                   >
                     <div >{(currentPage - 1) * PAGE_SIZE + (index + 1)}</div>
@@ -79,6 +82,11 @@ const Orders = () => {
                       <StatusLabel status={order?.status} />
                     </div>
                     <div className="text-sm ">{timestampToShortDate(order?.date) || 'N/A'}</div>
+                    <div className='flex gap-3 ml-auto text-xl text-gray-500'>
+                    <FiPrinter />
+                    <LiaSearchPlusSolid />
+
+                    </div>
                   </div>
                 ))
               ) : (
