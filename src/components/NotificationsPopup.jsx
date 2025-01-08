@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { formatTimestamp, formatTimeAgo } from "../helpers";
 import { FaBellSlash } from "react-icons/fa6";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import useNotifications from "../hooks/useNotifications";
 
 const NotificationsPopup = ({ setNotificationPopup, notifications, handleClearAll, handleRemove }) => {
   

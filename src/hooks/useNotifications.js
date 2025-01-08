@@ -11,19 +11,19 @@ const useNotifications = () => {
 
   useEffect(() => {
     if (!socketRef.current) {
-      socketRef.current = io(backendUrl);
+      // socketRef.current = io(backendUrl);
 
-      socketRef.current.on('notification', (data) => {
-        console.log('Notification received:', data);
-        setNotifications((prev) => [...prev, data]);
-        playSound(assets.notification_sound)
-        setIsincoming(true);
-      });
+      // socketRef.current.on('notification', (data) => {
+      //   console.log('Notification received:', data);
+      //   setNotifications((prev) => [...prev, data]);
+      //   playSound(assets.notification_sound)
+      //   setIsincoming(true);
+      // });
     }
     
     return () => {
       if (socketRef.current) {
-        socketRef.current.off('notification');
+        // socketRef.current.off('notification');
       }
     };
   }, []);
@@ -36,7 +36,6 @@ const useNotifications = () => {
 
   const handleClearAll = () => {
     console.log('clear');
-    playSound(assets.notification_arrive)
     setNotifications([]);
   };
 
