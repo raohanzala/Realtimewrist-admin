@@ -9,24 +9,24 @@ const useNotifications = () => {
   const [notifications, setNotifications] = useState();
   const [isIncoming, setIsincoming] = useState(true);
 
-  useEffect(() => {
-    if (!socketRef.current) {
-      socketRef.current = io(backendUrl);
+  // useEffect(() => {
+  //   if (!socketRef.current) {
+  //     socketRef.current = io(backendUrl);
 
-      socketRef.current.on('notification', (data) => {
-        console.log('Notification received:', data);
-        setNotifications((prev) => [...prev, data]);
-        playSound(assets.notification_sound)
-        setIsincoming(true);
-      });
-    }
+  //     socketRef.current.on('notification', (data) => {
+  //       console.log('Notification received:', data);
+  //       setNotifications((prev) => [...prev, data]);
+  //       playSound(assets.notification_sound)
+  //       setIsincoming(true);
+  //     });
+  //   }
     
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.off('notification');
-      }
-    };
-  }, []);
+  //   return () => {
+  //     if (socketRef.current) {
+  //       socketRef.current.off('notification');
+  //     }
+  //   };
+  // }, []);
 
   const handleRemove = (notificationId) => {
     console.log(notificationId);
