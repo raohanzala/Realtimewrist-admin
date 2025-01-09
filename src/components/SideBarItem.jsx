@@ -23,6 +23,7 @@ function SideBarItem() {
     { name: "list Products", icon: <MdOutlineFormatListBulleted />, route: "/list" },
     { name: "orders", icon: <MdOutlineShoppingCart />, route: "/orders" },
     { name: "users", icon: <LuUsers />, route: "/users" },
+    { name: "settings", icon: <LuUsers />, route: "/settings" },
     {
       name: "online store",
       icon: <MdOutlineStoreMallDirectory />,

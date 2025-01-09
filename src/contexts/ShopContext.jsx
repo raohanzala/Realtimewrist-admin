@@ -9,6 +9,7 @@ const ShopContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true); 
   const [isProductLoading, setIsProductLoading] = useState(false)
   const [isOrdersLoading, setIsOrdersLoading] = useState(false)
+  const [isOrderLoading, setIsOrderLoading] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
   const [usersLoading, setUsersLoading] = useState(false)
 
@@ -20,6 +21,7 @@ const ShopContextProvider = ({ children }) => {
   const [allProducts, setAllProducts] = useState([]);
   const [productsPageCount, setProductsPageCount] = useState(0);
   const [orders, setOrders] = useState([]);
+  const [order, setOrder] = useState([])
   const [ordersPageCount, setOrdersPageCount] = useState(0)
   const [allUsers, setAllUsers] = useState([]);
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -67,7 +69,7 @@ const ShopContextProvider = ({ children }) => {
   //   console.log(limit, 'limit')
   //   setProductLoading(true);
   //   try {
-  //     const response = await axios.get(`${backendUrl}/api/product/paginated-list?page=${page}&limit=${limit}`, { headers: { token } });
+  //     const response = await axios.get(${backendUrl}/api/product/paginated-list?page=${page}&limit=${limit}, { headers: { token } });
   //     setAllProducts((prevProducts) => {
   //       const combinedProducts = [...prevProducts, ...response.data.products]
   //       const uniqueProducts = combinedProducts.filter(
@@ -122,7 +124,7 @@ setIsOrdersLoading(true)
   //   setIsLoading(true);
   //   try {
   //     console.log(token, 'Order Toke')
-  //     const response = await axios.post(`${backendUrl}/api/order/list`, {}, { headers: { token } });
+  //     const response = await axios.post(${backendUrl}/api/order/list, {}, { headers: { token } });
   //     console.log(response, 'ORDERS')
   //     setOrders(response.data.orders);
   //   } catch (error) {
@@ -254,6 +256,23 @@ setIsOrdersLoading(true)
     }
   }
 
+  const singleOrder = async (orderId)=> {
+    setIsOrderLoading(true)
+    try {
+      const response = await axios.get(backendUrl + `/api/order/singleOrder/${orderId}`, {
+        headers: { token },
+      });
+
+      setOrder(response.data.order)
+
+      console.log(response, 'SIngleOrder')
+    } catch (error) {
+      toast.error(error.message);
+    }finally{
+      setIsOrderLoading(false)
+    }
+  }
+
 
   const value = {
     
@@ -265,6 +284,7 @@ setIsOrdersLoading(true)
     isLoading,
     isProductLoading,
     isOrdersLoading,
+    isOrderLoading,
     actionLoading, 
     usersLoading,
     setActionLoading,
@@ -290,7 +310,9 @@ setIsOrdersLoading(true)
     fetchAllUsers,
     removeProduct,
     updateOrderstatus,
-    updateProductStatus
+    updateProductStatus,
+    singleOrder,
+    order,
 
   };
 

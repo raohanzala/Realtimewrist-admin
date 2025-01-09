@@ -6,7 +6,7 @@ import Pagination from '../components/Pagination';
 import OrderDrawer from '../components/OrderDrawer';
 import StatusLabel from '../components/StatusLabel';
 import { CURRENCY, PAGE_SIZE } from '../utils/constants';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { formatAmount, timestampToShortDate } from '../helpers';
 import { LiaSearchPlusSolid } from 'react-icons/lia';
 import { FiPrinter } from 'react-icons/fi';
@@ -84,7 +84,9 @@ const Orders = () => {
                     <div className="text-sm ">{timestampToShortDate(order?.date) || 'N/A'}</div>
                     <div className='flex gap-3 ml-auto text-xl text-gray-500'>
                     <FiPrinter />
+                    <Link to={`/order/${order._id}`}>
                     <LiaSearchPlusSolid />
+                    </Link>
 
                     </div>
                   </div>

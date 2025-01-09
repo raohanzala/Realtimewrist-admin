@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { formatTimestamp, formatTimeAgo } from "../helpers";
 import { FaBellSlash } from "react-icons/fa6";
 import { useOutsideClick } from "../hooks/useOutsideClick";
+import { Link } from "react-router-dom";
 
 const NotificationsPopup = ({ setNotificationPopup, notifications, handleClearAll, handleRemove }) => {
   
@@ -13,10 +14,9 @@ const NotificationsPopup = ({ setNotificationPopup, notifications, handleClearAl
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // This will trigger re-render every minute
     }, 60000);
 
-    return () => clearInterval(interval); // Cleanup on component unmount
+    return () => clearInterval(interval); 
   }, []);
 
   return (
@@ -36,7 +36,8 @@ const NotificationsPopup = ({ setNotificationPopup, notifications, handleClearAl
         <>
           <ul>
             {notifications.map((notification, index) => (
-              <li
+
+              <Link to={`order/${notification?.fullDocument?._id}`}
                 key={notification?._id || index}
                 className="flex items-center gap-3 duration-1000 justify-between p-5 hover:bg-gray-100 transition"
               >
@@ -64,7 +65,7 @@ const NotificationsPopup = ({ setNotificationPopup, notifications, handleClearAl
                 >
                   &times;
                 </div>
-              </li>
+              </Link>
             ))}
           </ul>
           {notifications.length === 0 && (

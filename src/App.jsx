@@ -15,6 +15,8 @@ import PrivateRoute from './components/PrivateRoute';
 import Users from './pages/Users';
 import ListProductTable from './components/ListProductTable';
 import PageNotFound from './components/PageNotFound';
+import { Order } from './components/Order';
+import Settings from './pages/Settings';
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL
 
@@ -39,10 +41,12 @@ function App() {
                 <Route path="/add" element={< AddProduct />} />
                 <Route path="/list" element={< ListProductTable/>} />
                 <Route path="/orders" element={< Orders />} />
+                <Route path="/order/:orderId" element={< Order />} />
                 <Route path="/users" element={< Users />} />
                 <Route path="/notifications" element={< Notifications />} />
                 <Route path="/store" element={< Notifications />} />
                 <Route path="/profile" element={< Profile />} />
+                <Route path="/settings" element={< Settings />} />
                 <Route path="/online-store/customization" element={< Profile />} />
                 <Route path="/online-store/settings" element={< Profile />} />
                 <Route path="/online-store/view" element={< Profile />} />

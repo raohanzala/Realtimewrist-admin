@@ -38,10 +38,8 @@ function Header() {
     navigate("/login");
   };
 
-  console.log("Notification");
-
   return (
-    <div className="flex w-full items-center justify-between px-5 py-4 bg-white border-b border-gray-200 shadow-md">
+    <div className="flex w-full items-center justify-between px-5 py-3 bg-white border-b border-gray-200 shadow-md">
       <div className="flex items-center gap-2 text-[#919191]">
         <div className="cursor-pointer" onClick={() => navigate(-1)}>
           <MdArrowBack />
@@ -52,7 +50,7 @@ function Header() {
 
       <div className="flex items-center space-x-4">
         <div className="relative flex items-center space-x-2" onClick={handleProfile}>
-          <div className="w-12 h-12 overflow-hidden rounded-full border-2 border-primary-1">
+          <div className="size-10 overflow-hidden rounded-full border-2 border-primary-1">
             <img
               src={adminPhoto}
               className="w-full h-full object-cover"
@@ -69,13 +67,13 @@ function Header() {
         <div className="relative">
           <div
             onClick={handleNotification}
-            className="relative p-3 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
+            className="relative p-3 rounded bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
           >
-            <FaBell className="text-xl text-gray-700" />
-            {isIncoming && notifications.length > 0 && (
+            <FaBell className="text-lg text-gray-700" />
+            {isIncoming && notifications?.length > 0 && (
               <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 animate-ping"></span>
             )}
-            {notifications.length > 0 && (
+            {notifications?.length > 0 && (
               <span className="absolute -top-1 -right-1 text-[9px] flex justify-center items-center text-white h-4 w-4 rounded-full bg-red-500">
                 {notifications.length}
               </span>
@@ -86,7 +84,7 @@ function Header() {
           onClick={handleLogout}
           className="flex items-center justify-center w-11 h-11 rounded-full bg-gray-100 hover:bg-red-100 text-red-600 transition-all cursor-pointer"
         >
-          <IoLogOutOutline className="text-xl ml-[2px]" />
+          <IoLogOutOutline className="text-lg ml-[2px]" />
         </div>
       </div>
 
