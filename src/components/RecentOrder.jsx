@@ -1,20 +1,21 @@
-import React from 'react'
-import Box from './Box'
 import HeadingLink from './HeadingLink'
 import StatusLabel from './StatusLabel'
 import { IoMdMore } from 'react-icons/io'
-import { useContext } from 'react'
-import { ShopContext } from '../contexts/ShopContext'
 import { BsDot } from "react-icons/bs";
 import { formatAmount } from '../helpers'
 import { CURRENCY } from '../utils/constants'
+import SpinnerMini from './SpinnerMini'
+import Empty from './Empty'
+import { useOrders } from '../features/useOrders'
+import Box from './Box';
 
 const RecentOrder = () => {
-  const {  orders, ordersLoading } = useContext(ShopContext);
+  const {orders, isLoading} = useOrders()
   return (
+    <Box>
     <div className='min-h-64 flex flex-col'>
       <HeadingLink title='Recent Orders' link='/orders' />
-        {ordersLoading ? <p>Loading...</p> : orders?.length > 0 ?
+        {isLoading ? <SpinnerMini variant='secondary'/> : orders?.length > 0 ?
           <div>
             {
               orders.slice(0, 3).map((order, index) => (<div className={`py-3 flex justify-between ${index !== 2 && 'border-b'} gap-5`} key={order._id}>
@@ -49,8 +50,9 @@ const RecentOrder = () => {
               ))
             }
           </div>
-          : <div className="flex flex-1 w-full h-full items-center justify-center"> <p className=" text-[#d2d2d2] mb-10">You have no orders yet.</p></div>}
+          : <div className="flex flex-1 w-full h-full items-center justify-center"> <Empty resourceName='recent orders'/></div>}
     </div>
+    </Box>
   )
 }
 

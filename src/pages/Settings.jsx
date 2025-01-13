@@ -24,13 +24,13 @@ const Settings = () => {
     name: Yup.string(),
     address: Yup.string(),
     whatsapp: Yup.string()
-    .matches(/^\d+$/, 'WhatsApp number must be numeric')
-    .trim(),
+      .matches(/^\d+$/, 'WhatsApp number must be numeric')
+      .trim(),
     contact: Yup.string()
-    .matches(/^\d+$/, 'Phone number must be numeric')
-    .trim(),
+      .matches(/^\d+$/, 'Phone number must be numeric')
+      .trim(),
     email: Yup.string()
-    .email('Invalid email address'),
+      .email('Invalid email address'),
     website: Yup.string(),
   });
 
@@ -48,8 +48,9 @@ const Settings = () => {
         {({ isSubmitting }) => (
           <Form className="mx-auto max-w-screen-md">
             <FormRow label="Store name"
-                name="store-name">
+              name="store-name">
               <Input
+                size='large'
                 name="store-name"
                 type="text"
                 placeholder="Store name"
@@ -57,47 +58,52 @@ const Settings = () => {
               />
             </FormRow>
             <FormRow label="address"
-                name="address">
+              name="address">
               <Input
+                size='large'
                 name="address"
                 type="text"
-                placeholder="address"
+                placeholder="Address"
                 disabled={isSubmitting}
               />
             </FormRow>
             <FormRow label="whatsapp"
-                name="whatsapp">
+              name="whatsapp">
               <Input
+                size='large'
                 name="whatsapp"
                 type="text"
-                placeholder="whatsapp"
+                placeholder="Whatsapp"
                 disabled={isSubmitting}
               />
             </FormRow>
             <FormRow label="contact"
-                name="contact">
+              name="contact">
               <Input
+                size='large'
                 name="contact"
                 type="text"
-                placeholder="contact"
+                placeholder="Contact"
                 disabled={isSubmitting}
               />
             </FormRow>
             <FormRow label="email"
-                name="email">
+              name="email">
               <Input
+                size='large'
                 name="email"
                 type="email"
-                placeholder="email"
+                placeholder="Email"
                 disabled={isSubmitting}
               />
             </FormRow>
             <FormRow label="website"
-                name="website">
+              name="website">
               <Input
+                size='large'
                 name="website"
                 type="text"
-                placeholder="website"
+                placeholder="Website"
                 disabled={isSubmitting}
               />
             </FormRow>
@@ -110,12 +116,6 @@ const Settings = () => {
       </Formik>
 
       <div>
-        {/* <Input label="Product Description"
-                  name="description"
-                  as="textarea"
-                  rows={3}
-                  placeholder="Enter product description"
-                  /> */}
       </div>
     </Box>
   );

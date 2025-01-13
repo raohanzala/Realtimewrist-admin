@@ -4,9 +4,13 @@ import { ShopContext } from '../contexts/ShopContext'
 import StatusLabel from './StatusLabel'
 import { formatAmount, formatTimestamp } from '../helpers'
 import { CURRENCY } from '../utils/constants'
+import { useUpdateOrderStatus } from '../features/useUpdateOrderStatus'
 
 const OrderDrawer = ({ selectedOrder, closeDrawer, isAnimating }) => {
-  const {  updateOrderstatus } = useContext(ShopContext)
+  // const {  updateOrderstatus } = useContext(ShopContext)
+
+    const {isLoading : isUpdating, updateStatus} =  useUpdateOrderStatus()
+  
 
   return (
     <div
@@ -54,7 +58,7 @@ const OrderDrawer = ({ selectedOrder, closeDrawer, isAnimating }) => {
                       <StatusLabel status={selectedOrder.status} />
                     </p>
                     <select
-                      onChange={(event) => updateOrderstatus(event, selectedOrder._id)}
+                      onChange={(event) => updateStatus(event, selectedOrder._id)}
                       value={selectedOrder.status}
                       className="py-1 px-2 mt-2 border rounded bg-gray-100 hover:bg-gray-200 focus:outline-none w-full"
                     >

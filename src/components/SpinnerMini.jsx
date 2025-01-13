@@ -1,10 +1,8 @@
-import React from 'react'
-import { CgSpinner } from 'react-icons/cg'
 import { ImSpinner8 } from 'react-icons/im'
 
-const SpinnerMini = () => {
+const SpinnerMini = ({variant, ...rest}) => {
   return (
-    <ImSpinner8 className='animate-spin text-xl' />
+    <ImSpinner8 {...rest} className={`animate-spin m-auto text-xl ${variant === 'secondary' ? 'text-primary-1' : ''}`} color={variant === 'secondary' ? 'primary-1' : ''} />
   )
 }
 

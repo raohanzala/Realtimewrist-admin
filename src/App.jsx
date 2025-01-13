@@ -13,10 +13,14 @@ import LoadingLogo from './components/LoadingLogo';
 import PublicRoute from './components/PublicRoute'
 import PrivateRoute from './components/PrivateRoute';
 import Users from './pages/Users';
-import ListProductTable from './components/ListProductTable';
 import PageNotFound from './components/PageNotFound';
-import { Order } from './components/Order';
+import { OrderDetail } from './components/OrderDetail';
 import Settings from './pages/Settings';
+import Products from './pages/Products';
+import ProductInfo from './components/ProductInfo';
+import Loader from './components/Loader';
+import StoreCustomization from './pages/StoreCustomization';
+import Product from './pages/Product';
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL
 
@@ -26,7 +30,7 @@ function App() {
     <div className=' bg-[#f9fafb]'>
       {
         <AppLayout>
-          <Suspense fallback={<LoadingLogo />}>
+          <Suspense fallback={<Loader />}>
             <Routes>
               <Route
                 path="/login"
@@ -39,15 +43,16 @@ function App() {
               <Route path="/" element={<PrivateRoute />}>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/add" element={< AddProduct />} />
-                <Route path="/list" element={< ListProductTable/>} />
+                <Route path="/list" element={< Products/>} />
+                <Route path='/product/:productId' element={<Product />} />
                 <Route path="/orders" element={< Orders />} />
-                <Route path="/order/:orderId" element={< Order />} />
+                <Route path="/order/:orderId" element={< OrderDetail />} />
                 <Route path="/users" element={< Users />} />
                 <Route path="/notifications" element={< Notifications />} />
                 <Route path="/store" element={< Notifications />} />
                 <Route path="/profile" element={< Profile />} />
                 <Route path="/settings" element={< Settings />} />
-                <Route path="/online-store/customization" element={< Profile />} />
+                <Route path="/online-store/customization" element={< StoreCustomization />} />
                 <Route path="/online-store/settings" element={< Profile />} />
                 <Route path="/online-store/view" element={< Profile />} />
               </Route>

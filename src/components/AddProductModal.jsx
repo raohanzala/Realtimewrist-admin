@@ -12,8 +12,10 @@ import CropImageModal from "./CropImageModal";
 import SpinnerMini from "./SpinnerMini";
 import Input from "./Input";
 import FormRowVerticle from "./FormRowVerticle";
+import { useAddProduct } from "../features/useAddProduct";
+import { useEditProduct } from "../features/useEditProduct";
 
-const AddProductModal = ({ onClose, productToEdit }) => {
+const AddProductModal = ({ onClose, productToEdit = {} }) => {
   const [image1, setImage1] = useState(false);
   const [image2, setImage2] = useState(false);
   const [image3, setImage3] = useState(false);
@@ -22,12 +24,14 @@ const AddProductModal = ({ onClose, productToEdit }) => {
   const [currentImageSetter, setCurrentImageSetter] = useState(null);
 
   const {
-    setActionLoading,
-    actionLoading,
     setPageTitle,
-    fetchProducts,
-    token,
   } = useContext(ShopContext);
+
+  const {addProduct, isLoading : isAdding} = useAddProduct()
+  const {editProduct, isLoading : isEditing} = useEditProduct()
+  const isWorking = isAdding
+
+  console.log(isWorking, 'LAODING...')
 
   const showCropper = (file, imageSetter) => {
     const reader = new FileReader();
@@ -54,6 +58,7 @@ const AddProductModal = ({ onClose, productToEdit }) => {
     bestSeller: productToEdit?.bestSeller || false,
   };
 
+  
   const validationSchema = Yup.object({
     name: Yup.string().required("Product name is required"),
     description: Yup.string().required("Description is required"),
@@ -64,9 +69,14 @@ const AddProductModal = ({ onClose, productToEdit }) => {
     category: Yup.string().required("Category is required"),
     subCategory: Yup.string().required("Sub-category is required"),
   });
+  
+  // const { _id: productId, ...editValues } = productToEdit;
+  // const isEditSession = Boolean(productId);
+  // const initialValues = isEditSession ? editValues : {}
+
+  console.log(initialValues, 'INITIALVALUES')
 
   const onSubmitHandler = async (values, { setSubmitting }) => {
-    setActionLoading(true);
     try {
       const formData = await new FormData();
       Object.entries(values).forEach(([key, value]) => {
@@ -78,32 +88,27 @@ const AddProductModal = ({ onClose, productToEdit }) => {
       if (image3) formData.append("image3", image3);
       if (image4) formData.append("image4", image4);
 
-      let response;
       if (productToEdit) {
-        response = await axios.put(
-          `${backendUrl}/api/product/edit/${productToEdit._id}`,
-          formData,
-          { headers: { token } }
-        );
+        // Correcting the object construction
+        const formDataEdit = { ...formData, _id: productToEdit._id };
+        
+        editProduct(formDataEdit, { // Passing formDataEdit correctly
+          onSuccess: () => {
+            onClose();
+          },
+        });
       } else {
         console.log(formData, "FORMDATA");
-        response = await axios.post(`${backendUrl}/api/product/add`, formData, {
-          headers: { token },
+        
+        addProduct(formData, { // Passing formData correctly
+          onSuccess: () => {
+            onClose();
+          },
         });
       }
-
-      if (response.data.success) {
-        toast.success(response.data.message);
-        fetchProducts();
-        onClose();
-      } else {
-        toast.error(response.data.message);
-      }
+      
     } catch (error) {
       toast.error(error.message);
-    } finally {
-      setActionLoading(false);
-      setSubmitting(false);
     }
   };
 
@@ -123,7 +128,7 @@ const AddProductModal = ({ onClose, productToEdit }) => {
                     name="name"
                     type="text"
                     placeholder="Enter product name"
-                    disabled={actionLoading}
+                    disabled={isWorking}
                   />
                 </FormRowVerticle>
 
@@ -133,7 +138,7 @@ const AddProductModal = ({ onClose, productToEdit }) => {
                     as="textarea"
                     rows={3}
                     placeholder="Enter product description"
-                    disabled={actionLoading}
+                    disabled={isWorking}
                   />
                 </FormRowVerticle>
 
@@ -144,7 +149,7 @@ const AddProductModal = ({ onClose, productToEdit }) => {
                       type="number"
                       placeholder="Regular price"
                       min="0"
-                      disabled={actionLoading}
+                      disabled={isWorking}
                     />
                   </FormRowVerticle>
 
@@ -154,7 +159,7 @@ const AddProductModal = ({ onClose, productToEdit }) => {
                       type="number"
                       placeholder="Sale price"
                       min="0"
-                      disabled={actionLoading}
+                      disabled={isWorking}
                     />
                   </FormRowVerticle>
                 </div>
@@ -176,7 +181,7 @@ const AddProductModal = ({ onClose, productToEdit }) => {
                       <input
                         type="file"
                         hidden
-                        disabled={actionLoading}
+                        disabled={isWorking}
                         onChange={(e) =>
                           showCropper(
                             e.target.files[0],
@@ -189,7 +194,7 @@ const AddProductModal = ({ onClose, productToEdit }) => {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <FormRowVerticle label="Category" name="category">
-                    <Input name="category" as="select" disabled={actionLoading}>
+                    <Input name="category" as="select" disabled={isWorking}>
                       <option value="Women">Women</option>
                       <option value="Men">Men</option>
                     </Input>
@@ -198,7 +203,7 @@ const AddProductModal = ({ onClose, productToEdit }) => {
                     <Input
                       name="subCategory"
                       as="select"
-                      disabled={actionLoading}
+                      disabled={isWorking}
                     >
                       <option value="automatic">Automatic</option>
                       <option value="quartz">Quartz</option>
@@ -213,7 +218,7 @@ const AddProductModal = ({ onClose, productToEdit }) => {
                     id="bestSeller"
                     name="bestSeller"
                     className="h-4 w-4"
-                    disabled={actionLoading}
+                    disabled={isWorking}
                   />
                   <label htmlFor="bestSeller">Add to Best Seller</label>
                 </div>
@@ -222,7 +227,7 @@ const AddProductModal = ({ onClose, productToEdit }) => {
             <div className="flex justify-between items-center mt-6">
               <Button
                 type="button"
-                disabled={isSubmitting || actionLoading}
+                disabled={isSubmitting || isWorking}
                 variant="cancel"
                 onClick={onClose}
               >
@@ -231,7 +236,7 @@ const AddProductModal = ({ onClose, productToEdit }) => {
               <Button
                 type="submit"
                 variant="secondary"
-                disabled={isSubmitting || actionLoading}
+                disabled={isSubmitting || isWorking}
               >
                 {!isSubmitting ? (
                   productToEdit ? (

@@ -7,10 +7,15 @@ import SpinnerMini from './SpinnerMini';
 import Box from './Box';
 import StatusLabel from './StatusLabel';
 import Button from './Button';
+import { useOrder } from '../features/useOrder';
 
-export const Order = () => {
+export const OrderDetail = () => {
 
     const { orderId } = useParams();
+
+    const orders = useOrder()
+
+    console.log(orders, 'ORDER PAGE')
 
     const {singleOrder,isOrderLoading , order, setPageTitle} = useContext(ShopContext)
 

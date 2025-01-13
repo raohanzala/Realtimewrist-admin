@@ -43,7 +43,8 @@ const Profile = () => {
     website: Yup.string(),
   });
 
-  const onSubmitHandler = (values) => {
+  const onSubmitHandler = (e, values) => {
+    e.preventDefault()
     console.log(values);
   };
 
@@ -76,9 +77,9 @@ const Profile = () => {
                 )}
               </div>
               <div className="ml-4 flex flex-col">
-                <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
+                {/* <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
                   Upload Image
-                </label>
+                </label> */}
                 <input
                   type="file"
                   id="image"
@@ -104,8 +105,6 @@ const Profile = () => {
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-
             <FormRowVerticle name="first-name" label="First name">
                   <Input
                     name="first-name"

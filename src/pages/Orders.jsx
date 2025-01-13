@@ -10,6 +10,9 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { formatAmount, timestampToShortDate } from '../helpers';
 import { LiaSearchPlusSolid } from 'react-icons/lia';
 import { FiPrinter } from 'react-icons/fi';
+import { useOrders } from '../features/useOrders';
+import { useUpdateOrderStatus } from '../features/useUpdateOrderStatus';
+import Empty from '../components/Empty';
 
 const Orders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -18,11 +21,11 @@ const Orders = () => {
   const [searchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get("page")) || 1;
 
-  const { isLoading, isOrdersLoading, setPageTitle, orders, ordersPageCount, fetchOrders, totalOrders } = useContext(ShopContext)
-  // const isOrdersLoading = true
+  const {setPageTitle, } = useContext(ShopContext)
 
+  const { isLoading, orders, totalPages, totalOrders } = useOrders()
+  const {updateStatus} = useUpdateOrderStatus()
   console.log('Is Loading', orders)
-
 
   const handleOrderClick = (order) => {
     setSelectedOrder(order);
@@ -44,7 +47,6 @@ const Orders = () => {
 
   return (
     <div>
-      {isLoading && <Loader type='full' />}
       <div className='mb-8'>
         <SearchSortBar placeholder="Search product" sortOptions={['recent', 'date']} filterOptions={['recent', 'date']} />
       </div>
@@ -62,7 +64,7 @@ const Orders = () => {
             <div className='ml-auto'>Invoice</div>
           </div>
           <div>
-            {isOrdersLoading ?
+            {isLoading ?
               <SkeletonRow /> : orders?.length > 0 ? (
                 orders.map((order, index) => (
                   <div
@@ -76,32 +78,42 @@ const Orders = () => {
                     <div >{order?.address?.firstName || 'Kashif Ameen'}</div>
                     <div >{order?.address?.city || 'H-429, Lahore, Punjab'}</div>
                     <div>{CURRENCY}{formatAmount(order?.amount) || '0'}</div>
-                    <div
+                    {/* <div
                       className={`text-sm font-semibold `}
                     >
                       <StatusLabel status={order?.status} />
-                    </div>
+                    </div> */}
+                     <div>
+                    <p className="text-gray-500 font-medium flex gap-1 items-center">Status
+                      <StatusLabel status={selectedOrder.status} />
+                    </p>
+                    <select
+                      onChange={(event) => updateStatus(event, selectedOrder._id)}
+                      value={selectedOrder.status}
+                      className="py-1 px-2 mt-2 border rounded bg-gray-100 hover:bg-gray-200 focus:outline-none w-full"
+                    >
+                      <option value="Order Placed">Order Placed</option>
+                      <option value="Packing">Packing</option>
+                      <option value="Shipped">Shipped</option>
+                      <option value="Out for Delivery">Out for Delivery</option>
+                      <option value="Delivered">Delivered</option>
+                    </select>
+                  </div>
                     <div className="text-sm ">{timestampToShortDate(order?.date) || 'N/A'}</div>
                     <div className='flex gap-3 ml-auto text-xl text-gray-500'>
-                    <FiPrinter />
-                    <Link to={`/order/${order._id}`}>
-                    <LiaSearchPlusSolid />
-                    </Link>
-
+                      <FiPrinter />
+                      <Link to={`/order/${order._id}`}>
+                        <LiaSearchPlusSolid />
+                      </Link>
                     </div>
                   </div>
                 ))
-              ) : (
-                <p
-                  className="py-4 text-base text-center text-[#c3c3c3]"
-                >
-                  No orders found.
-                </p>
-              )}
+              ) : <Empty resourceName="orders" />
+            }
           </div>
         </table>
         <div className='border border-t-0'>
-          <Pagination pageCount={ordersPageCount} fectchData={fetchOrders} totalData={totalOrders} />
+          <Pagination pageCount={totalPages} totalData={totalOrders} />
         </div>
       </div>
 

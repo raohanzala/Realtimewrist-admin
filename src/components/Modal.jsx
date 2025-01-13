@@ -3,8 +3,6 @@ import { useOutsideClick } from '../hooks/useOutsideClick';
 
 const Modal = ({ title, children, isOpen, onClose }) => {
 
-
-
   const ref = useOutsideClick(onClose, false)
 
   if (!isOpen) return null;

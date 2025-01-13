@@ -1,0 +1,25 @@
+import axios from 'axios';
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL
+
+const axiosInstance = axios.create({
+  baseURL: `${backendUrl}/api`,  
+});
+
+axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;  
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    console.log(token, 'ADMIN TOKEN')
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export default axiosInstance;

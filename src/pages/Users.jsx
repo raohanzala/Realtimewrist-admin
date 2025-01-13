@@ -1,27 +1,29 @@
 import React, { useEffect } from 'react'
 import { useContext } from 'react'
 import { ShopContext } from '../contexts/ShopContext'
-import Loader from '../components/Loader'
 import SearchSortBar from '../components/SearchSortBar'
 import { IoMdPerson } from "react-icons/io";
 import { timestampToShortDate } from '../helpers'
+import { useUsers } from '../features/useUsers'
+import Empty from '../components/Empty'
 
 const Users = () => {
 
-  const { isLoading, allUsers, usersLoading, setPageTitle } = useContext(ShopContext)
-  // const usersLoading = true
+  const {setPageTitle } = useContext(ShopContext)
+
+  const {users, isLoading} = useUsers()
+  console.log(users, isLoading, 'QUERY USERS')
 
   useEffect(()=> {
     setPageTitle('Notifications')
-  }, [])
+  }, [setPageTitle])
 
   return (
     <div>
-      {isLoading && <Loader type='full' />}
       <SearchSortBar placeholder="Search product" sortOptions={['recent', 'date']} filterOptions={['recent', 'date']} />
 
       <div className='grid gap-5 grid-cols-4 py-8'>
-        {usersLoading ? <SkeletonRow /> : allUsers.length > 0 ? allUsers.map((user) => (
+        {isLoading ? <SkeletonRow /> : users?.length > 0 ? users?.map((user) => (
           <div className='rounded-md border relative overflow-hidden' key={user._id}>
             <div className='bg-primary-1 py-1 px-2 text-white z-10 absolute text-xs top-0 right-0'>Customer</div>
             <div className='bg-gray-100 py-4'>
@@ -37,9 +39,7 @@ const Users = () => {
               </div>
             </div>
           </div>
-        )): <p className="py-4 text-base text-center text-[#c3c3c3]"
-        >
-          No users found.</p>
+        )): <div className='col-span-4'><Empty resourceName="users" /></div> 
         }
       </div>
 

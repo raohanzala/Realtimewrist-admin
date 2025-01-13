@@ -5,15 +5,10 @@ import {
   MdOutlineShoppingCart,
   MdOutlineFormatListBulleted,
   MdOutlineStoreMallDirectory,
-  MdKeyboardArrowDown,
-  MdKeyboardArrowUp
 } from "react-icons/md";
-import { CgArrowDown, CgArrowsH, CgProfile } from "react-icons/cg";
-import { FaBellSlash } from "react-icons/fa6";
-import { BiArrowToBottom, BiArrowToTop } from "react-icons/bi";
-import { BsArrow90DegRight, BsArrowBarDown, BsArrowDownUp } from "react-icons/bs";
-import { IoIosArrowDown, IoIosArrowForward, IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { LuUsers } from "react-icons/lu";
+import { IoSettingsOutline } from "react-icons/io5";
 
 function SideBarItem() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -23,7 +18,7 @@ function SideBarItem() {
     { name: "list Products", icon: <MdOutlineFormatListBulleted />, route: "/list" },
     { name: "orders", icon: <MdOutlineShoppingCart />, route: "/orders" },
     { name: "users", icon: <LuUsers />, route: "/users" },
-    { name: "settings", icon: <LuUsers />, route: "/settings" },
+    { name: "settings", icon: <IoSettingsOutline />, route: "/settings" },
     {
       name: "online store",
       icon: <MdOutlineStoreMallDirectory />,

@@ -1,6 +1,3 @@
-import React from 'react'
-import Box from './Box'
-
 const StatBox = ({ bgColor, icon, title, isLoading, value, valueColor }) => {
   return (
     <div className='bg-white border-[#f3f4f6] border rounded overflow-hidden'>
@@ -11,10 +8,10 @@ const StatBox = ({ bgColor, icon, title, isLoading, value, valueColor }) => {
         <div className=' py-4'>
           <h3 className="text-lg font-semibold text-gray-600">{title}</h3>
           {isLoading ? (
-            <p>Loading...</p>
-          ) : (
+            <p className="text-sm text-gray-400">Loading...</p>
+          ) : value ? (
             <p className={`text-2xl font-bold ${valueColor}`}>{value}</p>
-          )}
+          ) : <p className='text-gray-400 font-extrabold'>_ _</p>}
         </div>
       </div>
     </div>

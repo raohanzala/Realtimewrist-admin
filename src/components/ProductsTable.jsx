@@ -1,8 +1,7 @@
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { ShopContext } from "../contexts/ShopContext";
@@ -12,7 +11,6 @@ import ConfirmationModal from "./ConfirmationModal";
 import AddProductModal from "./AddProductModal";
 import { FaPlus } from "react-icons/fa6";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import Loader from "./Loader";
 import Modal from "./Modal";
 import MenuPopup from "./MenuPopup";
 import Pagination from "./Pagination";
@@ -20,26 +18,28 @@ import { formatAmount, timestampToShortDate } from "../helpers";
 import StatusLabel from "./StatusLabel";
 import Button from "./Button";
 import { CURRENCY } from "../utils/constants";
+import { useProducts } from "../features/useProducts";
+import { useUpdateProductStock } from "../features/useUpdateProductStock";
+import { useDeleteProduct } from "../features/useDeleteProduct";
+import Empty from "./Empty";
+import { Link } from "react-router-dom";
 
-const ListProductTable = () => {
+const ProductTable = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   const [isProductModal, setIsProductModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const [productToEdit, setProductToEdit] = useState(null);
-  // const isProductLoading = true
 
   const {
-    isLoading,
-    isProductLoading,
     setPageTitle,
-    allProducts,
-    totalProducts,
-    productsPageCount,
-    removeProduct,
-    fetchProducts,
-    updateProductStatus,
   } = useContext(ShopContext);
+
+  const { deleteProduct, isDeleting } = useDeleteProduct()
+  const { isLoading: isUpdating, updateStock } = useUpdateProductStock()
+  const { products, isLoading, error, totalProducts, totalPages } = useProducts()
+
+  console.log(isDeleting, deleteProduct, 'DELETE TABLE')
 
   const handleDropdownToggle = useCallback((productId) => {
     setActiveDropdown((prev) => (prev === productId ? null : productId));
@@ -57,7 +57,8 @@ const ListProductTable = () => {
 
   const handleConfirmDelete = async () => {
     if (productToDelete) {
-      await removeProduct(productToDelete);
+      // await removeProduct(productToDelete);
+      await deleteProduct(productToDelete)
       setProductToDelete(null);
       setIsConfirmModal(false);
     }
@@ -72,9 +73,11 @@ const ListProductTable = () => {
     setPageTitle("All Products");
   }, []);
 
+  console.log(products, 'useQuery Product')
+
   return (
     <div>
-      {isLoading && <Loader type="full" />}
+      {/* {isLoading && <Loader type="full" />} */}
       <div className="flex gap-5 mb-8">
         <SearchSortBar
           placeholder="Search product"
@@ -83,10 +86,11 @@ const ListProductTable = () => {
         />
 
         <Button
-          onClick={(e) => {setIsProductModal(true); e.stopPropagation()}}
+          onClick={(e) => { setIsProductModal(true); e.stopPropagation() }}
           startIcon={<FaPlus />}
           variant="secondary"
           className='rounded'
+          size="medium"
         >
           Add Product
         </Button>
@@ -103,25 +107,28 @@ const ListProductTable = () => {
             <div>Actions</div>
           </div>
           <div className="bg-white">
-            {isProductLoading ? (
+            {isLoading ? (
               <SkeletonRow />
-            ) : allProducts?.length > 0 ? (
-              allProducts.map((product, index) => (
+            ) : products?.length > 0 ? (
+              products.map((product, index) => (
                 <div
                   key={product?._id || index}
-                  className={`py-2 px-8 grid grid-cols-[0.6fr_1fr_1fr_1fr_1fr_1fr_0.5fr] gap-8 items-center text-sm ${
-                    index === allProducts.length - 1 ? "" : "border-b"
-                  }`}
+                  className={`py-2 px-8 grid grid-cols-[0.6fr_1fr_1fr_1fr_1fr_1fr_0.5fr] gap-8 items-center text-sm ${index === products.length - 1 ? "" : "border-b"
+                    }`}
                 >
+                  <Link to={`/product/${product._id}`}>
                   <img
                     src={product.images[0]}
                     className="w-20 -translate-x-6 scale-110 object-cover object-center"
                     style={{ aspectRatio: "1 / 1" }}
                     alt={product?.name || "Product image"}
-                  />
+                    />
+                    </Link>
+                    <Link to={`/product/${product._id}`}>
                   <p className="uppercase font-medium truncate">
                     {product?.name || "N/A"}
                   </p>
+                    </Link>
                   <p>
                     {CURRENCY}
                     {formatAmount(product?.newPrice || 8999) || "N/A"}
@@ -133,7 +140,7 @@ const ListProductTable = () => {
                     </p>
                     <select
                       onChange={(event) =>
-                        updateProductStatus(event, product._id)
+                        updateStock(event, product._id)
                       }
                       value={product.availability}
                       className="py-1 px-2 mt-2 border rounded bg-gray-100 hover:bg-gray-200 focus:outline-none w-full"
@@ -167,16 +174,12 @@ const ListProductTable = () => {
                   </div>
                 </div>
               ))
-            ) : (
-              <p className="py-4 text-base text-center text-[#c3c3c3]">
-                No products found.
-              </p>
-            )}
+            ) : <Empty resourceName="products" />
+            }
           </div>
           <div>
             <Pagination
-              pageCount={productsPageCount}
-              fectchData={fetchProducts}
+              pageCount={totalPages}
               totalData={totalProducts}
             />
           </div>
@@ -235,4 +238,4 @@ const SkeletonRow = () => {
   );
 };
 
-export default ListProductTable;
+export default ProductTable;

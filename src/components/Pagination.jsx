@@ -3,13 +3,10 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useContext } from "react";
 import { PAGE_SIZE } from "../utils/constants";
 
-function Pagination( {pageCount, fectchData, totalData}) {
+function Pagination( {pageCount, totalData}) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get("page")) || 1;
 
-  useEffect(() => {
-    fectchData(currentPage, PAGE_SIZE);
-  }, [currentPage, fectchData]);
 
   function nextPage() {
     if (currentPage < pageCount) {
@@ -25,7 +22,9 @@ function Pagination( {pageCount, fectchData, totalData}) {
     }
   }
 
-  if (pageCount <= 1) return null;
+  if (pageCount <= 1 || !pageCount) return null;
+
+  console.log(pageCount, 'Paginaions')
 
   return (
     <div className="flex justify-between items-center py-3 px-3 bg-[#f2f2f2af] text-[#525252] text-sm">

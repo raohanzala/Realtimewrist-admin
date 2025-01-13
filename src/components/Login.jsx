@@ -12,13 +12,16 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { CgSpinner } from 'react-icons/cg';
 import SpinnerMini from './SpinnerMini';
+import { useLogin } from '../features/useLogin';
 
 
 
 function Login() {
 
-  const { login } = useContext(ShopContext);
+  // const { login } = useContext(ShopContext);
   const navigate = useNavigate();
+
+  const {isLoading, loginFnc} = useLogin()
 
 const initialValues = {
   email : '',
@@ -36,21 +39,26 @@ const validationSchema = Yup.object({
 
 
   const handleSubmit = async (values, {setSubmitting}) => {
-    try {
-      const response = await axios.post(backendUrl + '/api/user/admin',values)
-      console.log(response, 'asdf')
-      if (response.data.success) {
-        login(response.data.token);
-        navigate('/');
-      } else {
-        toast.error(response.data.message)
-      }
-    } catch (error) {
-      console.log(error)
-      toast.error(error.message)
-    }finally {
-      setSubmitting(false);
-    }
+    // try {
+    //   const response = await axios.post(backendUrl + '/api/user/admin',values)
+    //   console.log(response, 'asdf')
+    //   if (response.data.success) {
+    //     login(response.data.token);
+    //     navigate('/');
+    //   } else {
+    //     toast.error(response.data.message)
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    //   toast.error(error.message)
+    // }finally {
+    //   setSubmitting(false);
+    // }
+
+    // const user = await logIn(values)
+
+    console.log(values)
+    loginFnc(values)
   }
 
   return (
@@ -73,7 +81,7 @@ const validationSchema = Yup.object({
               <div>
                 <label className="block text-sm font-medium text-gray-700" htmlFor="email">Admin Email</label>
                 <Field
-                  type="email"
+                  type="text"
                   name="email"
                   id="email"
                   disabled={isSubmitting}
@@ -98,7 +106,8 @@ const validationSchema = Yup.object({
 
               <Button
                 type="submit"
-                variant='primaryBig'
+                variant='primary'
+                size='large'
                 className="w-full"
                 disabled={isSubmitting}
               >

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { FaBell } from "react-icons/fa";
 import NotificationsPopup from "./NotificationsPopup";
 import adminPhoto from "../assets/admin-photo.jpeg";
@@ -7,21 +7,24 @@ import { useNavigate } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
 import { IoLogOutOutline } from "react-icons/io5";
 import useNotifications from "../hooks/useNotifications";
+import { useDispatch, useSelector } from "react-redux";
 
 function Header() {
   const [isNotificationPopup, setNotificationPopup] = useState(false);
   const [isProfilePopup, setProfilePopup] = useState(false);
   
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const { pageTitle, logout } = useContext(ShopContext);
 
+  const {notifications} = useSelector((state)=> state.notifications)
+
+  console.log(notifications, 'HEADER NOTIFICATION')
+
   const {
-    notifications,
     isIncoming,
     setIsincoming,
-    handleClearAll,
-    handleRemove,
-  } = useNotifications();
+  } = useNotifications(dispatch);
 
   const handleNotification = (e) => {
     e.stopPropagation();
@@ -50,7 +53,7 @@ function Header() {
 
       <div className="flex items-center space-x-4">
         <div className="relative flex items-center space-x-2" onClick={handleProfile}>
-          <div className="size-10 overflow-hidden rounded-full border-2 border-primary-1">
+          <div className="size-12 overflow-hidden rounded-full border-2 border-primary-1">
             <img
               src={adminPhoto}
               className="w-full h-full object-cover"
@@ -90,8 +93,6 @@ function Header() {
 
       {isNotificationPopup && (
         <NotificationsPopup
-          handleClearAll={handleClearAll}
-          handleRemove={handleRemove}
           notifications={notifications}
           setNotificationPopup={setNotificationPopup}
         />

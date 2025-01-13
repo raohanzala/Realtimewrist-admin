@@ -33,6 +33,7 @@ const ShopContextProvider = ({ children }) => {
 
   const login = (userToken) => {
     setToken(userToken);
+    console.log(userToken, 'TOKEN SHOP')
     localStorage.setItem('token', userToken);
   };
 
