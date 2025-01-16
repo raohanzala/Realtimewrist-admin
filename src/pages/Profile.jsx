@@ -35,12 +35,10 @@ const Profile = () => {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string(),
-    address: Yup.string(),
-    whatsapp: Yup.number(),
-    contact: Yup.number(),
-    email: Yup.string().email(),
-    website: Yup.string(),
+    firstName: Yup.string().required('First Name is required'),
+    lastName: Yup.string(),
+    contact: Yup.number().required('Contact is required'),
+    email: Yup.string().email().required('Email is required'),
   });
 
   const onSubmitHandler = (e, values) => {
@@ -61,25 +59,22 @@ const Profile = () => {
           onSubmit={onSubmitHandler}
         >
 
-          <Form onSubmit={onSubmitHandler} className="space-y-4">
-            <div className="flex items-center mt-4">
+          <Form onSubmit={onSubmitHandler} className="space-y-8 p-5">
+            <div className="flex items-center">
               <div className="relative size-24">
                 {image ? (
                   <img
                     src={image}
                     alt="Uploaded"
-                    className="w-full h-full rounded-full object-cover border shadow-md"
+                    className={`w-full h-full rounded-full object-cover border ${image ? 'border-primary-1' : ''}`}
                   />
                 ) : (
-                  <div className="w-full h-full rounded-full text-xs border border-gray-300 flex items-center justify-center">
+                  <div className="w-full h-full rounded-full text-xs border  flex items-center justify-center">
                     <span className="text-gray-400 text">No Image</span>
                   </div>
                 )}
               </div>
               <div className="ml-4 flex flex-col">
-                {/* <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
-                  Upload Image
-                </label> */}
                 <input
                   type="file"
                   id="image"
@@ -88,35 +83,33 @@ const Profile = () => {
                   className="hidden"
                 />
                 <div className='flex gap-3'>
-
                   <div
                     onClick={() => document.getElementById('image').click()}
-                    className="  border cursor-pointer py-2 px-4 text-xs rounded text-gray-400 transition duration-200"
+                    className="  border cursor-pointer py-2 px-4 text-xs rounded text-gray-600 transition duration-200"
                   >
-                    Select Profile Image
+                    Upload Photo
                   </div>
-                  <div
-                    onClick={() => document.getElementById('image').click()}
+                  {image && <div
                     className=" border cursor-pointer py-2 px-4 text-xs rounded text-[red] transition duration-200"
                   >
                     Remove Photo
-                  </div>
+                  </div>}
                 </div>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <FormRowVerticle name="first-name" label="First name">
+            <FormRowVerticle name="firstName" label="First name">
                   <Input
-                    name="first-name"
+                    name="firstName"
                     type="text"
                     placeholder="First name"
                     // disabled={actionLoading}
                   />
                 </FormRowVerticle>
 
-                <FormRowVerticle name="last-name" label="Last name">
+                <FormRowVerticle name="lastName" label="Last name">
                   <Input
-                    name="last-name"
+                    name="lastName"
                     type="text"
                     placeholder="Last name"
                   />

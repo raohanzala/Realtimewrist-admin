@@ -1,14 +1,9 @@
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import SearchSortBar from "./SearchSortBar";
 import { IoMdMore } from "react-icons/io";
 import ConfirmationModal from "./ConfirmationModal";
-import AddProductModal from "./AddProductModal";
+import AddProductForm from "./AddProductForm";
 import { FaPlus } from "react-icons/fa6";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import Modal from "./Modal";
@@ -31,15 +26,14 @@ const ProductTable = () => {
   const [productToDelete, setProductToDelete] = useState(null);
   const [productToEdit, setProductToEdit] = useState(null);
 
-  const {
-    setPageTitle,
-  } = useContext(ShopContext);
+  const { setPageTitle } = useContext(ShopContext);
 
-  const { deleteProduct, isDeleting } = useDeleteProduct()
-  const { isLoading: isUpdating, updateStock } = useUpdateProductStock()
-  const { products, isLoading, error, totalProducts, totalPages } = useProducts()
+  const { deleteProduct, isLoading : isDeleting, deletedData } = useDeleteProduct();
+  const { isLoading: isUpdating, updateStock } = useUpdateProductStock();
+  const { products, isLoading, error, totalProducts, totalPages } =
+    useProducts();
 
-  console.log(isDeleting, deleteProduct, 'DELETE TABLE')
+  console.log(isDeleting, deleteProduct, deletedData, "DELETE TABLE");
 
   const handleDropdownToggle = useCallback((productId) => {
     setActiveDropdown((prev) => (prev === productId ? null : productId));
@@ -58,7 +52,8 @@ const ProductTable = () => {
   const handleConfirmDelete = async () => {
     if (productToDelete) {
       // await removeProduct(productToDelete);
-      await deleteProduct(productToDelete)
+      console.log(productToDelete, 'TO DELTE')
+      await deleteProduct(productToDelete);
       setProductToDelete(null);
       setIsConfirmModal(false);
     }
@@ -73,7 +68,12 @@ const ProductTable = () => {
     setPageTitle("All Products");
   }, []);
 
-  console.log(products, 'useQuery Product')
+  const handleUpdateStock = (event, productId) => {
+    const status = event.target.value;
+    updateStock({ status, productId });
+  };
+
+  console.log(products, "useQuery Product");
 
   return (
     <div>
@@ -86,10 +86,13 @@ const ProductTable = () => {
         />
 
         <Button
-          onClick={(e) => { setIsProductModal(true); e.stopPropagation() }}
+          onClick={(e) => {
+            setIsProductModal(true);
+            e.stopPropagation();
+          }}
           startIcon={<FaPlus />}
           variant="secondary"
-          className='rounded'
+          className="rounded"
           size="medium"
         >
           Add Product
@@ -113,22 +116,23 @@ const ProductTable = () => {
               products.map((product, index) => (
                 <div
                   key={product?._id || index}
-                  className={`py-2 px-8 grid grid-cols-[0.6fr_1fr_1fr_1fr_1fr_1fr_0.5fr] gap-8 items-center text-sm ${index === products.length - 1 ? "" : "border-b"
-                    }`}
+                  className={`py-2 px-8 grid grid-cols-[0.6fr_1fr_1fr_1fr_1fr_1fr_0.5fr] gap-8 items-center text-sm ${
+                    index === products.length - 1 ? "" : "border-b"
+                  }`}
                 >
                   <Link to={`/product/${product._id}`}>
-                  <img
-                    src={product.images[0]}
-                    className="w-20 -translate-x-6 scale-110 object-cover object-center"
-                    style={{ aspectRatio: "1 / 1" }}
-                    alt={product?.name || "Product image"}
+                    <img
+                      src={product.images[0]}
+                      className="w-20 -translate-x-6 scale-110 object-cover object-center"
+                      style={{ aspectRatio: "1 / 1" }}
+                      alt={product?.name || "Product image"}
                     />
-                    </Link>
-                    <Link to={`/product/${product._id}`}>
-                  <p className="uppercase font-medium truncate">
-                    {product?.name || "N/A"}
-                  </p>
-                    </Link>
+                  </Link>
+                  <Link to={`/product/${product._id}`}>
+                    <p className="uppercase font-medium truncate">
+                      {product?.name || "N/A"}
+                    </p>
+                  </Link>
                   <p>
                     {CURRENCY}
                     {formatAmount(product?.newPrice || 8999) || "N/A"}
@@ -140,7 +144,7 @@ const ProductTable = () => {
                     </p>
                     <select
                       onChange={(event) =>
-                        updateStock(event, product._id)
+                        handleUpdateStock(event, product._id)
                       }
                       value={product.availability}
                       className="py-1 px-2 mt-2 border rounded bg-gray-100 hover:bg-gray-200 focus:outline-none w-full"
@@ -174,14 +178,12 @@ const ProductTable = () => {
                   </div>
                 </div>
               ))
-            ) : <Empty resourceName="products" />
-            }
+            ) : (
+              <Empty resourceName="products" />
+            )}
           </div>
           <div>
-            <Pagination
-              pageCount={totalPages}
-              totalData={totalProducts}
-            />
+            <Pagination pageCount={totalPages} totalData={totalProducts} />
           </div>
         </div>
       </div>
@@ -203,10 +205,10 @@ const ProductTable = () => {
 
       <Modal
         isOpen={isProductModal}
-        title={productToEdit ? 'Edit Product' : "Add Product"}
+        title={productToEdit ? "Edit Product" : "Add Product"}
         onClose={() => setIsProductModal(false)}
       >
-        <AddProductModal
+        <AddProductForm
           onClose={() => setIsProductModal(false)}
           productToEdit={productToEdit}
         />

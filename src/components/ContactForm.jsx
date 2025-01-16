@@ -22,16 +22,16 @@ const ContactForm = () => {
     };
   
     const validationSchema = Yup.object({
-      name: Yup.string(),
-      address: Yup.string(),
-      whatsapp: Yup.string()
+      address: Yup.string().required('Address is required'),
+      whatsapp: Yup.string().required('WhatsApp number is required')
         .matches(/^\d+$/, "WhatsApp number must be numeric")
         .trim(),
-      contact: Yup.string()
-        .matches(/^\d+$/, "Phone number must be numeric")
+      contact : Yup.string().required('Contact number is required')
+        .matches(/^\d+$/, "Contact number must be numeric")
         .trim(),
-      email: Yup.string().email("Invalid email address"),
-      website: Yup.string(),
+        email: Yup.string()
+              .email('Invalid email address').required('Email is required'),
+        website : Yup.string().required('Webiste link is required'),
     });
   
     const onSubmitHandler = (values) => {
@@ -46,7 +46,7 @@ const ContactForm = () => {
               onSubmit={onSubmitHandler}
             >
               {({ isSubmitting }) => (
-                <Form className="mx-auto max-w-screen-md">
+                <Form className="mx-auto max-w-screen-md my-8">
                   <FormRow label="address" name="address">
                     <Input
                       size="large"
@@ -78,7 +78,7 @@ const ContactForm = () => {
                     <Input
                       size="large"
                       name="email"
-                      type="email"
+                      type="text"
                       placeholder="Email"
                       disabled={isSubmitting}
                     />
@@ -98,7 +98,7 @@ const ContactForm = () => {
                     variant="secondary"
                     disabled={isSubmitting}
                   >
-                    {!isSubmitting ? "Save settings" : <SpinnerMini />}
+                    {!isSubmitting ? "Update settings" : <SpinnerMini />}
                   </Button>
                 </Form>
               )}

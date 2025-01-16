@@ -21,7 +21,7 @@ const Button = ({ children, startIcon, variant = 'primary', size = 'large', ...r
       {...rest}
       className={`${baseStyles} ${variantStyles[variant]} ${sizes[size]} ${rest.className}`}
     >
-      {startIcon && <span className="mr-1">{startIcon}</span>}
+      {startIcon && <span className='text-lg'>{startIcon}</span>}
       <div className="flex items-center justify-center w-full">
         {children}
       </div>

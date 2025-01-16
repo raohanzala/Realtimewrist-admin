@@ -13,5 +13,8 @@ export function useOrders() {
     queryFn: ()=> getOrdersApi(page),
   });
 
-  return { isLoading, data, error, };
+  const { orders, currentPage, totalPages, totalOrders, totalRevenue } = data || {};
+
+  return { isLoading, orders, currentPage, totalPages, totalOrders, error, totalRevenue };
 }
+

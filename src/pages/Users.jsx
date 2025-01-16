@@ -15,12 +15,12 @@ const Users = () => {
   console.log(users, isLoading, 'QUERY USERS')
 
   useEffect(()=> {
-    setPageTitle('Notifications')
+    setPageTitle('Users')
   }, [setPageTitle])
 
   return (
     <div>
-      <SearchSortBar placeholder="Search product" sortOptions={['recent', 'date']} filterOptions={['recent', 'date']} />
+      <SearchSortBar placeholder="Search user" sortOptions={['recent', 'date']} filterOptions={['recent', 'date']} />
 
       <div className='grid gap-5 grid-cols-4 py-8'>
         {isLoading ? <SkeletonRow /> : users?.length > 0 ? users?.map((user) => (

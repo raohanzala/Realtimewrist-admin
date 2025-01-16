@@ -6,8 +6,7 @@ import { Link } from "react-router-dom";
 function SideBar() {
   return (
     <div
-      className="flex flex-col w-[90px] scrollbar-hide md:w-[285px] h-screen overflow-y-scroll transition-all duration-200 bg-[#232323] border-r"
-      style={{ boxShadow: "4px 0 8px rgba(0, 0, 0, 0.2)" }}
+      className="flex flex-col w-[90px] scrollbar-hide md:w-[285px] h-screen overflow-y-scroll transition-all duration-200 bg-[#232323] "
     >
       <div className="md:flex text-xl font-semibold text-white uppercase justify-center w-full p-4 py-5 hidden">
         <Logo />

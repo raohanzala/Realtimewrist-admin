@@ -48,7 +48,7 @@ const AboutForm = () => {
       onSubmit={onSubmitHandler}
     >
       {({ isSubmitting }) => (
-        <Form className="mx-auto max-w-screen-md">
+        <Form className="mx-auto max-w-screen-md my-8">
           <FormRow label="About para 1" name="about-1">
             <Input
               size="large"

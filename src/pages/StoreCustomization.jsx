@@ -29,18 +29,16 @@ const StoreCustomization = () => {
   return (
     <div>
       <Box className="shadow-sm">
-        <ul className="hidden md:flex gap-5 text-sm z-[999]">
+        <ul className="hidden md:flex gap-8 z-[999] px-5">
           {Object.entries(TABS).map(([key, value]) => (
             <li
               key={key}
-              className={`flex flex-col items-center gap-1 cursor-pointer ${
-                activeTab === value ? 'text-primary-1 font-bold' : ''
-              }`}
+              className={`cursor-pointer `}
               onClick={() => setActiveTab(value)}
             >
-              <p>{value.charAt(0).toUpperCase() + value.slice(1)}</p>
-              <hr className={`w-full border-none h-[1.5px] ${
-                activeTab === value ? 'bg-primary-1' : 'bg-gray-200'
+              <p className={`${activeTab === value ? 'text-dark-2' : 'text-gray-400'}`}>{value.charAt(0).toUpperCase() + value.slice(1)}</p>
+              <hr className={`w-full border-none h-[1.5px] bg-primary-1 ${
+                activeTab === value ? 'opacity-1' : 'opacity-0'
               }`} />
             </li>
           ))}

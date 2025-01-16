@@ -6,14 +6,14 @@ const axiosInstance = axios.create({
   baseURL: `${backendUrl}/api`,  
 });
 
-axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;  
+axiosInstance.defaults.headers.common['token'] = `${localStorage.getItem('token')}`;  
 
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     console.log(token, 'ADMIN TOKEN')
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers['token'] = `${token}`;
     }
     return config;
   },

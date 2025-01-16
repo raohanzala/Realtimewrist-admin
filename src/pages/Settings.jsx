@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Box from "../components/Box";
 import Input from "../components/Input";
 import { Form, Formik } from "formik";
@@ -6,6 +6,8 @@ import FormRow from "../components/FormRow";
 import * as Yup from "yup";
 import Button from "../components/Button";
 import SpinnerMini from "../components/SpinnerMini";
+import { ShopContext } from "../contexts/ShopContext";
+import ComingSoon from "../components/ComingSoon";
 
 const Settings = () => {
   const initialValues = {
@@ -37,6 +39,12 @@ const Settings = () => {
   const onSubmitHandler = (values) => {
     console.log(values);
   };
+    const {setPageTitle } = useContext(ShopContext)
+  
+
+  useEffect(()=> {
+      setPageTitle('Settings')
+    }, [setPageTitle])
 
   return (
     <Box>
@@ -114,9 +122,6 @@ const Settings = () => {
           </Form>
         )}
       </Formik>
-
-      <div>
-      </div>
     </Box>
   );
 };

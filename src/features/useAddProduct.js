@@ -5,11 +5,11 @@ import toast from "react-hot-toast";
 export function useAddProduct() {
     const queryClient = useQueryClient()
 
-    const {isLoading, mutate : addProduct } = useMutation({
+    const {isPending , mutate : addProduct } = useMutation({
       mutationFn : addProductApi,
       
-      onSuccess : ()=> {
-        toast.success('Product successfully created')
+      onSuccess : (data)=> {
+        toast.success(data.message || 'Product successfully created')
 
         queryClient.invalidateQueries({
           queryKey: ["products"],
@@ -18,5 +18,5 @@ export function useAddProduct() {
       onError: (err)=> toast.error(err.message) 
     })
 
-    return {isLoading, addProduct}
+    return {isPending, addProduct}
 }

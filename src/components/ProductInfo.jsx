@@ -1,8 +1,9 @@
 import { BsWhatsapp } from "react-icons/bs";
 import { formatAmount } from "../helpers";
 import { CURRENCY } from "../utils/constants";
+import Button from "./Button";
 
-const ProductInfo = ({ productData }) => {
+const ProductInfo = ({ productData, setIsProductModal }) => {
   return (
     <div>
       <h1 className="font-medium text-2xl uppercase">{productData?.name}</h1>
@@ -33,6 +34,14 @@ const ProductInfo = ({ productData }) => {
           )}
       </div>
       <p className="mt-5 text-gray-500 md:w-4/5">{productData?.description}</p>
+      <Button
+          onClick={()=> setIsProductModal(true)}
+          variant='secondary'
+          size="large"
+        >
+         EDIT PRODUCT
+          {/* {!isSubmitting ? (productToEdit ? "Update Product" : "Add Product") : <SpinnerMini />} */}
+        </Button>
       <hr className="mt-8" />
       <div className="py-6 flex gap-2 items-center">
         <BsWhatsapp size={25} />

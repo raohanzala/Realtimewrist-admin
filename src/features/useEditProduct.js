@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 export function useEditProduct() {
     const queryClient = useQueryClient()
 
-    const {isLoading, mutate : editProduct } = useMutation({
+    const {isPending, mutate : editProduct } = useMutation({
       mutationFn : editProductApi,
       
       onSuccess : ()=> {
@@ -18,5 +18,5 @@ export function useEditProduct() {
       onError: (err)=> toast.error(err.message) 
     })
 
-    return {isLoading, editProduct}
+    return {isPending, editProduct}
 }

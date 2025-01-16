@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Box = ({children,className}) => {
+const Box = ({children,className, ...props}) => {
   return (
-    <div className={`bg-white rounded-md border border-[#f3f4f6] p-4 ${className}`} >
+    <div {...props} className={`bg-white rounded-md border p-4 ${className}`} >
       { children}
     </div>
   )

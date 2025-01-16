@@ -4,12 +4,23 @@ import { formatAmount } from '../helpers';
 import { useOrders } from '../features/useOrders';
 import { useProducts } from '../features/useProducts';
 import { useUsers } from '../features/useUsers';
+import { useOrdersDetails } from '../features/useOrdersDetails';
 
 const DashboardStats = () => {
 
     const {isLoading : isOrdersLoading , totalOrders} = useOrders()
     const {isLoading : isProductLoading , totalProducts} = useProducts()
     const {isLoading : isUsersLoading, totalUsers} = useUsers()
+    const {totalRevenue,
+      totalRevenueAmount,
+      completedOrders,
+      averageOrderValue,
+      pendingOrders,
+      canceledOrders,
+      topProducts,
+      dailyOrders,
+      repeatCustomers,
+      averageCompletionTime} = useOrdersDetails()
   
   const statsData = [
     { bgColor: 'bg-blue-100', icon: <IoBagCheckOutline className="text-blue-600 text-3xl" />, title: 'Total Orders', isLoadingKey: isUsersLoading, valueKey: 'orders', valueColor: 'text-blue-600', value: totalOrders },

@@ -23,19 +23,15 @@ const SocialForm = () => {
       };
     
       const validationSchema = Yup.object({
-        name: Yup.string(),
-        address: Yup.string(),
-        whatsapp: Yup.string()
-          .matches(/^\d+$/, "WhatsApp number must be numeric")
-          .trim(),
-        contact: Yup.string()
-          .matches(/^\d+$/, "Phone number must be numeric")
-          .trim(),
-        email: Yup.string().email("Invalid email address"),
-        website: Yup.string(),
+        facebook: Yup.string().required('Facebook link is required'),
+        instagram: Yup.string().required('Intsagram link is required'),
+        whatsapp: Yup.string().required('WhatsApp link is required'),
+          linkedin: Yup.string().required('Linkedin link is required'),
+          youtube : Yup.string().required('Youtube link is required'),
       });
     
       const onSubmitHandler = (values) => {
+        
         console.log(values);
       };
 
@@ -48,7 +44,7 @@ const SocialForm = () => {
               onSubmit={onSubmitHandler}
             >
               {({ isSubmitting }) => (
-                <Form className="mx-auto max-w-screen-md">
+                <Form className="mx-auto max-w-screen-md my-8">
                   <FormRow label="Facebook" name="facebook">
                     <Input
                       size="large"

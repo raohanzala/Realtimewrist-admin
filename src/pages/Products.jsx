@@ -3,7 +3,7 @@ import SearchSortBar from '../components/SearchSortBar';
 import Button from '../components/Button';
 import { FaPlus } from 'react-icons/fa6';
 import ProductsTable from '../components/ProductsTable';
-import AddProductForm from '../components/AddProductForm';
+import AddProductForm from '../components/CreateProductForm';
 
 const Products = () => {
 

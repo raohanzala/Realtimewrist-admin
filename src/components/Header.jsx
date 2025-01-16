@@ -8,6 +8,7 @@ import { MdArrowBack } from "react-icons/md";
 import { IoLogOutOutline } from "react-icons/io5";
 import useNotifications from "../hooks/useNotifications";
 import { useDispatch, useSelector } from "react-redux";
+import ProfilePopup from "./ProfilePopup";
 
 function Header() {
   const [isNotificationPopup, setNotificationPopup] = useState(false);
@@ -42,7 +43,7 @@ function Header() {
   };
 
   return (
-    <div className="flex w-full items-center justify-between px-5 py-3 bg-white border-b border-gray-200 shadow-md">
+    <div className="flex w-full items-center justify-between px-5 py-3 bg-white border-b border-gray-200">
       <div className="flex items-center gap-2 text-[#919191]">
         <div className="cursor-pointer" onClick={() => navigate(-1)}>
           <MdArrowBack />
@@ -98,9 +99,7 @@ function Header() {
         />
       )}
       {isProfilePopup && (
-       <div className="absolute right-52 top-[74px] w-32 p-3 overflow-y-scroll  scrollbar-hide bg-white shadow-lg rounded-lg  z-50 border-gray-200"
-       style={{ boxShadow: "rgba(100,100,111, 0.2) 0px 7px 29px 0px" }}
-       >Edit Profile</div>
+       <ProfilePopup setProfilePopup={setProfilePopup}/>
       )}
     </div>
   );

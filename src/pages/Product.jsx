@@ -6,10 +6,13 @@ import ProductInfo from '../components/ProductInfo';
 import SpinnerMini from '../components/SpinnerMini';
 import { useProduct } from '../features/useProduct';
 import Box from '../components/Box';
+import Modal from '../components/Modal';
+import AddProductForm from '../components/AddProductForm';
 
 
 const Product = () => {
   const [image, setImage] = useState('');
+  const [isProductModal, setIsProductModal] = useState(false)
 
   const {isLoading, product} = useProduct()
 
@@ -42,7 +45,7 @@ const Product = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-12 gap-8 ">
         <ProductImageGallery setImage={setImage} image={image} product={product}/>
 
-        <ProductInfo productData={product} />
+        <ProductInfo productData={product} setIsProductModal={setIsProductModal} />
       </div>
 
       <div className="mt-20">
@@ -54,6 +57,17 @@ const Product = () => {
           <p>{product.description}</p>
         </div>
       </div>
+
+      <Modal
+        isOpen={isProductModal}
+        title={"Edit Product"}
+        onClose={() => setIsProductModal(false)}
+      >
+        <AddProductForm
+          onClose={() => setIsProductModal(false)}
+          productToEdit={product}
+        />
+      </Modal>
     </Box>
   );
 };

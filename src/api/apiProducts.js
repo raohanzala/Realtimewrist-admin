@@ -1,15 +1,11 @@
-import axios from "axios";
-import toast from "react-hot-toast";
-import { backendUrl } from "../App";
 import axiosInstance from "./axiosInstance";
 
 
 export const getProductsApi = async (page = 1, pageSize = 10) => {
   try {
-    const response = await axiosInstance.get(
+    const {data} = await axiosInstance.get(
       `/product/products?page=${page}&pageSize=${pageSize}`
     );
-    const data = response.data
     return data;
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -19,10 +15,9 @@ export const getProductsApi = async (page = 1, pageSize = 10) => {
 
 export const getProductApi = async (productId) => {
   try {
-    const response = await axiosInstance.get(
+    const {data} = await axiosInstance.get(
       `/product/single/${productId}`
     );
-    const data = response.data
     return data;
   } catch (error) {
     console.error(error);
@@ -30,10 +25,10 @@ export const getProductApi = async (productId) => {
   }
 };
 
-export const addProductApi = async ({productData})=> {
+export const addProductApi = async (productData)=> {
   try {
-    const response = await axiosInstance.post("/product/add", productData);
-    return response.data
+    const {data} = await axiosInstance.post("/product/add", productData);
+    return data
   }  catch (error) {
     console.error(error.message);
     throw new Error("Product could not be created")
@@ -42,8 +37,7 @@ export const addProductApi = async ({productData})=> {
 
 export const deleteProductApi = async (productId) => {
   try {
-    const response = await axiosInstance.post(`/product/remove`, { productId });
-    const data = response.data
+    const {data} = await axiosInstance.post(`/product/remove`,  {id : productId});
     return data
   } catch (error) {
     console.log(error, 'Failed to delete product.');
@@ -51,10 +45,10 @@ export const deleteProductApi = async (productId) => {
   } 
 };
 
-export const editProductApi = async ({productId, editData})=> {
-
+export const editProductApi = async (datas)=> {
+console.log(datas, 'EDITED DATA')
   try{
-    const response = await axiosInstance.put("/product/edit", {productId,editData});
+    const response = await axiosInstance.post("/product/edit", datas);
     const data = response.data
     return data
   } catch (error) {
@@ -63,10 +57,10 @@ export const editProductApi = async ({productId, editData})=> {
   }
 }
 
-export const updateProductStatus = async (event, productId) => {
+export const updateProductStatus = async ({ status, productId }) => {
   try {
     const response = await axiosInstance.post(`/product/productstatus`,
-      { productId, status: event.target.value },
+      { productId, status},
     );
     const data = response.data
     return data
