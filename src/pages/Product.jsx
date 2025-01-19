@@ -31,9 +31,9 @@ const Product = () => {
     }
   }, [product]);
 
-  if (!product) {
-    return <div className='w-full h-screen flex justify-center items-center'> <SpinnerMini variant='secondary' /></div>;
-  }
+  // if (!product) {
+  //   return <div className='w-full h-screen flex justify-center items-center'> <SpinnerMini variant='secondary' /></div>;
+  // }
 
   if(isLoading){
     return <SpinnerMini variant='secondary'/>

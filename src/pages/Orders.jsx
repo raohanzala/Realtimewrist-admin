@@ -61,7 +61,7 @@ const Orders = () => {
 
       <div>
         <table className="min-w-full bg-white  border border-b-0 border-collapse table-auto">
-          <div className="bg-[#f2f2f2af] grid grid-cols-[0.3fr_1fr_1fr_1fr_1fr_1fr_1fr_0.5fr] text-[#5c5c5c] font-semibold py-4 px-8 text-sm uppercase">
+          <div className="bg-[#f2f2f2af] grid grid-cols-[0.3fr_1fr_1fr_1.5fr_0.6fr_1fr_1fr_0.5fr] text-[#5c5c5c] font-semibold py-4 px-8 text-sm uppercase">
             <div>S.No</div>
             <div>Product</div>
             <div>Customer</div>
@@ -79,7 +79,7 @@ const Orders = () => {
                 <div
                   key={order._id}
                   onClick={() => handleOrderClick(order)}
-                  className={` hover:bg-gray-50 cursor-pointer items-center grid grid-cols-[0.3fr_1fr_1fr_1fr_1fr_1fr_1fr_0.5fr]  py-4 px-8  text-sm ${
+                  className={` hover:bg-gray-50 cursor-pointer items-center grid grid-cols-[0.3fr_1fr_1fr_1.5fr_0.6fr_1fr_1fr_0.5fr]  py-4 px-8  text-sm ${
                     index === orders.length - 1 ? "" : "border-b"
                   }`}
                 >
@@ -91,25 +91,17 @@ const Orders = () => {
                     {CURRENCY}
                     {formatAmount(order?.amount) || "0"}
                   </div>
-                  {/* <div
-                      className={`text-sm font-semibold `}
-                    >
-                      <StatusLabel status={order?.status} />
-                    </div> */}
                   <div>
-                    {/* <p className="text-gray-500 font-medium flex gap-1 items-center">Status
-                      <StatusLabel status={selectedOrder?.status} />
-                    </p> */}
                     <select
                       onChange={(event) =>
                         handleUpdateStatus(event.target.value, order._id)
                       }
-                      value={selectedOrder?.status}
+                      value={order.status}
                       className="border py-1 px-1 rounded bg-gray-100 hover:bg-gray-200 focus:outline-none"
                     >
                       <option value="Order Placed">Order Placed</option>
                       <option value="Processing">Processing</option>
-                      <option value="Processing">Order Confirmed</option>
+                      <option value="Order Confirmed">Order Confirmed</option>
                       <option value="Packing">Pending</option>
                       <option value="Shipped">Shipped</option>
                       <option value="Out for Delivery">Out for Delivery</option>
@@ -138,13 +130,13 @@ const Orders = () => {
         </div>
       </div>
 
-      {isDrawerOpen && (
+      {/* {isDrawerOpen && (
         <OrderDrawer
           selectedOrder={selectedOrder}
           closeDrawer={closeDrawer}
           isAnimating={isAnimating}
         />
-      )}
+      )} */}
     </div>
   );
 };

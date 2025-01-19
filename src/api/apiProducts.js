@@ -45,10 +45,10 @@ export const deleteProductApi = async (productId) => {
   } 
 };
 
-export const editProductApi = async (datas)=> {
-console.log(datas, 'EDITED DATA')
+export const editProductApi = async (datas, id)=> {
+console.log(datas, id, 'EDITED DATA')
   try{
-    const response = await axiosInstance.post("/product/edit", datas);
+    const response = await axiosInstance.put(`/product/edit/${id}`, datas);
     const data = response.data
     return data
   } catch (error) {

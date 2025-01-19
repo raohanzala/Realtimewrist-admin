@@ -21,7 +21,7 @@ function Login() {
   // const { login } = useContext(ShopContext);
   const navigate = useNavigate();
 
-  const {isLoading, loginFnc} = useLogin()
+  const {isPaused, loginFnc} = useLogin()
 
 const initialValues = {
   email : '',
@@ -60,6 +60,8 @@ const validationSchema = Yup.object({
     console.log(values)
     loginFnc(values)
   }
+
+  console.log(isPaused, 'Loading')
 
   return (
     <div className="flex items-center justify-center min-h-screen px-5 fixed backdrop-blur-md inset-0 bg-gray-100">
@@ -111,7 +113,7 @@ const validationSchema = Yup.object({
                 className="w-full"
                 disabled={isSubmitting}
               >
-                {!isSubmitting ? 'Login' : <SpinnerMini/>}
+                {(!isSubmitting || !isPaused) ? 'Login' : <SpinnerMini/>}
               </Button>
             </Form>
           )}

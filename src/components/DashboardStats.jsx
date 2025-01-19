@@ -11,6 +11,8 @@ const DashboardStats = () => {
     const {isLoading : isOrdersLoading , totalOrders} = useOrders()
     const {isLoading : isProductLoading , totalProducts} = useProducts()
     const {isLoading : isUsersLoading, totalUsers} = useUsers()
+
+    console.log(totalOrders)
     const {totalRevenue,
       totalRevenueAmount,
       completedOrders,

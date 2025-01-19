@@ -2,6 +2,7 @@ import { BsWhatsapp } from "react-icons/bs";
 import { formatAmount } from "../helpers";
 import { CURRENCY } from "../utils/constants";
 import Button from "./Button";
+import { FaRegEdit } from "react-icons/fa";
 
 const ProductInfo = ({ productData, setIsProductModal }) => {
   return (
@@ -33,11 +34,12 @@ const ProductInfo = ({ productData, setIsProductModal }) => {
             </p>
           )}
       </div>
-      <p className="mt-5 text-gray-500 md:w-4/5">{productData?.description}</p>
+      <p className="mt-5 text-gray-500 md:w-4/5 mb-5">{productData?.description}</p>
       <Button
           onClick={()=> setIsProductModal(true)}
           variant='secondary'
           size="large"
+          startIcon={<FaRegEdit />}
         >
          EDIT PRODUCT
           {/* {!isSubmitting ? (productToEdit ? "Update Product" : "Add Product") : <SpinnerMini />} */}

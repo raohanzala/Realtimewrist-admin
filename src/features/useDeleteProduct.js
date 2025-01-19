@@ -1,12 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteProductApi } from "../api/apiProducts";
 import toast from "react-hot-toast";
+import axiosInstance from "../api/axiosInstance";
 
 export function useDeleteProduct() {
     const queryClient = useQueryClient()
 
     const {isLoading : isDeleting, mutate : deleteProduct } = useMutation({
-      mutationFn : deleteProductApi,
+      mutationFn : async (productId)=> {
+        const {data} = await axiosInstance.post(`/product/remove`,  {id : productId});
+            return data
+      },
       
       onSuccess : ()=> {
         toast.success('Product successfully deleted')

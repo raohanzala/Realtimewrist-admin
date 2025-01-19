@@ -26,21 +26,21 @@ const RecentOrder = () => {
                     <StatusLabel status={order.status} />
                   </div>
                   <div className="flex gap-3">
-                    <div className="text-sm">{order.items[0]?.name}</div>
+                    <div className="text-sm">{order?.items[0]?.name}</div>
                     <div className="flex items-center gap-2 text-xs text-gray-600">
-                      <div>{CURRENCY} {formatAmount(order.amount)}</div>
+                      <div>{CURRENCY} {formatAmount(order?.amount || 777)}</div>
                       <BsDot className="text-gray-500 text-lg" />
-                      <div>{order.quantity} items</div>
+                      <div>{order?.quantity} items</div>
                       <BsDot className="text-gray-500 text-lg" />
                       <div>4 March, 2024</div>
                       <BsDot className="text-gray-500 text-lg" />
-                      <div>{order.address.name}</div>
+                      <div>{order?.address?.name}</div>
                       <BsDot className="text-gray-500 text-lg" />
                       <div>Lines Area, Karachi</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 text-xs text-gray-600">
-                    <p>{order.address.city}</p> <p>{order.address.phone}</p>
+                    <p>{order?.address?.city}</p> <p>{order?.address?.phone}</p>
                   </div>
                 </div>
                 <div>

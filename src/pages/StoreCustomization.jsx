@@ -3,8 +3,10 @@ import Box from "../components/Box";
 import ContactForm from "../components/ContactForm";
 import AboutForm from "../components/AboutForm";
 import SocialForm from "../components/SocialForm";
+import HomeForm from "../components/HomeForm";
 
 const TABS = {
+  HOME: 'home',
   ABOUT: 'about',
   CONTACT: 'contact',
   SOCIAL: 'social'
@@ -15,6 +17,8 @@ const StoreCustomization = () => {
 
   const renderContent = () => {
     switch (activeTab) {
+      case TABS.HOME:
+        return <HomeForm />;
       case TABS.ABOUT:
         return <AboutForm />;
       case TABS.CONTACT:

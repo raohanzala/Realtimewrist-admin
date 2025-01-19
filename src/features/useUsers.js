@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUsersApi } from "../api/apiUsers";
+import axiosInstance from "../api/axiosInstance";
 
 export function useUsers() {
   const { isLoading, error, data } = useQuery({
     queryKey: ["users"],
-    queryFn: getUsersApi,
+    queryFn: async ()=> {
+      const {data} = await axiosInstance.get(`/user/users`);
+          return data
+    },
   });
 
   const {totalUsers, users} = data || {}

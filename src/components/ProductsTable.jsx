@@ -138,10 +138,6 @@ const ProductTable = () => {
                     {formatAmount(product?.newPrice || 8999) || "N/A"}
                   </p>
                   <div>
-                    <p className="text-gray-500 font-medium flex gap-1 items-center">
-                      Status
-                      <StatusLabel status={product.availability} />
-                    </p>
                     <select
                       onChange={(event) =>
                         handleUpdateStock(event, product._id)

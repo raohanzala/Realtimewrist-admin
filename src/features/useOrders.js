@@ -14,6 +14,7 @@ export function useOrders() {
   });
 
   const { orders, currentPage, totalPages, totalOrders, totalRevenue } = data || {};
+  console.log(data, 'RODER')
 
   return { isLoading, orders, currentPage, totalPages, totalOrders, error, totalRevenue };
 }

@@ -91,8 +91,8 @@ const AddProductForm = ({ onClose, productToEdit = {} }) => {
       if (productToEdit) {
         const formDataEdit = { ...formData, productId: productToEdit._id };
         
-        editProduct(formDataEdit, { 
-          onSuccess: () => {
+        editProduct({formDataEdit, productId : productToEdit._id}, { 
+          onSuccess: () => { 
             onClose();
           },
         });

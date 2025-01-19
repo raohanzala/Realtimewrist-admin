@@ -13,7 +13,7 @@ export function useLogin() {
 
     const {login} = useContext(ShopContext)
 
-    const {isLoading : isLogin, mutate : loginFnc } = useMutation({
+    const {isPaused , mutate : loginFnc } = useMutation({
       mutationFn : loginApi,
       onSuccess : (data)=> {
         toast.success('Login successfully')
@@ -27,5 +27,5 @@ export function useLogin() {
       } 
     })
 
-    return {isLogin, loginFnc}
+    return {isPaused, loginFnc}
 }
