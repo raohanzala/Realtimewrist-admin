@@ -5,7 +5,6 @@ import { Toaster } from 'react-hot-toast';
 import { Suspense } from 'react';
 import AppLayout from './pages/AppLayout';
 import Dashboard from './pages/Dashboard';
-import Profile from './pages/Profile';
 import Orders from './pages/Orders';
 import AddProduct from './components/AddProduct';
 import Notifications from './pages/Notifications';
@@ -17,10 +16,11 @@ import PageNotFound from './components/PageNotFound';
 import { OrderDetail } from './components/OrderDetail';
 import Settings from './pages/Settings';
 import Products from './pages/Products';
-import ProductInfo from './components/ProductInfo';
 import Loader from './components/Loader';
 import StoreCustomization from './pages/StoreCustomization';
 import Product from './pages/Product';
+import EditProfile from './pages/Profile';
+import Profile from './components/Profile';
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL
 
@@ -53,8 +53,8 @@ function App() {
                 <Route path="/profile" element={< Profile />} />
                 <Route path="/settings" element={< Settings />} />
                 <Route path="/online-store/customization" element={< StoreCustomization />} />
-                <Route path="/online-store/settings" element={< Profile />} />
-                <Route path="/online-store/view" element={< Profile />} />
+                <Route path="/edit-profile" element={< EditProfile />} />
+                <Route path="/profile" element={< Profile />} />
               </Route>
               <Route path="*" element={<PageNotFound/>} />
             </Routes>

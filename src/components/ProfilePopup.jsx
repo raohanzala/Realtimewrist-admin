@@ -1,22 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useOutsideClick } from '../hooks/useOutsideClick';
-import { MdOutlineDashboard } from 'react-icons/md';
-import { BiPencil } from 'react-icons/bi';
-import { BsEye } from 'react-icons/bs';
+import { MdOutlineDashboard, MdRemoveRedEye } from 'react-icons/md';
+import { FaRegEdit } from 'react-icons/fa';
+import { Link, useLocation } from 'react-router-dom';
 
 const ProfilePopup = ({setProfilePopup}) => {
 
   const close = () => setProfilePopup(false);
+  const ref = useOutsideClick(close, false);
+
+  const location = useLocation()
   
-    const ref = useOutsideClick(close, false);
+    useEffect(() => {
+      return ()=>  setProfilePopup(false)
+    }, [location.pathname, setProfilePopup])
+
   return (
-    <div ref={ref} className="absolute right-52 top-[74px] overflow-y-scroll  scrollbar-hide bg-white  rounded  z-50 border-gray-200"
+    <div ref={ref} className="absolute right-2 top-[65px] w-52 overflow-y-scroll  scrollbar-hide bg-white  rounded  z-50 border-gray-200"
        style={{ boxShadow: "rgba(100,100,111, 0.2) 0px 9px 15px 0px" }}
        >
         <ul className='text-sm text-gray-500 cursor-pointer '>
-          <li className='flex items-center gap-2 px-2 pr-7 py-3 hover:bg-gray-100'><BsEye/> View Profile</li>
-          <li className='flex items-center gap-2 px-2 pr-7 py-3 hover:bg-gray-100'><BiPencil size={15}/> Edit Profile</li>
-          <li className='flex items-center gap-2 px-2 pr-7 py-3 hover:bg-gray-100 '> <MdOutlineDashboard size={20}/>  Dashboard</li>
+          <Link to={'/profile'}>
+          <li className='flex items-center gap-3 px-3 pr-7 py-3 hover:bg-gray-100'><MdRemoveRedEye size={18}/> View Profile</li>
+          </Link>
+          <Link to={'/edit-profile'}>
+          <li className='flex items-center gap-3 px-3 pr-7 py-3 hover:bg-gray-100'><FaRegEdit size={16} /> Edit Profile</li>
+          </Link>
+          <Link to={'/'}>
+          <li className='flex items-center gap-3 px-3 pr-7 py-3 hover:bg-gray-100 '><MdOutlineDashboard size={18}/> Dashboard</li>
+          </Link>
         </ul>
        </div>
   )

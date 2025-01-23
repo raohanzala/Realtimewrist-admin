@@ -8,7 +8,7 @@ import SpinnerMini from './SpinnerMini'
 import * as Yup from "yup";
 
 
-const HomeForm = () => {
+const ReviewForm = () => {
 
    const initialValues = {
         name: "",
@@ -80,6 +80,7 @@ const HomeForm = () => {
               disabled={isSubmitting}
             />
           </FormRow>
+
           <Button
             type="submit"
             variant="secondary"
@@ -94,4 +95,4 @@ const HomeForm = () => {
   )
 }
 
-export default HomeForm
+export default ReviewForm

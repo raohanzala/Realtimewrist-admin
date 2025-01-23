@@ -15,7 +15,6 @@ const SearchSortBar = ({
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
 
-  // Fetch products from API
   const fetchProducts = async () => {
     try {
       const { data } = await axios.get('/api/products', {
@@ -27,13 +26,12 @@ const SearchSortBar = ({
           limit: limit
         }
       });
-      onResults(data.products); // Send products to parent
+      onResults(data.products); 
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
 
-  // Trigger fetch when any of the filters, search or sorting change
   useEffect(() => {
     fetchProducts();
   }, [searchQuery, sortBy, filterBy, page]);
@@ -52,8 +50,7 @@ const SearchSortBar = ({
 
   return (
     <div className={`w-full flex justify-between ${className}`}>
-      {/* 🔍 Search Box */}
-      <div className="flex items-center border border-gray-300 bg-white rounded overflow-hidden ">
+      <div className="flex items-center border border-gray-300 bg-white rounded overflow-hidden focus-within:shadow-md transition-shadow duration-300">
         <span className="flex items-center pl-3 text-[#5c5c5c]">
           <RiSearchLine />
         </span>
@@ -66,39 +63,35 @@ const SearchSortBar = ({
         />
       </div>
 
-<div className="flex gap-3">
+      <div className="flex gap-3">
+        <div className="relative">
+          <select
+            value={sortBy}
+            onChange={handleSortChange}
+            className="border border-gray-300 py-[10px] px-2 pl-2 bg-white rounded  text-sm"
+          >
+            {sortOptions.map((option) => (
+              <option key={option} value={option}>
+                Sort by {option}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      {/* ⏫ Sort Dropdown */}
-      <div className="relative">
-        <select
-          value={sortBy}
-          onChange={handleSortChange}
-          className="border border-gray-300 py-[10px] px-2 pl-2 bg-white rounded  text-sm"
-        >
-          {sortOptions.map((option) => (
-            <option key={option} value={option}>
-              Sort by {option}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            value={filterBy}
+            onChange={handleFilterChange}
+            className="border border-gray-300 py-[10px] px-2 pl-2 bg-white rounded  text-sm"
+          >
+            {filterOptions.map((option) => (
+              <option key={option} value={option}>
+                Filter by {option}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
-
-      {/* 🔥 Filter Dropdown */}
-      <div className="relative">
-        <select
-          value={filterBy}
-          onChange={handleFilterChange}
-          className="border border-gray-300 py-[10px] px-2 pl-2 bg-white rounded  text-sm"
-        >
-          <option value="">All Categories</option> 
-          {filterOptions.map((option) => (
-            <option key={option} value={option}>
-              Filter by {option}
-            </option>
-          ))}
-        </select>
-      </div>
-          </div>
     </div>
   );
 };

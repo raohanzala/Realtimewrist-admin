@@ -10,7 +10,6 @@ import Modal from "./Modal";
 import MenuPopup from "./MenuPopup";
 import Pagination from "./Pagination";
 import { formatAmount, timestampToShortDate } from "../helpers";
-import StatusLabel from "./StatusLabel";
 import Button from "./Button";
 import { CURRENCY } from "../utils/constants";
 import { useProducts } from "../features/useProducts";
@@ -92,7 +91,7 @@ const ProductTable = () => {
           }}
           startIcon={<FaPlus />}
           variant="secondary"
-          className="rounded"
+          className="bg-primary-1"
           size="medium"
         >
           Add Product

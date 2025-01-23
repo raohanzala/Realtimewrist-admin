@@ -27,7 +27,3 @@ export const loginApi = async (values) => {
 
       return response.data.token;
 };  
-
-export const logoutFunc = () => {
- return localStorage.removeItem('token');
-};

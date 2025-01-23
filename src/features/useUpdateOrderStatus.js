@@ -1,22 +1,28 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { updateOrderStatus } from "../api/apiOrders";
+import axiosInstance from "../api-test/axiosInstance";
 
 export function useUpdateOrderStatus() {
-    const queryClient = useQueryClient()
+  const queryClient = useQueryClient()
 
-    const {isLoading, mutate : updateStatus } = useMutation({
-      mutationFn : updateOrderStatus,
-      
-      onSuccess : ()=> {
-        toast.success('Order status successfully updated')
+  const { isLoading, mutate: updateStatus } = useMutation({
+    mutationFn: async (details) => {
+      const { status, orderId } = details
+      const { data } = await axiosInstance.post(`/order/orderstatus`,
+        { orderId, status },
+      );
+      return data
+    },
 
-        queryClient.invalidateQueries({
-          queryKey: ["orders"],
-        });
-      },
-      onError: (err)=> toast.error(err.message) 
-    })
+    onSuccess: (data) => {
+      toast.success(data.message || 'Order status successfully updated')
 
-    return {isLoading, updateStatus}
+      queryClient.invalidateQueries({
+        queryKey: ["orders"],
+      });
+    },
+    onError: (err) => toast.error(err.message)
+  })
+
+  return { isLoading, updateStatus }
 }

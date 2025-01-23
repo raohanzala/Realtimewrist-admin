@@ -4,10 +4,12 @@ import ContactForm from "../components/ContactForm";
 import AboutForm from "../components/AboutForm";
 import SocialForm from "../components/SocialForm";
 import HomeForm from "../components/HomeForm";
+import ReviewForm from "../components/ReviewForm";
 
 const TABS = {
   HOME: 'home',
   ABOUT: 'about',
+  REVIEW: 'review',
   CONTACT: 'contact',
   SOCIAL: 'social'
 };
@@ -21,6 +23,8 @@ const StoreCustomization = () => {
         return <HomeForm />;
       case TABS.ABOUT:
         return <AboutForm />;
+      case TABS.REVIEW:
+        return <ReviewForm />;
       case TABS.CONTACT:
         return <ContactForm />;
       case TABS.SOCIAL:

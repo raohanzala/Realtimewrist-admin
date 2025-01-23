@@ -5,13 +5,10 @@ import Box from '../components/Box';
 import Button from '../components/Button';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
-import FormRowVerticle from '../components/FormRowVerticle';
+import FormRow from '../components/FormRow';
+import ChangePassword from '../components/ChangePassword';
 
-const Profile = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [email, setEmail] = useState('');
+const EditProfile = () => {
   const [image, setImage] = useState(null);
 
   const { setPageTitle } = useContext(ShopContext)
@@ -35,8 +32,7 @@ const Profile = () => {
   };
 
   const validationSchema = Yup.object({
-    firstName: Yup.string().required('First Name is required'),
-    lastName: Yup.string(),
+    fullName: Yup.string().required('Full Name is required'),
     contact: Yup.number().required('Contact is required'),
     email: Yup.string().email().required('Email is required'),
   });
@@ -51,17 +47,20 @@ const Profile = () => {
   }, [])
 
   return (
-    <div className='grid grid-cols-2'>
+    <>
       <Box>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={onSubmitHandler}
         >
-
-          <Form onSubmit={onSubmitHandler} className="space-y-8 p-5">
+          <Form onSubmit={onSubmitHandler} className="space-y-3 px-5 py-3">
+            <div className='mb-8'>
+            <h2 className='text-dark-3 text-2xl'>Account</h2>
+            <p className='text-sm text-gray-500'>Please configure your profile and fill in your information</p>
+            </div>
             <div className="flex items-center">
-              <div className="relative size-24">
+              <div className="relative size-28">
                 {image ? (
                   <img
                     src={image}
@@ -95,49 +94,38 @@ const Profile = () => {
                     Remove Photo
                   </div>}
                 </div>
+                <p className='text-xs text-gray-500 mt-2'>
+
+                  Pick a photo up to 4 MB
+                </p>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <FormRowVerticle name="firstName" label="First name">
-                  <Input
-                    name="firstName"
-                    type="text"
-                    placeholder="First name"
-                    // disabled={actionLoading}
-                  />
-                </FormRowVerticle>
+            <div className="">
+              <FormRow name="fullName" label="Full name">
+                <Input
+                  name="fullName"
+                  type="text"
+                  placeholder="Full name"
+                  size='large'
+                // disabled={actionLoading}
+                />
+              </FormRow>
 
-                <FormRowVerticle name="lastName" label="Last name">
-                  <Input
-                    name="lastName"
-                    type="text"
-                    placeholder="Last name"
-                  />
-                </FormRowVerticle>
-
-                <FormRowVerticle name="email" label="Email Address">
-                  <Input
-                    name="email"
-                    type="text"
-                    placeholder="Email"
-                  />
-                </FormRowVerticle>
-
-                <FormRowVerticle name="contact" label="Contact">
-                  <Input
-                    name="contact"
-                    type="number"
-                    placeholder="Contact"
-                  />
-                </FormRowVerticle>
-
-
+              <FormRow name="email" label="Email Address">
+                <Input
+                  name="email"
+                  type="text"
+                  placeholder="Email address"
+                  size='large'
+                />
+              </FormRow>
             </div>
 
-            <div>
+            <div className='mt-6'>
               <Button
                 type="submit"
                 variant='secondary'
+                
               >
                 Save Settings
               </Button>
@@ -145,8 +133,10 @@ const Profile = () => {
           </Form>
         </Formik>
       </Box>
-    </div>
+
+      <ChangePassword/>
+    </>
   );
 };
 
-export default Profile;
+export default EditProfile;

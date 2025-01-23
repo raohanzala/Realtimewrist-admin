@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { getProductApi } from "../api/apiProducts";
+import axiosInstance from "../api-test/axiosInstance";
 
 export function useProduct() {
   const { productId } = useParams();
@@ -11,7 +11,12 @@ export function useProduct() {
     error,
   } = useQuery({
     queryKey: ["product", productId],
-    queryFn: () => getProductApi(productId),
+    queryFn: async () => {
+      const { data } = await axiosInstance.get(
+        `/product/single/${productId}`
+      );
+      return data;
+    },
     retry: false,
   });
 

@@ -3,8 +3,10 @@ import { FaBell } from "react-icons/fa";
 import NotificationsPopup from "./NotificationsPopup";
 import adminPhoto from "../assets/admin-photo.jpeg";
 import { ShopContext } from "../contexts/ShopContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
+import { IoMdMore } from 'react-icons/io'
+
 import { IoLogOutOutline } from "react-icons/io5";
 import useNotifications from "../hooks/useNotifications";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,14 +15,12 @@ import ProfilePopup from "./ProfilePopup";
 function Header() {
   const [isNotificationPopup, setNotificationPopup] = useState(false);
   const [isProfilePopup, setProfilePopup] = useState(false);
-  
+
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const { pageTitle, logout } = useContext(ShopContext);
 
-  const {notifications} = useSelector((state)=> state.notifications)
-
-  console.log(notifications, 'HEADER NOTIFICATION')
+  const { notifications } = useSelector((state) => state.notifications)
 
   const {
     isIncoming,
@@ -52,9 +52,9 @@ function Header() {
         <h1 className="text-lg  ">{pageTitle}</h1>
       </div>
 
-      <div className="flex items-center space-x-4">
-        <div className="relative flex items-center space-x-2" onClick={handleProfile}>
-          <div className="size-12 overflow-hidden rounded-full border-2 border-primary-1">
+      <div className="flex items-center gap-4">
+        <div className="relative flex items-center space-x-2">
+          <div className="size-11 overflow-hidden rounded-full ">
             <img
               src={adminPhoto}
               className="w-full h-full object-cover"
@@ -67,6 +67,12 @@ function Header() {
             <p className="text-xs text-gray-500">CEO & Founder</p>
           </div>
         </div>
+
+        {/* <div className=" p-3 rounded  cursor-pointer">
+          <Link to={'/edit-profile'}>
+            <MdAccountCircle className="text-2xl text-gray-700"/>
+          </Link>
+        </div> */}
 
         <div className="relative">
           <div
@@ -89,6 +95,10 @@ function Header() {
           className="flex items-center justify-center w-11 h-11 rounded-full bg-gray-100 hover:bg-red-100 text-red-600 transition-all cursor-pointer"
         >
           <IoLogOutOutline className="text-lg ml-[2px]" />
+        </div>
+
+        <div className={` -ml-2 hover:bg-gray-100 rounded py-1 ${isProfilePopup ? 'bg-gray-100' : ''}`} onClick={handleProfile}>
+          <IoMdMore className="text-xl cursor-pointer " />
         </div>
       </div>
 

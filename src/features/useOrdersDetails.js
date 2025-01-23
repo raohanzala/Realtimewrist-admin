@@ -1,13 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { getOrdersDetailsApi } from "../api/apiOrders";
+import axiosInstance from "../api-test/axiosInstance";
 
 export function useOrdersDetails() {
   const { isLoading, error, data } = useQuery({
     queryKey: ["orders"],
-    queryFn: getOrdersDetailsApi,
+    queryFn: async () => {
+      const { data } = await axiosInstance.get(`/order/ordersDetails`,);
+      return data
+    },
   });
 
-  const {totalOrders,
+  const { totalOrders,
     totalRevenue,
     totalRevenueAmount,
     completedOrders,
@@ -17,9 +20,10 @@ export function useOrdersDetails() {
     topProducts,
     dailyOrders,
     repeatCustomers,
-    averageCompletionTime} = data || {}
+    averageCompletionTime } = data || {}
 
-  return { isLoading, error, totalOrders,
+  return {
+    isLoading, error, totalOrders,
     totalRevenue,
     totalRevenueAmount,
     completedOrders,
@@ -29,5 +33,6 @@ export function useOrdersDetails() {
     topProducts,
     dailyOrders,
     repeatCustomers,
-    averageCompletionTime};
+    averageCompletionTime
+  };
 }

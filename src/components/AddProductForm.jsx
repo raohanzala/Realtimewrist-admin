@@ -237,7 +237,7 @@ const AddProductForm = ({ onClose, productToEdit = {} }) => {
                 variant="secondary"
                 disabled={isSubmitting || isWorking}
               >
-                {(!isSubmitting || !isWorking) ? (
+                {!isWorking ? (
                   productToEdit ? (
                     "Update Product"
                   ) : (

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProductsApi } from "../api/apiProducts";
 import { useSearchParams } from "react-router-dom";
+import axiosInstance from "../api-test/axiosInstance";
 
 export function useProducts() {
 
@@ -10,10 +10,15 @@ export function useProducts() {
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["products", page],
-    queryFn: ()=> getProductsApi(page),
+    queryFn: async (page, pageSize) => {
+      const { data } = await axiosInstance.get(
+        `/product/products?page=${page}&pageSize=${pageSize}`
+      );
+      return data;
+    },
   });
 
   const { products, currentPage, totalPages, totalProducts } = data || {};
 
-  return { isLoading,error, products, currentPage, totalPages, totalProducts};
+  return { isLoading, error, products, currentPage, totalPages, totalProducts };
 }
