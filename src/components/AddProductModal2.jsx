@@ -86,7 +86,6 @@ const AddProductModal = ({ onClose, productToEdit }) => {
           { headers: { token } }
         );
       } else {
-        console.log(formData, "FORMDATA");
         response = await axios.post(`${backendUrl}/api/product/add`, formData, {
           headers: { token },
         });

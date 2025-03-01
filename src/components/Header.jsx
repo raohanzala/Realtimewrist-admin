@@ -10,7 +10,6 @@ import { IoMdMore } from 'react-icons/io'
 import { IoLogOutOutline } from "react-icons/io5";
 import useNotifications from "../hooks/useNotifications";
 import { useDispatch, useSelector } from "react-redux";
-import ProfilePopup from "./ProfilePopup";
 import PopupMenu from "./PopupMenu";
 import { BiPencil } from "react-icons/bi";
 import { logout } from "../store/slices/authSlice";
@@ -23,7 +22,9 @@ function Header() {
   const dispatch = useDispatch()
   const { pageTitle } = useContext(ShopContext);
 
-  const { notifications } = useSelector((state) => state.notifications)
+  const {notifications} = useSelector((state) => state.notifications)
+
+  console.log(notifications, 'PAYLOAD NOTIFICATION')
 
   const {
     isIncoming,
@@ -71,12 +72,6 @@ function Header() {
           </div>
         </div>
 
-        {/* <div className=" p-3 rounded  cursor-pointer">
-          <Link to={'/edit-profile'}>
-            <MdAccountCircle className="text-2xl text-gray-700"/>
-          </Link>
-        </div> */}
-
         <div className="relative">
           <div
             onClick={handleNotification}
@@ -88,7 +83,7 @@ function Header() {
             )}
             {notifications?.length > 0 && (
               <span className="absolute -top-1 -right-1 text-[9px] flex justify-center items-center text-white h-4 w-4 rounded-full bg-red-500">
-                {notifications.length}
+                {notifications?.length}
               </span>
             )}
           </div>
@@ -99,7 +94,6 @@ function Header() {
         >
           <IoLogOutOutline className="text-lg ml-[2px]" />
         </div>
-
         <div className={` -ml-2 hover:bg-gray-100 rounded py-1 `} onClick={handleProfile}>
           <IoMdMore className="text-xl cursor-pointer " />
         </div>
@@ -111,9 +105,6 @@ function Header() {
           setNotificationPopup={setNotificationPopup}
         />
       )}
-      {/* {isProfilePopup && (
-       <ProfilePopup setProfilePopup={setProfilePopup}/>
-      )} */}
 
       {isProfilePopup && 
         <PopupMenu actions={[

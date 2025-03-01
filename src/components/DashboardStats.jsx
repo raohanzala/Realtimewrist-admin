@@ -20,8 +20,6 @@ const DashboardStats = () => {
     const {isLoading : isOrdersLoading , totalOrders} = useOrders()
     const {isLoading : isProductLoading } = useProducts()
     const {isLoading : isUsersLoading} = useUsers()
-
-    console.log(totalOrders)
     const {totalRevenue,
       totalRevenueAmount,
       completedOrders,

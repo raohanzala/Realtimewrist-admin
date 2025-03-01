@@ -24,8 +24,6 @@ const AddProduct = ({ token }) => {
 
   const { setIsLoading, setPageTitle } = useContext(ShopContext)
 
-
-  console.log(name, description, oldPrice, newPrice, category, subCategory, bestSeller, sizes, availability)
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
@@ -69,8 +67,6 @@ const AddProduct = ({ token }) => {
       const response = await axios.post(backendUrl + "/api/product/add", formData, {
         headers: { token },
       });
-
-      console.log(response);
 
       if (response.data.success) {
         toast.success(response.data.message);

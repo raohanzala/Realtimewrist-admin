@@ -3,16 +3,16 @@ import { useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../utils/constants";
 import axiosInstance from "../api-test/axiosInstance";
 
-export function useCategories() {
+export function useCategories(isAll = false) {
   const [searchParams] = useSearchParams();
 
-  const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
-  const pageSize = PAGE_SIZE;
-  const sortBy = searchParams.get("sortBy") || "name-asc"; // Default sort by name A-Z
+  const page = isAll ? 1 :  (!searchParams.get("page") ? 1 : Number(searchParams.get("page")));
+  const pageSize = isAll ? 20 : PAGE_SIZE; // Undefined is ignored in axios params
+  const sortBy = searchParams.get("sortBy") || "name-asc";
   const search = searchParams.get("search") || "";
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["categories", page, pageSize, sortBy, search],
+  const { isPending, error, data } = useQuery({
+    queryKey: ["categories", page, pageSize, sortBy, search], 
     queryFn: async () => {
       const { data } = await axiosInstance.get("/category", {
         params: { page, pageSize, sortBy, search },
@@ -22,7 +22,13 @@ export function useCategories() {
     keepPreviousData: true,
   });
 
+  // If fetching all, return only categories array
+  // if (isAll) {
+  //   return { isPending, error, categories: data || [] };
+  // }
+
   const { categories, currentPage, totalPages, totalCategories } = data || {};
 
-  return { isLoading, error, categories, currentPage, totalPages, totalCategories };
+  return { isPending, error, categories, currentPage, totalPages, totalCategories };
 }
+

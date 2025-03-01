@@ -7,8 +7,6 @@ const ProductImageGallery = ({ image, setImage, product }) => {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
 
-  console.log(product, image, "GALLERY");
-
   return (
     <div className="flex flex-col gap-4 ">
       <div

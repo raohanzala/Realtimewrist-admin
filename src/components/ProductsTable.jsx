@@ -40,8 +40,6 @@ const ProductTable = () => {
   const { products, isLoading, error, totalProducts, totalPages } =
     useProducts();
 
-  console.log(isDeleting, deleteProduct, deletedData, "DELETE TABLE");
-
   const handleDropdownToggle = useCallback((productId) => {
     setActiveDropdown((prev) => (prev === productId ? null : productId));
   }, []);
@@ -58,8 +56,6 @@ const ProductTable = () => {
 
   const handleConfirmDelete = async () => {
     if (productToDelete) {
-      // await removeProduct(productToDelete);
-      console.log(productToDelete, "TO DELTE");
       await deleteProduct(productToDelete);
       setProductToDelete(null);
       setIsConfirmModal(false);
@@ -85,8 +81,6 @@ const ProductTable = () => {
     const status = event.target.value;
     updateStock({ status, productId });
   };
-
-  console.log(products, "useQuery Product");
 
   return (
     <div>

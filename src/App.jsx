@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 // import "leaflet/dist/leaflet.css";
 
 
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import AppLayout from './pages/AppLayout';
 import Dashboard from './pages/Dashboard';
 import Orders from './pages/Orders';
@@ -31,6 +31,15 @@ export const backendUrl = import.meta.env.VITE_BACKEND_URL
 function App() {
 
   useScrollRestoration()
+  const [isLoading, setLoading] = useState(true)
+  // const location = useLocation()
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false)
+    }, 1000) 
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <div className=' bg-[#f9fafb]'>

@@ -1,6 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
+import { useEffect, useState } from 'react';
 import ProductImageGallery from '../components/ProductImageGallery';
 import ProductInfo from '../components/ProductInfo';
 import SpinnerMini from '../components/SpinnerMini';
@@ -15,15 +13,6 @@ const Product = () => {
   const [isProductModal, setIsProductModal] = useState(false)
 
   const {isLoading, product} = useProduct()
-
-  console.log(product, isLoading, 'SINGLE')
-
-  // const breadcrumbs = [
-  //   { label: 'Home', href: '/' },
-  //   { label: product?.category, href: `/${product?.category}` }, 
-  //   { label: product?.name } 
-  // ];
-  console.log(product?.description, 'PRODUCTIMAGE')
 
   useEffect(() => {
     if (product) {

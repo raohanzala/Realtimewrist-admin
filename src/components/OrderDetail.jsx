@@ -8,7 +8,7 @@ import Box from './Box';
 import StatusLabel from './StatusLabel';
 import Button from './Button';
 import { useOrder } from '../features/useOrder';
-import { formatTimestamp, timestampToShortDate } from '../helpers';
+import { formatAmount, timestampToShortDate } from '../helpers';
 
 export const OrderDetail = () => {
 
@@ -16,8 +16,6 @@ export const OrderDetail = () => {
 
     const {order, isPending} = useOrder()
     // const [order, setOrder] = useState(data?.order)
-
-    console.log(order, 'ORDER PAGE')
 
     const { setPageTitle} = useContext(ShopContext)
 
@@ -27,7 +25,7 @@ export const OrderDetail = () => {
     }, [])
 
     return (
-      isPending ? <div className='w-full h-screen flex justify-center items-center'><SpinnerMini/> </div> :
+      isPending ? <div className='w-full h-screen flex justify-center items-center'><SpinnerMini variant='secondary'/> </div> :
         <div>
          <Box>
         <div className="p-4 rounded-md mb-4">
@@ -81,8 +79,8 @@ export const OrderDetail = () => {
                   <td className=" border-gray-300 px-4 py-2">{index + 1}</td>
                   <td className=" border-gray-300 px-4 py-2">{item.name}</td>
                   <td className=" border-gray-300 px-4 py-2">{item.quantity}</td>
-                  <td className=" border-gray-300 px-4 py-2">${item.newPrice.toFixed(2)}</td>
-                  <td className=" border-gray-300 px-4 py-2">${(item.newPrice.toFixed(2) * item.quantity)}</td>
+                  <td className=" border-gray-300 px-4 py-2">{CURRENCY}{formatAmount( item.newPrice.toFixed(2))}</td>
+                  <td className=" border-gray-300 px-4 py-2">{CURRENCY}{formatAmount(Number(item.newPrice.toFixed(2) * item.quantity))}</td>
                 </tr>
               ))}
             </tbody>
@@ -95,16 +93,16 @@ export const OrderDetail = () => {
             <p className="font-medium">{order?.paymentMethod}</p>
           </div>
           <div className="w-full md:w-auto mb-4 md:mb-0">
-            <p className="text-sm">SHIPPING COST</p>
-            <p className="font-medium">$20.00</p>
+            <p className="text-sm">DELIVERY FEE</p>
+            <p className="font-medium">{CURRENCY}200.00</p>
           </div>
           <div className="w-full md:w-auto mb-4 md:mb-0">
             <p className="text-sm">DISCOUNT</p>
-            <p className="font-medium">$0.00</p>
+            <p className="font-medium">{CURRENCY}0.00</p>
           </div>
           <div className="w-full md:w-auto">
             <p className="text-sm">TOTAL AMOUNT</p>
-            <p className="font-bold text-red-500">{CURRENCY}{order?.amount}</p>
+            <p className="font-bold text-red-500">{CURRENCY}{(order?.amount)}</p>
           </div>
         </div>
   

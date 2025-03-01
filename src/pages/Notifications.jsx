@@ -8,8 +8,18 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
   const { setPageTitle } = useContext(ShopContext);
 
+  // =============TESt SoCKET 
+  // const socket = io(process.env.NODE_ENV === 'production' 
+  //   ? "https://your-backend-domain.com"  // Deployed backend URL
+  //   : "http://localhost:5000",           // Local development URL
+  //   {
+  //     withCredentials: true,
+  //     transports: ['websocket', 'polling'],
+  //   }
+  // );
+
   // useEffect(() => {
-  //   constt = io(backendUrl || 'http://localhost:3001'); 
+  //   const = io(process.env.VITE_BACKEND_URL || 'http://localhost:3001'); 
 
   //   socket.on('notification', (data) => {
   //     console.log('Notification received:', data);
@@ -27,9 +37,9 @@ const Notifications = () => {
   //   };
   // }, [backendUrl, setPageTitle]); 
 
-  // useEffect(() => {
-  //   console.log('Updated Notifications in state:', notifications);
-  // }, [notifications]);
+  useEffect(() => {
+    console.log('Updated Notifications in state:', notifications);
+  }, [notifications]);
 
   useEffect(()=> {
     setPageTitle('Notifications')
@@ -52,7 +62,7 @@ const Notifications = () => {
           ))
         ) : (
           <li className="py-4 px-3 bg-white rounded-sm border">
-            No new notifications yet.
+            No new notifications yets.
           </li>
         )}
       </ul>

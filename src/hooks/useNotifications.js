@@ -16,7 +16,6 @@ const useNotifications = (dispatch) => {
 
       socketRef.current.on('notification', (data) => {
         console.log('Notification received:', data);
-        // setNotifications((prev) => [...prev, data]);
         dispatch(set_notifications(data))
         playSound(assets.notification_sound)
         setIsincoming(true);

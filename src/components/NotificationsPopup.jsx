@@ -59,10 +59,9 @@ const NotificationsPopup = ({ setNotificationPopup, notifications }) => {
                     <div className="leading-none">
                       <h3 className="text-gray-800 text-sm">
                         {`${
-                          notification?.fullDocument?.address?.name ||
-                          "Rao Hanzala"
+                          notification?.fullDocument?.address?.name
                         } order's ${
-                          notification?.fullDocument?.items?.length || 80
+                          notification?.fullDocument?.items?.length
                         } watch`}{" "}
                       </h3>
                       <span className="text-xs text-gray-500 ">
@@ -84,7 +83,7 @@ const NotificationsPopup = ({ setNotificationPopup, notifications }) => {
             ))}
           </ul>
 
-          {notifications.length === 0 && (
+          {notifications?.length === 0 && (
             <button className="pb-4 w-full mt-auto text-sm px-5 text-primary-2 hover:underline">
               View All Notifications
             </button>

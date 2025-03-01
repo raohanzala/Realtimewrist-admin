@@ -14,10 +14,10 @@ import Button from "../components/Button";
 import ConfirmationModal from "../components/ConfirmationModal";
 import { MdDelete, MdRemoveRedEye } from "react-icons/md";
 import { FiDelete } from "react-icons/fi";
-import UserDetails from "../components/userDetails";
 import UserPopup from "../components/UserPopup";
 import PopupMenu from "../components/PopupMenu";
 import { useDeleteUser } from "../features/useDeleteUser";
+import UserDetails from "../components/userDetails";
 
 const Users = () => {
   const [isProfilePopup, setProfilePopup] = useState(false);
@@ -32,8 +32,6 @@ const Users = () => {
   const { setPageTitle } = useContext(ShopContext);
 
   const { users, isLoading } = useUsers();
-  // let users = [23,23,23,34]
-  console.log(users, isLoading, "QUERY USERS");
 
   const handleProfilePopup = (e) => {
     // e.stopPropagation();
@@ -57,7 +55,6 @@ const Users = () => {
 
   const handleConfirmDelete = async () => {
     if (seletedUser) {
-      console.log(productToDelete, "TO DELTE");
       deleteUser(seletedUser._id)
       setProductToDelete(null);
       setIsConfirmModal(false);
@@ -71,8 +68,6 @@ const Users = () => {
   useEffect(() => {
     setPageTitle("Users");
   }, [setPageTitle]);
-
-  console.log(seletedUser, "USER");
 
   return (
     <div>

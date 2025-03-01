@@ -8,10 +8,9 @@ import { useNavigate } from "react-router-dom";
 
 export const loginApi = async (values) => {
 
-  // setToken(userToken);
+  // setToken(uerToken);
   
   const response = await axios.post(backendUrl + '/api/user/admin',values)
-    //   console.log(response, 'asdf')
     try{
       if (response.data.success) {
         localStorage.setItem('token', response.data.token);

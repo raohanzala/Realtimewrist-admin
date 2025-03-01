@@ -9,7 +9,15 @@ export const notificationsSlice = createSlice({
   initialState,
   reducers: {
     set_notifications: (state, { payload }) => { 
-      console.log(payload, 'PAYLOAD ') 
+      console.log(payload, 'PAYLOAD NOTIFICATION') 
+      console.log(state, 'PAYLOAD NOTIFICATION')
+
+      if (!state.notifications) {
+        state.notifications = []; // Ensure it's always an array
+      }
+    
+      state.notifications.push(payload);
+
       state.notifications.push(payload);
     },
     remove_notification: (state, { payload }) => {

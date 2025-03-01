@@ -25,8 +25,6 @@ const AddCategory = ({ onClose, category }) => {
   const isEditingMode = Boolean(category);
   const isWorking = isAdding || isEditing;
 
-  console.log(isWorking, isAdding, isEditing, 'LOADING STATE')
-
   useEffect(() => {
     setPageTitle(isEditingMode ? "Edit Category" : "Add Category");
   }, [setPageTitle, isEditingMode]);

@@ -60,7 +60,7 @@ cartData : user.cartData
 
           <div className='flex gap-5 text-dark-3 items-center mt-4'>
             <div>Cart Length:</div>
-            {user.cartData.length}
+            {user?.cartData?.length}
           </div>
           <div className='text-dark-3 text-xs'>{formatTimeAgo(user.date)}</div>
 

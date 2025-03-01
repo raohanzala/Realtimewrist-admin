@@ -1,9 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
-import axios from "axios";
-import { backendUrl } from "../App";
 import { ShopContext } from "../contexts/ShopContext";
 import Button from "./Button";
 import { assets } from "../assets/assets";
@@ -14,7 +12,6 @@ import Input from "./Input";
 import FormRowVerticle from "./FormRowVerticle";
 import { useAddProduct } from "../features/useAddProduct";
 import { useEditProduct } from "../features/useEditProduct";
-import CategoryManagement from "./Category";
 import { useCategories } from "../features/useCategories";
 
 const AddProductForm = ({ onClose, productToEdit = {} }) => {
@@ -25,17 +22,19 @@ const AddProductForm = ({ onClose, productToEdit = {} }) => {
   const [croppingImage, setCroppingImage] = useState(null);
   const [currentImageSetter, setCurrentImageSetter] = useState(null);
 
+  console.log(productToEdit, 'PRODUCT TO EDIT')
+
 
   const {
     setPageTitle,
   } = useContext(ShopContext);
-  const { isLoading, categories } = useCategories();
+  const { isPending, categories } = useCategories(true);
 
-  console.log(categories, 'PRODUCTFOrM')
+  console.log(categories, 'PRODUCT TO EDIT')
 
 
-  const {addProduct, isPending : isAdding} = useAddProduct()
-  const {editProduct, isPending : isEditing} = useEditProduct()
+  const { addProduct, isPending: isAdding } = useAddProduct()
+  const { editProduct, isPending: isEditing } = useEditProduct()
   const isWorking = isAdding || isEditing
 
   const showCropper = (file, imageSetter) => {
@@ -58,12 +57,12 @@ const AddProductForm = ({ onClose, productToEdit = {} }) => {
       "Quartz Machine, Stainless Steel Chain, Date Working, Master Lock, Best Quality.",
     oldPrice: productToEdit?.oldPrice || "",
     newPrice: productToEdit?.newPrice || "",
-    category: productToEdit?.category || "",
-    gender : productToEdit?.gender || 'Men',
+    category: productToEdit?.category.name || "",
+    gender: productToEdit?.gender || 'Men',
     bestSeller: productToEdit?.bestSeller || false,
   };
 
-  
+
   const validationSchema = Yup.object({
     name: Yup.string().required("Product name is required"),
     description: Yup.string().required("Description is required"),
@@ -90,22 +89,22 @@ const AddProductForm = ({ onClose, productToEdit = {} }) => {
       if (productToEdit) {
 
         formData.append("productId", productToEdit._id);
-        
-        editProduct(formData, { 
-          onSuccess: () => { 
+
+        editProduct(formData, {
+          onSuccess: () => {
             onClose();
 
           },
         });
       } else {
-        
+
         addProduct(formData, {
           onSuccess: () => {
             onClose();
           },
         });
       }
-      
+
     } catch (error) {
       toast.error(error.message);
     }
@@ -167,7 +166,7 @@ const AddProductForm = ({ onClose, productToEdit = {} }) => {
                 <label>Upload Images</label>
                 <div className="flex gap-2 mt-2 mb-2">
                   {[image1, image2, image3, image4].map((image, index) => (
-                    <label key={index} className="cursor-pointer">
+                    <label key={index} className={`cursor-pointer ${isWorking ? 'opacity-50 cursor-not-allowed' : ''}`}>
                       <img
                         src={
                           !image
@@ -192,21 +191,15 @@ const AddProductForm = ({ onClose, productToEdit = {} }) => {
                   ))}
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  {/* <FormRowVerticle label="Category" name="category">
-                    <Input name="category" as="select" disabled={isWorking}>
-                      <option value="Women">Women</option>
-                      <option value="Men">Men</option>
-                    </Input>
-                  </FormRowVerticle> */}
                   <FormRowVerticle label="Category" name="category">
-      <Input name="category" as="select">
-        {categories?.map((category) => (
-          <option key={category._id} value={category._id}>
-            {category.name}
-          </option>
-        ))}
-      </Input>
-    </FormRowVerticle>
+                    <Input name="category" as="select" disabled={isWorking}>
+                      {categories?.map((category) => (
+                        <option key={category._id} value={category._id}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </Input>
+                  </FormRowVerticle>
                   <FormRowVerticle label="Gender" name="gender">
                     <Input
                       name="gender"
