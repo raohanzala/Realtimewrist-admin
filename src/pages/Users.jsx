@@ -13,11 +13,9 @@ import { Form, Formik } from "formik";
 import Button from "../components/Button";
 import ConfirmationModal from "../components/ConfirmationModal";
 import { MdDelete, MdRemoveRedEye } from "react-icons/md";
-import { FiDelete } from "react-icons/fi";
-import UserPopup from "../components/UserPopup";
 import PopupMenu from "../components/PopupMenu";
 import { useDeleteUser } from "../features/useDeleteUser";
-import UserDetails from "../components/userDetails";
+import UserDetails from "../components/UserDetails";
 
 const Users = () => {
   const [isProfilePopup, setProfilePopup] = useState(false);
