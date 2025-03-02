@@ -8,7 +8,7 @@ import { FaPlus } from "react-icons/fa6";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import Modal from "./Modal";
 import Pagination from "./Pagination";
-import { formatAmount, timestampToShortDate } from "../helpers";
+import { formatAmount, timestampToShortDate, truncateText } from "../helpers";
 import Button from "./Button";
 import { CURRENCY } from "../utils/constants";
 import { useProducts } from "../features/useProducts";
@@ -150,7 +150,7 @@ const ProductTable = () => {
                   </Link>
                   <Link to={`/product/${product._id}`}>
                     <p className="uppercase font-medium truncate">
-                      {product?.name || "N/A"}
+                      {truncateText( product?.name, 15) || "N/A"}
                     </p>
                   </Link>
                   <p>

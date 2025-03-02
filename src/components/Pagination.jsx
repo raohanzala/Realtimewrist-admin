@@ -1,12 +1,12 @@
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import { useSearchParams } from "react-router-dom";
-import { useEffect, useContext } from "react";
 import { PAGE_SIZE } from "../utils/constants";
 
 function Pagination( {pageCount, totalData}) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get("page")) || 1;
 
+  console.log(pageCount, totalData, 'PAGINATION DATA')
 
   function nextPage() {
     if (currentPage < pageCount) {
@@ -22,7 +22,7 @@ function Pagination( {pageCount, totalData}) {
     }
   }
 
-  if (pageCount <= 1 || !pageCount) return null;
+  // if (pageCount <= 1 || !pageCount) return null;
 
   console.log(pageCount, 'Paginaions')
 

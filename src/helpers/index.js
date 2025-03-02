@@ -60,3 +60,10 @@ export function formatAmount(amount) {
 
   return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
 }
+
+export const truncateText = (text, maxLength) => {
+  if (!text) return "N/A"; // Handle empty or undefined text
+  if (text.length <= maxLength) return text; // Return if within limit
+  
+  return text.substring(0, maxLength).trim() + "..."; // Trim & add ellipsis
+};
