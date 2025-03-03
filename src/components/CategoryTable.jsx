@@ -90,7 +90,7 @@ const CategoryTable = () => {
               <div>Name</div>
               <div>Category ID</div>
               <div>Created At</div>
-              <div>Total Products</div>
+              <div>Total Categories</div>
               <div>Actions</div>
             </div>
           </div>

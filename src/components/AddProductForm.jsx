@@ -57,7 +57,7 @@ const AddProductForm = ({ onClose, productToEdit = {} }) => {
       "Quartz Machine, Stainless Steel Chain, Date Working, Master Lock, Best Quality.",
     oldPrice: productToEdit?.oldPrice || "",
     newPrice: productToEdit?.newPrice || "",
-    category: productToEdit?.category.name || "",
+    category: productToEdit?.category?._id || "",
     gender: productToEdit?.gender || 'Men',
     bestSeller: productToEdit?.bestSeller || false,
   };

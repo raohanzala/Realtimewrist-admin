@@ -18,7 +18,7 @@ export function useOrders() {
   const status = searchParams.get("status") || "";
 
 
-  const { isLoading, data, error } = useQuery({
+  const { isPending, data, error } = useQuery({
     queryKey: ["orders", page, search,
       sortField,
       sortOrder,
@@ -47,6 +47,6 @@ export function useOrders() {
   const { orders, currentPage, totalPages, totalOrders, totalRevenue } = data || {};
   console.log(data, 'RODER')
 
-  return { isLoading, orders, currentPage, totalPages, totalOrders, error, totalRevenue };
+  return { isPending, orders, currentPage, totalPages, totalOrders, error, totalRevenue };
 }
 

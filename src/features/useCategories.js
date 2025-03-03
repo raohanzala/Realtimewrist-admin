@@ -22,11 +22,6 @@ export function useCategories(isAll = false) {
     keepPreviousData: true,
   });
 
-  // If fetching all, return only categories array
-  // if (isAll) {
-  //   return { isPending, error, categories: data || [] };
-  // }
-
   const { categories, currentPage, totalPages, totalCategories } = data || {};
 
   return { isPending, error, categories, currentPage, totalPages, totalCategories };

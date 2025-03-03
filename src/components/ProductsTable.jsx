@@ -190,7 +190,7 @@ const ProductTable = () => {
                     </label>
                   </div>
                   <p className="capitalize">
-                    {product?.category.name || "N/A"}
+                    {product?.category?.name || "N/A"}
                   </p>
                   <p>{timestampToShortDate(product?.date) || "N/A"}</p>
                   <div className="relative ml-auto">

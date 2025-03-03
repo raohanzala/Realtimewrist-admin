@@ -22,7 +22,7 @@ function Pagination( {pageCount, totalData}) {
     }
   }
 
-  // if (pageCount <= 1 || !pageCount) return null;
+  if (pageCount <= 1 || !pageCount) return null;
 
   console.log(pageCount, 'Paginaions')
 

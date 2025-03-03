@@ -4,7 +4,7 @@ import { ShopContext } from "../contexts/ShopContext";
 import Pagination from "../components/Pagination";
 import { CURRENCY, PAGE_SIZE } from "../utils/constants";
 import { Link, useSearchParams } from "react-router-dom";
-import { formatAmount, timestampToShortDate } from "../helpers";
+import { formatAmount, timestampToShortDate, truncateText } from "../helpers";
 import { LiaSearchPlusSolid } from "react-icons/lia";
 import { FiPrinter } from "react-icons/fi";
 import { useOrders } from "../features/useOrders";
@@ -17,7 +17,7 @@ const Orders = () => {
 
   const { setPageTitle } = useContext(ShopContext);
 
-  const { isLoading, orders, totalPages, totalOrders } = useOrders();
+  const { isPending, orders, totalPages, totalOrders } = useOrders();
   const { updateStatus } = useUpdateOrderStatus();
 
   const handleUpdateStatus = (status, orderId) => {
@@ -51,7 +51,7 @@ const Orders = () => {
             <div className="ml-auto">Invoice</div>
           </div>
           <div>
-            {isLoading ? (
+            {isPending ? (
               <SkeletonRow />
             ) : orders?.length > 0 ? (
               orders.map((order, index) => (
@@ -62,8 +62,8 @@ const Orders = () => {
                   }`}
                 >
                   <div>{(currentPage - 1) * PAGE_SIZE + (index + 1)}</div>
-                  <div>{order?.items?.[0]?.name}</div>
-                  <div>{order?.address?.name}</div>
+                  <div>{truncateText(order?.items?.[0]?.name,15 )}</div>
+                  <div>{truncateText(order?.address?.name, 13)}</div>
                   <div>{order?.address?.city}</div>
                   <div>
                     {CURRENCY}

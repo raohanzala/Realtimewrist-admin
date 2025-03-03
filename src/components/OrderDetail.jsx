@@ -79,7 +79,7 @@ export const OrderDetail = () => {
                   <td className=" border-gray-300 px-4 py-2">{index + 1}</td>
                   <td className=" border-gray-300 px-4 py-2">{item.name}</td>
                   <td className=" border-gray-300 px-4 py-2">{item.quantity}</td>
-                  <td className=" border-gray-300 px-4 py-2">{CURRENCY}{formatAmount( item.newPrice.toFixed(2))}</td>
+                  <td className=" border-gray-300 px-4 py-2">{CURRENCY}{formatAmount(Number(item.newPrice.toFixed(2)))}</td>
                   <td className=" border-gray-300 px-4 py-2">{CURRENCY}{formatAmount(Number(item.newPrice.toFixed(2) * item.quantity))}</td>
                 </tr>
               ))}
@@ -102,7 +102,7 @@ export const OrderDetail = () => {
           </div>
           <div className="w-full md:w-auto">
             <p className="text-sm">TOTAL AMOUNT</p>
-            <p className="font-bold text-red-500">{CURRENCY}{(order?.amount)}</p>
+            <p className="font-bold text-red-500">{CURRENCY}{formatAmount(order?.amount)}</p>
           </div>
         </div>
   
