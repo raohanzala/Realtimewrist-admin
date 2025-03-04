@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ShopContext } from '../contexts/ShopContext';
 import { assets } from '../assets/assets';
 import { CURRENCY } from '../utils/constants';
@@ -15,7 +15,9 @@ export const OrderDetail = () => {
     const { orderId } = useParams();
 
     const {order, isPending} = useOrder()
-    // const [order, setOrder] = useState(data?.order)
+    const invoiceNumber = `RTW-${Date.now()}`;
+    const navigate = useNavigate()
+
 
     const { setPageTitle} = useContext(ShopContext)
 
@@ -50,11 +52,12 @@ export const OrderDetail = () => {
           </div>
           <div className="mt-4">
             <p className="text-sm">INVOICE NO</p>
-            <p className="font-medium">#11545</p>
+            <p className="font-medium">RTW-{order._id}</p>
           </div>
           <div className="mt-4 text-right">
             <p className="text-sm">INVOICE TO</p>
             <p className="font-medium">{order?.address?.name}</p>
+            <p className="font-medium">{order?.address?.address}</p>
             <p className="text-sm">{order?.address?.email}</p>
             <p className="text-sm">{order?.address?.phone}</p>
             <p className="text-sm">{order?.address?.whatsapp}</p>
@@ -75,7 +78,7 @@ export const OrderDetail = () => {
             </thead>
             <tbody>
               {order?.items?.map((item, index) => (
-                <tr key={item._id}>
+                <tr key={item._id} className='cursor-pointer'  onClick={() => navigate(`/product/${item._id}`)}>
                   <td className=" border-gray-300 px-4 py-2">{index + 1}</td>
                   <td className=" border-gray-300 px-4 py-2">{item.name}</td>
                   <td className=" border-gray-300 px-4 py-2">{item.quantity}</td>
