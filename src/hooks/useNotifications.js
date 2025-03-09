@@ -14,18 +14,19 @@ const useNotifications = (dispatch) => {
     if (!socketRef.current) {
       socketRef.current = io(backendUrl);
 
-      // socketRef.current.on('notification', (data) => {
-      //   console.log('Notification received:', data);
-      //   dispatch(set_notifications(data))
-      //   playSound(assets.notification_sound)
-      //   setIsincoming(true);
-      // });
+      socketRef.current.on('notification', (data) => {
+        console.log('Notification received:', data);
+        console.log('Data notification in ------>', data)
+        dispatch(set_notifications(data))
+        playSound(assets.notification_sound)
+        setIsincoming(true);
+      });
     }
 
     return () => {
-      // if (socketRef.current) {
-      //   socketRef.current.off('notification');
-      // }
+      if (socketRef.current) {
+        socketRef.current.off('notification');
+      }
     };
   }, []);
 

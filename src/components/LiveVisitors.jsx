@@ -5,21 +5,21 @@ import Box from "./Box";
 const socket = io(import.meta.env.VITE_BACKEND_URL); // Connect to backend
 
 const LiveVisitors = () => {
-  const [visitors, setVisitors] = useState(0);
+  const [liveVisitors, setLiveVisitors] = useState(0);
 
   useEffect(() => {
-    socket.on("visitorCount", (count) => {
-      setVisitors(count); // Update visitor count
+    socket.on("liveVisitors", (count) => {
+      setLiveVisitors(count);
     });
 
     return () => {
-      socket.off("visitorCount"); // Cleanup on unmount
+      socket.off("liveVisitors"); // Cleanup on unmount
     };
-  }, []);
+  }, [])
 
   return <Box>
-<div className="text-lg">👥 Online Visitors: {visitors}</div>
-  </Box> 
+    <div className="text-lg">👥 Online Visitors: {liveVisitors}</div>
+  </Box>
 };
 
 export default LiveVisitors;

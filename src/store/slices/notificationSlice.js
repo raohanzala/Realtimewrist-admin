@@ -1,28 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  notifications: []  
+  notifications: []
 };
 
 export const notificationsSlice = createSlice({
   name: "notifications",
   initialState,
   reducers: {
-    set_notifications: (state, { payload }) => { 
-      console.log(payload, 'PAYLOAD NOTIFICATION') 
+    set_notifications: (state, { payload }) => {
+      console.log(payload, 'PAYLOAD NOTIFICATION')
       console.log(state, 'PAYLOAD NOTIFICATION')
 
       if (!state.notifications) {
         state.notifications = []; // Ensure it's always an array
       }
-    
-      state.notifications.push(payload);
 
       state.notifications.push(payload);
+
+      // state.notifications.push(payload);
     },
     remove_notification: (state, { payload }) => {
+      console.log('Notificatioin remove --->', payload)
       state.notifications = state.notifications.filter(
-        (item) => item.orderId !== payload.notificationId
+        (item) => item.orderId !== payload.orderId
       );
     },
     clear_notifications: (state) => {

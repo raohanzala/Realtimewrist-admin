@@ -9,7 +9,6 @@ import AppLayout from './pages/AppLayout';
 import Dashboard from './pages/Dashboard';
 import Orders from './pages/Orders';
 import AddProduct from './components/AddProduct';
-import Notifications from './pages/Notifications';
 import LoadingLogo from './components/LoadingLogo';
 import PublicRoute from './components/PublicRoute'
 import PrivateRoute from './components/PrivateRoute';
@@ -37,7 +36,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false)
-    }, 1000) 
+    }, 1000)
     return () => clearTimeout(timer)
   }, [])
 
@@ -58,13 +57,11 @@ function App() {
               <Route path="/" element={<PrivateRoute />}>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/add" element={< AddProduct />} />
-                <Route path="/list" element={< Products/>} />
+                <Route path="/list" element={< Products />} />
                 <Route path='/product/:productId' element={<Product />} />
                 <Route path="/orders" element={< Orders />} />
                 <Route path="/order/:orderId" element={< OrderDetail />} />
                 <Route path="/users" element={< Users />} />
-                <Route path="/notifications" element={< Notifications />} />
-                <Route path="/store" element={< Notifications />} />
                 <Route path="/profile" element={< Profile />} />
                 <Route path="/category" element={< CategoryTable />} />
                 <Route path="/settings" element={< Settings />} />
@@ -72,7 +69,7 @@ function App() {
                 <Route path="/edit-profile" element={< EditProfile />} />
                 <Route path="/profile" element={< Profile />} />
               </Route>
-              <Route path="*" element={<PageNotFound/>} />
+              <Route path="*" element={<PageNotFound />} />
             </Routes>
           </Suspense>
         </AppLayout>}
