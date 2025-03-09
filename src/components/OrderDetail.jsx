@@ -12,110 +12,110 @@ import { formatAmount, timestampToShortDate } from '../helpers';
 
 export const OrderDetail = () => {
 
-    const { orderId } = useParams();
+  const { orderId } = useParams();
 
-    const {order, isPending} = useOrder()
-    const invoiceNumber = `RTW-${Date.now()}`;
-    const navigate = useNavigate()
+  const { order, isPending } = useOrder()
+  const invoiceNumber = `RTW-${Date.now()}`;
+  const navigate = useNavigate()
 
 
-    const { setPageTitle} = useContext(ShopContext)
+  const { setPageTitle } = useContext(ShopContext)
 
-    useEffect(()=> {
-      // setOrder(data?.order)
-        setPageTitle('Order Invoice')
-    }, [])
+  useEffect(() => {
+    // setOrder(data?.order)
+    setPageTitle('Order Invoice')
+  }, [])
 
-    return (
-      isPending ? <div className='w-full h-screen flex justify-center items-center'><SpinnerMini variant='secondary'/> </div> :
-        <div>
-         <Box>
-        <div className="p-4 rounded-md mb-4">
-          <div className="flex flex-wrap justify-between">
-            <div>
-              <h2 className="text-xl font-bold">INVOICE</h2>
-              <span className="font-medium flex gap-3">Status: <StatusLabel status={order?.status} /></span>
-            </div>
-            <div className="text-right mt-4 md:mt-0 space-y-1">
+  return (
+    isPending ? <div className='w-full h-screen flex justify-center items-center'><SpinnerMini variant='secondary' /> </div> :
+      <div>
+        <Box>
+          <div className="p-4 rounded-md mb-4">
+            <div className="flex flex-wrap justify-between">
+              <div>
+                <h2 className="text-xl font-bold">INVOICE</h2>
+                <span className="font-medium flex gap-3">Status: <StatusLabel status={order?.status} /></span>
+              </div>
+              <div className="text-right mt-4 md:mt-0 space-y-1">
                 <div className='w-[200px] h-auto ml-auto'><img className='w-full h-full' src={assets.logo2} alt="" /></div>
-              {/* <p className="text-sm">59 Station Rd, Purls Bridge, United Kingdom</p> */}
-              <p className="text-sm">+92-3249221933</p>
-              <p className="text-sm">realtimewrist@gmail.com</p>
-              <p className="text-sm">realtimewrist-admin.vercel.app</p>
+                {/* <p className="text-sm">59 Station Rd, Purls Bridge, United Kingdom</p> */}
+                <p className="text-sm">+92-3249221933</p>
+                <p className="text-sm">realtimewrist@gmail.com</p>
+                <p className="text-sm">realtimewrist-admin.vercel.app</p>
+              </div>
+            </div>
+            <div className='grid grid-cols-3'>
+
+              <div className="mt-4">
+                <p className="text-sm">DATE</p>
+                <p className="font-medium">{timestampToShortDate(order?.date)}</p>
+              </div>
+              <div className="mt-4">
+                <p className="text-sm">INVOICE NO</p>
+                <p className="font-medium">RTW-{order._id}</p>
+              </div>
+              <div className="mt-4 text-right">
+                <p className="text-sm">INVOICE TO</p>
+                <p className="">{order?.address?.name}</p>
+                <p className="">{order?.address?.address}</p>
+                <p className="text-sm">{order?.address?.email}</p>
+                <p className="text-sm">{order?.address?.phone}</p>
+                <p className="text-sm">{order?.address?.whatsapp}</p>
+              </div>
             </div>
           </div>
-          <div className='grid grid-cols-3'>
 
-          <div className="mt-4">
-            <p className="text-sm">DATE</p>
-            <p className="font-medium">{timestampToShortDate(order?.date)}</p>
-          </div>
-          <div className="mt-4">
-            <p className="text-sm">INVOICE NO</p>
-            <p className="font-medium">RTW-{order._id}</p>
-          </div>
-          <div className="mt-4 text-right">
-            <p className="text-sm">INVOICE TO</p>
-            <p className="font-medium">{order?.address?.name}</p>
-            <p className="font-medium">{order?.address?.address}</p>
-            <p className="text-sm">{order?.address?.email}</p>
-            <p className="text-sm">{order?.address?.phone}</p>
-            <p className="text-sm">{order?.address?.whatsapp}</p>
-          </div>
-          </div>
-        </div>
-  
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-300">
-            <thead>
-              <tr className='bg-[#f2f2f2af] border text-[#333] text-sm'>
-                <td className=" border-gray-300 px-4 py-2 ">S.No</td>
-                <td className=" border-gray-300 px-4 py-2 ">Product Name</td>
-                <td className=" border-gray-300 px-4 py-2 ">Quantity</td>
-                <td className=" border-gray-300 px-4 py-2 ">Item Price</td>
-                <td className=" border-gray-300 px-4 py-2 ">Amount</td>
-              </tr>
-            </thead>
-            <tbody>
-              {order?.items?.map((item, index) => (
-                <tr key={item._id} className='cursor-pointer'  onClick={() => navigate(`/product/${item._id}`)}>
-                  <td className=" border-gray-300 px-4 py-2">{index + 1}</td>
-                  <td className=" border-gray-300 px-4 py-2">{item.name}</td>
-                  <td className=" border-gray-300 px-4 py-2">{item.quantity}</td>
-                  <td className=" border-gray-300 px-4 py-2">{CURRENCY}{formatAmount(Number(item.newPrice.toFixed(2)))}</td>
-                  <td className=" border-gray-300 px-4 py-2">{CURRENCY}{formatAmount(Number(item.newPrice.toFixed(2) * item.quantity))}</td>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse border border-gray-300">
+              <thead>
+                <tr className='bg-[#f2f2f2af] border text-[#333] text-sm'>
+                  <td className=" border-gray-300 px-4 py-2 ">S.No</td>
+                  <td className=" border-gray-300 px-4 py-2 ">Product Name</td>
+                  <td className=" border-gray-300 px-4 py-2 ">Quantity</td>
+                  <td className=" border-gray-300 px-4 py-2 ">Item Price</td>
+                  <td className=" border-gray-300 px-4 py-2 ">Amount</td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-  
-        <div className="flex flex-wrap justify-between mt-4 p-4 bg-gray-100 rounded-md">
-          <div className="w-full md:w-auto mb-4 md:mb-0">
-            <p className="text-sm">PAYMENT METHOD</p>
-            <p className="font-medium">{order?.paymentMethod}</p>
+              </thead>
+              <tbody>
+                {order?.items?.map((item, index) => (
+                  <tr key={item._id} className='cursor-pointer' onClick={() => navigate(`/product/${item._id}`)}>
+                    <td className=" border-gray-300 px-4 py-2">{index + 1}</td>
+                    <td className=" border-gray-300 px-4 py-2">{item.name}</td>
+                    <td className=" border-gray-300 px-4 py-2">{item.quantity}</td>
+                    <td className=" border-gray-300 px-4 py-2">{CURRENCY}{formatAmount(Number(item.newPrice.toFixed(2)))}</td>
+                    <td className=" border-gray-300 px-4 py-2">{CURRENCY}{formatAmount(Number(item.newPrice.toFixed(2) * item.quantity))}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <div className="w-full md:w-auto mb-4 md:mb-0">
-            <p className="text-sm">DELIVERY FEE</p>
-            <p className="font-medium">{CURRENCY}200.00</p>
+
+          <div className="flex flex-wrap justify-between mt-4 p-4 bg-gray-100 rounded-md">
+            <div className="w-full md:w-auto mb-4 md:mb-0">
+              <p className="text-sm">PAYMENT METHOD</p>
+              <p className="font-medium">{order?.paymentMethod}</p>
+            </div>
+            <div className="w-full md:w-auto mb-4 md:mb-0">
+              <p className="text-sm">DELIVERY FEE</p>
+              <p className="font-medium">{CURRENCY}200.00</p>
+            </div>
+            <div className="w-full md:w-auto mb-4 md:mb-0">
+              <p className="text-sm">DISCOUNT</p>
+              <p className="font-medium">{CURRENCY}0.00</p>
+            </div>
+            <div className="w-full md:w-auto">
+              <p className="text-sm">TOTAL AMOUNT</p>
+              <p className="font-bold text-red-500">{CURRENCY}{formatAmount(order?.amount)}</p>
+            </div>
           </div>
-          <div className="w-full md:w-auto mb-4 md:mb-0">
-            <p className="text-sm">DISCOUNT</p>
-            <p className="font-medium">{CURRENCY}0.00</p>
-          </div>
-          <div className="w-full md:w-auto">
-            <p className="text-sm">TOTAL AMOUNT</p>
-            <p className="font-bold text-red-500">{CURRENCY}{formatAmount(order?.amount)}</p>
-          </div>
-        </div>
-  
-      </Box>
+
+        </Box>
         <div className="flex justify-between mt-6">
           <Button variant='secondary'>Download Invoice</Button>
           <Button variant='secondary'>Print Invoice</Button>
         </div>
-        </div>
-    );
+      </div>
+  );
 }
 
 const InvoiceSkeleton = () => {

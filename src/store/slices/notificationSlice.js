@@ -16,9 +16,8 @@ export const notificationsSlice = createSlice({
         state.notifications = []; // Ensure it's always an array
       }
 
-      state.notifications.push(payload);
+      state.notifications.unshift(payload);
 
-      // state.notifications.push(payload);
     },
     remove_notification: (state, { payload }) => {
       console.log('Notificatioin remove --->', payload)
