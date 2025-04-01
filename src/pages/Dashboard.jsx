@@ -172,16 +172,16 @@ const Dashboard = () => {
         <OrdersBarChart statsData={statsData2} />
         <OrderStatsChart data={statsData} />
       </div> */}
-      <div className="grid grid-cols-[1fr_1.5fr] gap-6 mb-6">
+      <div className="grid grid-cols-[1fr_1.5fr] gap-3 mb-6">
         <StockAvailabilityChart data={availabilityStatus} />
         <OrdersRevenueChart data={dailyOrders} />
       </div>
-      <div className="grid grid-cols-[1.5fr_1fr] gap-6 mb-6">
+      <div className="grid grid-cols-[1.5fr_1fr] gap-3 mb-6">
         <RecentOrder />
         <UsersByMonthChart data={userGrowth} />
       </div>
       {/* <ProductsByCategoryChart data={productsByCategory} /> */}
-      <div className="grid grid-cols-[1fr_1.5fr] gap-6">
+      <div className="grid grid-cols-[1fr_1.5fr] gap-3">
         <TopProducts />
         <ProductPriceChart data={bestSellers} />
       </div>
