@@ -1,39 +1,25 @@
 import React, { useContext, useEffect } from "react";
 import { ShopContext } from "../contexts/ShopContext";
-import Box from "../components/Box";
-import Loader from "../components/Loader";
 import RecentOrder from "../components/RecentOrder";
-import LatestCustomers from "../components/LatestCustomers";
 import TopProducts from "../components/TopProducts";
 import DashboardStats from "../components/DashboardStats";
-import Chart from "../components/Chart";
-import DashboardTopStats from "../components/DashboardTopStats";
-import UserDashboard from "../components/UserDashboard";
-import ProductDashboard from "../components/ProductDashboard";
-import OrderDashboard from "../components/OrderDashboard";
-import OrderStats from "../components/OrderStats";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Line,
-  LineChart,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import HeadingLink from "../components/HeadingLink";
 import { useOrdersDetails } from "../features/useOrdersDetails";
 import { useProductsDetials } from "../features/useProductsDetials";
 import { useUsersDetails } from "../features/useUsersDetails";
 import DashboardStats2 from "../components/DashboardStats2";
 import SpinnerMini from "../components/SpinnerMini";
-import Empty from "../components/Empty";
-import OrderMap from "../components/OrderMap";
 import LiveVisitors from "../components/LiveVisitors";
+import UsersByMonthChart from "../components/UsersByMonthChart ";
+import OrdersRevenueChart from "../components/OrdersRevenueChart ";
+import ProductPriceChart from "../components/ProductPriceChart";
+import StockAvailabilityChart from "../components/StockAvailabilityChart ";
+import OrderStatsChart from "../components/OrderStatsChart";
+import { IoBagCheckOutline, IoBarChartOutline, IoCalendarOutline, IoCheckmarkCircleOutline, IoCloseCircleOutline, IoTimeOutline, IoTrendingUpOutline, IoWalletOutline } from "react-icons/io5";
+import { RiOrderPlayLine } from "react-icons/ri";
+import { useOrders } from "../features/useOrders";
+import { useProducts } from "../features/useProducts";
+import { useUsers } from "../features/useUsers";
+import OrdersBarChart from "../components/OrdersBarChart";
 
 const Dashboard = () => {
   const { setPageTitle } = useContext(ShopContext);
@@ -69,134 +55,139 @@ const Dashboard = () => {
   const { totalUsers, topCartUsers, averageCartSize, userGrowth, isLoading } =
     useUsersDetails();
 
+  const { isLoading: isOrdersLoading } = useOrders()
+  const { isLoading: isProductLoading } = useProducts()
+  const { isLoading: isUsersLoading } = useUsers()
+  const statsData = [
+    {
+      bgColor: 'bg-blue-100',
+      icon: <IoBagCheckOutline className="text-blue-700 text-4xl" />, // Blue for total orders
+      title: 'Total Orders',
+      isLoadingKey: isUsersLoading,
+      valueKey: 'orders',
+      valueColor: 'text-blue-700',
+      value: totalOrders
+    },
+    {
+      bgColor: 'bg-red-100',
+      icon: <IoCloseCircleOutline className="text-red-600 text-4xl" />, // Red for canceled orders
+      title: 'Canceled Orders',
+      isLoadingKey: isOrdersLoading,
+      valueKey: 'totalRevenue',
+      valueColor: 'text-red-600',
+      value: canceledOrders
+    },
+    {
+      bgColor: 'bg-green-100',
+      icon: <IoCheckmarkCircleOutline className="text-green-600 text-4xl" />, // Green for completed orders
+      title: 'Completed Orders',
+      isLoadingKey: isProductLoading,
+      valueKey: 'allProducts',
+      valueColor: 'text-green-600',
+      value: completedOrders
+    },
+    {
+      bgColor: 'bg-orange-100',
+      icon: <RiOrderPlayLine className="text-orange-600 text-4xl" />, // Green for completed orders
+      title: 'Processing Orders',
+      isLoadingKey: isProductLoading,
+      valueKey: 'allProducts',
+      valueColor: 'text-orange-600',
+      value: completedOrders
+    },
+    {
+      bgColor: 'bg-yellow-100',
+      icon: <IoTimeOutline className="text-yellow-500 text-4xl" />, // Yellow for pending orders
+      title: 'Pending Orders',
+      isLoadingKey: isUsersLoading,
+      valueKey: 'allUsers',
+      valueColor: 'text-yellow-500',
+      value: pendingOrders
+    }
+  ];
 
-    console.log('averageOrderValue', averageOrderValue, 'canceledOrders', canceledOrders, 'completedOrders', completedOrders, 'pendingOrders', pendingOrders, 'totalOrders', totalOrders , 'totalRevenue', totalRevenue)
+
+  const {
+    isPending,
+    todayOrdersValue,
+    yesterdayOrdersValue,
+    thisMonthOrdersValue,
+    lastMonthOrdersValue,
+    allTimeSalesValue,
+  } = useOrdersDetails();
+
+  const statsData2 = [
+    {
+      bgColor: 'bg-blue-100',
+      iconBg: 'bg-blue-700', // Slightly darker shade for contrast
+      icon: <IoBagCheckOutline className="text-white text-4xl" />, // Icon for orders
+      title: 'Today Orders',
+      value: todayOrdersValue,
+      valueColor: 'text-blue-700',
+    },
+    {
+      bgColor: 'bg-yellow-100',
+      iconBg: 'bg-yellow-600',
+      icon: <IoCalendarOutline className="text-white text-4xl" />, // Icon for yesterday (calendar)
+      title: 'Yesterday Orders',
+      value: yesterdayOrdersValue,
+      valueColor: 'text-yellow-600',
+    },
+    {
+      bgColor: 'bg-green-100',
+      iconBg: 'bg-green-600',
+      icon: <IoTrendingUpOutline className="text-white text-4xl" />, // Icon for revenue (upward trend)
+      title: 'This Month',
+      value: thisMonthOrdersValue,
+      valueColor: 'text-green-600',
+    },
+    {
+      bgColor: 'bg-purple-100',
+      iconBg: 'bg-purple-600',
+      icon: <IoBarChartOutline className="text-white text-4xl" />, // Icon for last month's performance (bar chart)
+      title: 'Last Month',
+      value: lastMonthOrdersValue,
+      valueColor: 'text-purple-600',
+    },
+    {
+      bgColor: 'bg-red-100',
+      iconBg: 'bg-red-600',
+      icon: <IoWalletOutline className="text-white text-4xl" />, // Icon for all-time sales (wallet or earnings)
+      title: 'All-Time Sales',
+      value: allTimeSalesValue,
+      valueColor: 'text-red-600',
+    },
+  ];
+
+  console.log('averageOrderValue', averageOrderValue, 'canceledOrders', canceledOrders, 'completedOrders', completedOrders, 'pendingOrders', pendingOrders, 'totalOrders', totalOrders, 'totalRevenue', totalRevenue)
 
   return (
     <div>
-        <DashboardStats2/>
-        <LiveVisitors/>
-        <DashboardStats />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6"></div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <Chart userGrowth={userGrowth} />
-        <TopProducts />
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6"> */}
+      <LiveVisitors />
+      <DashboardStats2 />
+      <DashboardStats />
+      {/* <div className="grid grid-cols-[1.5fr_1fr] gap-6 mb-6">
+
+        <OrdersBarChart statsData={statsData2} />
+        <OrderStatsChart data={statsData} />
+      </div> */}
+      <div className="grid grid-cols-[1fr_1.5fr] gap-6 mb-6">
+        <StockAvailabilityChart data={availabilityStatus} />
+        <OrdersRevenueChart data={dailyOrders} />
       </div>
-      <div className="grid grid-cols-[2fr_1fr] gap-6 mb-6">
+      <div className="grid grid-cols-[1.5fr_1fr] gap-6 mb-6">
         <RecentOrder />
-        {/* <LatestCustomers />
-         */}
-         {/* <OrderMap/> */}
+        <UsersByMonthChart data={userGrowth} />
       </div>
-
-      <div className="grid grid-cols-[2fr_1fr] gap-6 mb-6">
-        <Box>
-        <div className='min-h-64 flex flex-col'>
-          <HeadingLink title="User Growth Over Time" />
-          {isLoading ? <SpinnerMini variant='secondary'/> : userGrowth?.length > 0 ?
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={userGrowth}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="totalUsers" stroke="#8884d8" />
-            </LineChart>
-          </ResponsiveContainer>: <div className=" w-full h-full flex flex-1  items-center justify-center"> <Empty resourceName='User Growth'/></div>}
-            </div>
-        </Box>
-
-        <Box>
-        <div className='min-h-64 flex flex-col'>
-
-          <HeadingLink title="Product Availability" />
-          {isLoading ? <SpinnerMini variant='secondary'/> : availabilityStatus?.length > 0 ?
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={availabilityStatus}
-                dataKey="count"
-                nameKey="_id"
-                outerRadius={120}
-                fill="#8884d8"
-                label
-                />
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer> : <div className=" w-full h-full flex flex-1  items-center justify-center"> <Empty resourceName='User Growth'/></div>}
-                </div>
-        </Box>
+      {/* <ProductsByCategoryChart data={productsByCategory} /> */}
+      <div className="grid grid-cols-[1fr_1.5fr] gap-6">
+        <TopProducts />
+        <ProductPriceChart data={bestSellers} />
       </div>
-
-      <div className="grid grid-cols-[1fr_2fr] gap-6 mb-6">
-        <Box>
-        <div className='min-h-64 flex flex-col'>
-
-          <HeadingLink title="Products by Subcategory" />
-          {isLoading ? <SpinnerMini variant='secondary'/> : productsBySubCategory?.length > 0 ?
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={productsBySubCategory}>
-              <XAxis dataKey="_id" />
-              <YAxis />
-              <Bar dataKey="totalProducts" fill="#82ca9d" />
-              <Tooltip />
-            </BarChart>
-          </ResponsiveContainer>: <div className=" w-full h-full flex flex-1  items-center justify-center"> <Empty resourceName='User Growth'/></div>}
-            </div>
-        </Box>
-        <Box>
-        <div className='min-h-64 flex flex-col'>
-
-          <HeadingLink title="Top Products by Sales" />
-          {isLoading ? <SpinnerMini variant='secondary'/> : productsBySubCategory?.length > 0 ?
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={topProducts}>
-              <XAxis dataKey="_id" />
-              <YAxis />
-              <Bar dataKey="totalSales" fill="#82ca9d" />
-              <Tooltip />
-            </BarChart>
-          </ResponsiveContainer>: <div className=" w-full h-full flex flex-1  items-center justify-center"> <Empty resourceName='User Growth'/></div>}
-            </div>
-        </Box>
-      </div>
-
-      <div className="grid grid-cols-2 gap-6">
-        <Box>
-        <div className='min-h-64 flex flex-col'>
-
-          <HeadingLink title="Daily Orders Overview" />
-          {isLoading ? <SpinnerMini variant='secondary'/> : productsBySubCategory?.length > 0 ?
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={dailyOrders}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="_id.day" />
-              <YAxis />
-              <Line type="monotone" dataKey="totalOrders" stroke="#8884d8" />
-              <Line type="monotone" dataKey="totalRevenue" stroke="#82ca9d" />
-              <Tooltip />
-            </LineChart>
-          </ResponsiveContainer>: <div className=" w-full h-full flex flex-1  items-center justify-center"> <Empty resourceName='User Growth'/></div>}
-            </div>
-        </Box>
-        <Box>
-        <div className='min-h-64 flex flex-col'>
-
-          <HeadingLink title="Products by Category" />
-          {isLoading ? <SpinnerMini variant='secondary'/> : productsBySubCategory?.length > 0 ?
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={productsByCategory}>
-              <XAxis dataKey="_id" />
-              <YAxis />
-              <Bar dataKey="totalProducts" fill="#82ca9d" />
-              <Tooltip />
-            </BarChart>
-          </ResponsiveContainer>: <div className=" w-full h-full flex flex-1  items-center justify-center"> <Empty resourceName='User Growth'/></div>}
-            </div>
-        </Box>
-      </div>
-    </div>
+    </div >
   );
+
 };
 
 export default Dashboard;

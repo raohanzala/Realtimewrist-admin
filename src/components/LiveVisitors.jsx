@@ -17,9 +17,12 @@ const LiveVisitors = () => {
     };
   }, [])
 
-  return <Box>
-    <div className="text-lg">👥 Online Visitors: {liveVisitors}</div>
-  </Box>
+  return <div className="mb-3 w-full flex items-center justify-end">
+    <div>
+      <div className=" flex items-center gap-2 ">👥 Online Visitors: <span className="font-bold text-blue-600 text-xl"> {liveVisitors} </span></div>
+      {/* <p className="text-xs text-gray-500">Currently active users on the site</p> */}
+    </div>
+  </div>
 };
 
 export default LiveVisitors;

@@ -15,7 +15,7 @@ import AddCategory from "./AddCategory";
 import SearchSortBar from "./SearchSortBar";
 
 const CategoryTable = () => {
-  const { isLoading, categories, totalPages, totalCategories } =
+  const { isPending, categories, totalPages, totalCategories } =
     useCategories();
   const { isDeleting, deleteCategory } = useDeleteCategory();
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -52,20 +52,20 @@ const CategoryTable = () => {
       <div className="flex gap-5 mb-8">
         <SearchSortBar
           placeholder="Search product"
-          // sortOptions={[
-          //   "price-low-to-high",
-          //   "price-high-to-low",
-          //   "date",
-          //   "newest-arrivals",
-          //   "oldest",
-          // ]}
-          // filterOptions={[
-          //   "Men",
-          //   "Women",
-          //   "bestSeller",
-          //   "in-stock",
-          //   "out-of-stock",
-          // ]}
+        // sortOptions={[
+        //   "price-low-to-high",
+        //   "price-high-to-low",
+        //   "date",
+        //   "newest-arrivals",
+        //   "oldest",
+        // ]}
+        // filterOptions={[
+        //   "Men",
+        //   "Women",
+        //   "bestSeller",
+        //   "in-stock",
+        //   "out-of-stock",
+        // ]}
         />
         <Button
           onClick={(e) => {
@@ -86,7 +86,7 @@ const CategoryTable = () => {
           {/* Header */}
           <div className="bg-[#f2f2f2af] text-[#5c5c5c] font-semibold text-sm uppercase py-4 px-8">
             <div className="grid grid-cols-[0.5fr_1fr_1fr_1fr_1fr_0.5fr] gap-8 items-center">
-              <div>Image</div>
+              <div>Images</div>
               <div>Name</div>
               <div>Category ID</div>
               <div>Created At</div>
@@ -96,15 +96,14 @@ const CategoryTable = () => {
           </div>
 
           <div className="bg-white">
-            {isLoading ? (
+            {isPending ? (
               "Loading..."
             ) : categories?.length > 0 ? (
               categories.map((category, index) => (
                 <div
                   key={category._id}
-                  className={`py-2 px-8 grid grid-cols-[0.5fr_1fr_1fr_1fr_1fr_0.5fr] gap-8 items-center text-sm ${
-                    index === categories.length - 1 ? "" : "border-b"
-                  }`}
+                  className={`py-2 px-8 grid grid-cols-[0.5fr_1fr_1fr_1fr_1fr_0.5fr] gap-8 items-center text-sm ${index === categories.length - 1 ? "" : "border-b"
+                    }`}
                 >
                   {/* Category Image */}
                   <div>
