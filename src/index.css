@@ -4,6 +4,12 @@
 
 body {
   @apply font-sans;
+
+}
+
+html {
+  font-size: 90%;
+
 }
 
 *:disabled {
@@ -17,7 +23,7 @@ textarea:disabled {
   color: #6b7280;
 }
 
-a.active{
+a.active {
   background: #cba135;
 }
 
@@ -41,6 +47,7 @@ select:focus {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -51,15 +58,14 @@ select:focus {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.5;
     transform: scale(0.8);
   }
+
   100% {
     opacity: 0;
     transform: scale(0.5);
   }
 }
-
-
-

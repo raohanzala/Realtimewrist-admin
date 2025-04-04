@@ -1,15 +1,12 @@
 import { Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import { Toaster } from 'react-hot-toast';
-// import "leaflet/dist/leaflet.css";
-
 
 import { Suspense, useEffect, useState } from 'react';
 import AppLayout from './pages/AppLayout';
 import Dashboard from './pages/Dashboard';
 import Orders from './pages/Orders';
 import AddProduct from './components/AddProduct';
-import LoadingLogo from './components/LoadingLogo';
 import PublicRoute from './components/PublicRoute'
 import PrivateRoute from './components/PrivateRoute';
 import Users from './pages/Users';
@@ -21,7 +18,7 @@ import Loader from './components/Loader';
 import StoreCustomization from './pages/StoreCustomization';
 import Product from './pages/Product';
 import EditProfile from './pages/Profile';
-import Profile from './components/Profile';
+// import Profile from './components/Profile';
 import CategoryTable from './components/CategoryTable';
 import useScrollRestoration from './hooks/useScrollRestoration';
 
@@ -31,48 +28,48 @@ function App() {
 
   useScrollRestoration()
   const [isLoading, setLoading] = useState(true)
-  // const location = useLocation()
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false)
-    }, 1000)
+    }, 800)
     return () => clearTimeout(timer)
   }, [])
 
   return (
     <div className=' bg-[#f9fafb]'>
-      {
-        <AppLayout>
-          <Suspense fallback={<Loader />}>
-            <Routes>
-              <Route
-                path="/login"
-                element={
-                  <PublicRoute>
-                    <Login />
-                  </PublicRoute>
-                }
-              />
-              <Route path="/" element={<PrivateRoute />}>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/add" element={< AddProduct />} />
-                <Route path="/list" element={< Products />} />
-                <Route path='/product/:productId' element={<Product />} />
-                <Route path="/orders" element={< Orders />} />
-                <Route path="/order/:orderId" element={< OrderDetail />} />
-                <Route path="/users" element={< Users />} />
-                <Route path="/profile" element={< Profile />} />
-                <Route path="/category" element={< CategoryTable />} />
-                <Route path="/settings" element={< Settings />} />
-                <Route path="/online-store/customization" element={< StoreCustomization />} />
-                <Route path="/edit-profile" element={< EditProfile />} />
-                <Route path="/profile" element={< Profile />} />
-              </Route>
-              <Route path="*" element={<PageNotFound />} />
-            </Routes>
-          </Suspense>
-        </AppLayout>}
+
+      <AppLayout>
+        <Suspense fallback={<Loader />}>
+          {isLoading && <Loader />}
+          <Routes>
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              }
+            />
+            <Route path="/" element={<PrivateRoute />}>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/add" element={< AddProduct />} />
+              <Route path="/list" element={< Products />} />
+              <Route path='/product/:productId' element={<Product />} />
+              <Route path="/orders" element={< Orders />} />
+              <Route path="/order/:orderId" element={< OrderDetail />} />
+              <Route path="/users" element={< Users />} />
+              {/* <Route path="/profile" element={< Profile />} /> */}
+              <Route path="/category" element={< CategoryTable />} />
+              <Route path="/settings" element={< Settings />} />
+              <Route path="/online-store/customization" element={< StoreCustomization />} />
+              <Route path="/edit-profile" element={< EditProfile />} />
+              {/* <Route path="/profile" element={< Profile />} /> */}
+            </Route>
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </Suspense>
+      </AppLayout>
 
       <Toaster
         position='top-center'

@@ -20,30 +20,13 @@ const DashboardStats = () => {
   const { isLoading: isOrdersLoading, totalOrders } = useOrders()
   const { isLoading: isProductLoading } = useProducts()
   const { isLoading: isUsersLoading } = useUsers()
-  const { totalRevenue,
-    totalRevenueAmount,
+  const {
     completedOrders,
-    averageOrderValue,
     pendingOrders,
     canceledOrders,
-    topProducts,
-    dailyOrders,
-    repeatCustomers,
-    averageCompletionTime } = useOrdersDetails()
+    topProducts, } = useOrdersDetails()
 
-  const { totalProducts,
-    productsByCategory,
-    bestSellers,
-    averagePrice,
-    availabilityStatus,
-    recentProducts,
-    priceRange,
-    productsBySubCategory, } = useProductsDetials()
 
-  const { totalUsers,
-    topCartUsers,
-    averageCartSize,
-    userGrowth, } = useUsersDetails()
 
   console.log(topProducts)
 
@@ -100,16 +83,16 @@ const DashboardStats = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2 mb-6">
 
         {statsData.map(({ bgColor, icon, title, isLoadingKey, value, valueColor }, index) => (
-          <div className='bg-white border rounded overflow-hidden' key={index}>
-            <div className="flex h-full items-center gap-3 ">
+          <div className='bg-white border rounded w-full' key={index}>
+            <div className="flex h-full items-center gap-3 w-full">
               <div className={`px-5 flex items-center  justify-center h-full ${bgColor}`}>
                 {icon}
               </div>
-              <div className=' py-[14px]'>
-                <h3 className="text-base font-semibold text-gray-600 ">{title}</h3>
+              <div className=' py-[14px] w-full'>
+                <h3 className="text-base font-semibold text-gray-600 text-nowrap truncate w-full">{title}</h3>
                 {isLoadingKey ? (
                   <p className="text-sm text-gray-700 animate-pulse">Loading...</p>
                 ) : value ? (

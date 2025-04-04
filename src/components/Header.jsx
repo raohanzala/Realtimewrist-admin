@@ -3,15 +3,14 @@ import { FaBell, FaRegEdit } from "react-icons/fa";
 import NotificationsPopup from "./NotificationsPopup";
 import adminPhoto from "../assets/admin-photo.jpeg";
 import { ShopContext } from "../contexts/ShopContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MdArrowBack, MdOutlineDashboard } from "react-icons/md";
 import { IoMdMore } from 'react-icons/io'
 
-import { IoLogOutOutline } from "react-icons/io5";
+import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
 import useNotifications from "../hooks/useNotifications";
 import { useDispatch, useSelector } from "react-redux";
 import PopupMenu from "./PopupMenu";
-import { BiPencil } from "react-icons/bi";
 import { logout } from "../store/slices/authSlice";
 
 function Header() {
@@ -22,9 +21,7 @@ function Header() {
   const dispatch = useDispatch()
   const { pageTitle } = useContext(ShopContext);
 
-  const {notifications} = useSelector((state) => state.notifications)
-
-  console.log(notifications, 'PAYLOAD NOTIFICATION')
+  const { notifications } = useSelector((state) => state.notifications)
 
   const {
     isIncoming,
@@ -53,7 +50,7 @@ function Header() {
           <MdArrowBack />
         </div>
 
-        <h1 className="text-lg  ">{pageTitle}</h1>
+        <h1 className="text-lg"> {pageTitle}</h1>
       </div>
 
       <div className="flex items-center gap-4">
@@ -106,14 +103,14 @@ function Header() {
         />
       )}
 
-      {isProfilePopup && 
+      {isProfilePopup &&
         <PopupMenu actions={[
-          { label: "Edit Product", onClick: () => null, icon: <BiPencil /> },
-          { label: "Edit Profile", onClick: () => navigate(`/edit-profile`), icon:<FaRegEdit size={16} /> },
-          { label: "Dashboard", onClick: () => navigate(`/`), icon: <MdOutlineDashboard size={18}/>  },
+          { label: "Edit Profile", onClick: () => navigate(`/edit-profile`), icon: <FaRegEdit size={16} /> },
+          { label: "Dashboard", onClick: () => navigate(`/`), icon: <MdOutlineDashboard size={18} /> },
+          { label: "Settings", onClick: () => navigate('/settings'), icon: <IoSettingsOutline /> },
         ]}
-        position={{ top: '65px', right: 2 }}
-        onClose={()=> setProfilePopup(false)}
+          position={{ top: '65px', right: 2 }}
+          onClose={() => setProfilePopup(false)}
         />
       }
     </div>

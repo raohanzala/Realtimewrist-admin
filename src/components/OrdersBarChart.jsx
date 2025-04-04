@@ -1,17 +1,58 @@
 import React from "react";
 import ReactECharts from "echarts-for-react";
 import Box from "./Box";
+import { useOrdersDetails } from "../features/useOrdersDetails";
+import SpinnerMini from "./SpinnerMini";
+import Empty from "./Empty";
+import HeadingLink from "./HeadingLink";
 
-const OrdersBarChart = ({ statsData }) => {
-  const option = {
-    title: {
-      text: "Order Trends",
-      left: "center",
-      textStyle: {
-        fontSize: 18,
-        fontWeight: "bold",
-      },
+const OrdersBarChart = () => {
+  const {
+    isPending,
+    todayOrdersValue,
+    yesterdayOrdersValue,
+    thisMonthOrdersValue,
+    lastMonthOrdersValue,
+    allTimeSalesValue,
+  } = useOrdersDetails();
+
+  const statsData = [
+    {
+      bgColor: "bg-blue-100",
+      title: "Today Orders",
+      value: todayOrdersValue,
     },
+    {
+      bgColor: "bg-yellow-100",
+      title: "Yesterday Orders",
+      value: yesterdayOrdersValue,
+    },
+    {
+      bgColor: "bg-green-100",
+      title: "This Month",
+      value: thisMonthOrdersValue,
+    },
+    {
+      bgColor: "bg-purple-100",
+      title: "Last Month",
+      value: lastMonthOrdersValue,
+    },
+    {
+      bgColor: "bg-red-100",
+      title: "All-Time Sales",
+      value: allTimeSalesValue,
+    },
+  ];
+
+  const option = {
+    // title: {
+    //   text: "Order Trends",
+    //   left: "left",
+    //   textStyle: {
+    //     fontSize: '20px',
+    //     fontWeight: 600,
+    //   },
+    // },
     tooltip: {
       trigger: "axis",
       axisPointer: {
@@ -59,7 +100,27 @@ const OrdersBarChart = ({ statsData }) => {
     return colors[bgClass] || "#999";
   }
 
-  return <Box> <ReactECharts option={option} style={{ height: "400px", width: "100%" }} /> </Box>;
+  return (
+    <Box>
+      {" "}
+      {isPending ? (
+        <SpinnerMini variant="secondary" />
+      ) : statsData?.length > 0 ? (
+        <>
+          <HeadingLink title="Orders trends" />
+          <ReactECharts
+            option={option}
+            style={{ height: "400px", width: "100%" }}
+          />
+        </>
+      ) : (
+        <div className="flex flex-1 w-full h-full items-center justify-center">
+          {" "}
+          <Empty resourceName="recent orders" />
+        </div>
+      )}{" "}
+    </Box>
+  );
 };
 
 export default OrdersBarChart;

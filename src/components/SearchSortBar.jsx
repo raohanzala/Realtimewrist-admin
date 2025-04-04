@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom"; // For handling URL updates
+import CustomSelect from "./CustomSelect";
+import { BiArrowFromLeft, BiPrinter } from "react-icons/bi";
+import { MdDateRange, MdHighQuality } from "react-icons/md";
+import { FaFilter } from "react-icons/fa";
+import { CgFilters } from "react-icons/cg";
 
 const SearchSortBar = ({
   placeholder,
@@ -25,12 +30,12 @@ const SearchSortBar = ({
     navigate(`?${params.toString()}`, { replace: true });
   }, [searchQuery, sortBy, filterBy, navigate]);
 
-  const handleSortChange = (event) => {
-    setSortBy(event.target.value);
+  const handleSortChange = (value) => {
+    setSortBy(value);
   };
 
-  const handleFilterChange = (event) => {
-    setFilterBy(event.target.value);
+  const handleFilterChange = (value) => {
+    setFilterBy(value);
   };
 
   const handleSearchChange = (event) => {
@@ -44,7 +49,7 @@ const SearchSortBar = ({
           <RiSearchLine />
         </span>
         <input
-          className="py-[10px] px-2 text-sm w-64 focus:outline-none"
+          className="py-[8px] px-2 text-sm w-64 focus:outline-none"
           type="text"
           placeholder={placeholder}
           value={searchQuery}
@@ -53,7 +58,28 @@ const SearchSortBar = ({
       </div>
 
       <div className="flex gap-3">
-        {sortOptions && (
+
+        <CustomSelect icon={<BiPrinter />} options={['portrait', 'landscape']} />
+
+        {sortOptions &&
+          <CustomSelect
+            options={sortOptions}
+            value={sortBy}
+            onChange={handleSortChange}
+            placeholder="Sort by"
+          />
+        }
+
+        {filterOptions &&
+          <CustomSelect
+            options={filterOptions}
+            value={filterBy}
+            icon={<CgFilters />}
+            onChange={handleFilterChange}
+            placeholder="Filter by category"
+          />}
+
+        {/* {sortOptions && (
           <div className="relative">
             <select
               value={sortBy}
@@ -84,7 +110,7 @@ const SearchSortBar = ({
               ))}
             </select>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

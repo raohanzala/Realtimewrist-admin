@@ -136,9 +136,8 @@ const ProductTable = () => {
               products.map((product, index) => (
                 <div
                   key={product?._id || index}
-                  className={`py-2 px-8 grid grid-cols-[0.6fr_1fr_1fr_1fr_1fr_1fr_1fr_0.5fr] gap-8 items-center text-sm ${
-                    index === products.length - 1 ? "" : "border-b"
-                  }`}
+                  className={`py-2 px-8 grid grid-cols-[0.6fr_1fr_1fr_1fr_1fr_1fr_1fr_0.5fr] gap-8 items-center text-sm ${index === products.length - 1 ? "" : "border-b"
+                    }`}
                 >
                   <Link to={`/product/${product._id}`}>
                     <img
@@ -150,7 +149,7 @@ const ProductTable = () => {
                   </Link>
                   <Link to={`/product/${product._id}`}>
                     <p className="uppercase font-medium truncate">
-                      {truncateText( product?.name, 15) || "N/A"}
+                      {truncateText(product?.name, 15) || "N/A"}
                     </p>
                   </Link>
                   <p>

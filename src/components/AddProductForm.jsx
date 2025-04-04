@@ -13,6 +13,7 @@ import FormRowVerticle from "./FormRowVerticle";
 import { useAddProduct } from "../features/useAddProduct";
 import { useEditProduct } from "../features/useEditProduct";
 import { useCategories } from "../features/useCategories";
+import CustomSelect from "./CustomSelect";
 
 const AddProductForm = ({ onClose, productToEdit = {} }) => {
   const [image1, setImage1] = useState(false);
@@ -211,6 +212,15 @@ const AddProductForm = ({ onClose, productToEdit = {} }) => {
                       <option value="Kids">Kids</option>
                       <option value="Unisex">Unisex</option>
                     </Input>
+
+                    {/* {sortOptions &&
+                    <CustomSelect
+                      options={['Men', 'Women', 'Kids']}
+                      // value={sortBy}
+                      // onChange={handleSortChange}
+                      placeholder="Sort by"
+                    />
+                    } */}
                   </FormRowVerticle>
                 </div>
                 <div className="flex items-center gap-2 mt-4">

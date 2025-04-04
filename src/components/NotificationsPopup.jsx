@@ -23,7 +23,7 @@ const NotificationsPopup = ({ setNotificationPopup, notifications }) => {
 
   return (
     <div
-      className="absolute right-20 top-[74px] w-80 overflow-y-scroll h-[22rem] scrollbar-hide bg-white shadow-lg rounded-lg z-50 border-gray-200"
+      className="absolute right-20 top-[68px] w-80 overflow-y-scroll h-[22rem] scrollbar-hide bg-white shadow-lg rounded-lg z-50 border-gray-200"
       style={{ boxShadow: "rgba(100,100,111, 0.2) 0px 7px 29px 0px" }}
       ref={ref}
       onClick={(e) => e.stopPropagation()}

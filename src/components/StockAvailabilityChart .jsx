@@ -1,8 +1,13 @@
-import React, { useEffect, useRef } from 'react';
-import * as echarts from 'echarts';
-import Box from './Box';
+import React, { useEffect, useRef } from "react";
+import * as echarts from "echarts";
+import Box from "./Box";
+import SpinnerMini from "./SpinnerMini";
+import Empty from "./Empty";
+import { useProductsDetials } from "../features/useProductsDetials";
 
-const StockAvailabilityChart = ({ data }) => {
+const StockAvailabilityChart = () => {
+  const { availabilityStatus, isPending } = useProductsDetials();
+
   const chartRef = useRef(null);
 
   useEffect(() => {
@@ -10,52 +15,44 @@ const StockAvailabilityChart = ({ data }) => {
       const myChart = echarts.init(chartRef.current);
 
       // Extracting data
-      const chartData = data?.map(item => ({
+      const chartData = availabilityStatus?.map((item) => ({
         name: item._id,
-        value: item.count
+        value: item.count,
       }));
 
       const option = {
-        title: {
-          text: 'Stock Availability',
-          left: 'center',
-          textStyle: {
-            fontSize: 18,
-            fontWeight: 'bold',
-          }
-        },
         tooltip: {
-          trigger: 'item',
-          formatter: '{b}: {c} ({d}%)'
+          trigger: "item",
+          formatter: "{b}: {c} ({d}%)",
         },
         legend: {
           bottom: 0,
-          data: chartData?.map(item => item.name),
+          data: chartData?.map((item) => item.name),
         },
         series: [
           {
-            name: 'Stock',
-            type: 'pie',
-            radius: '50%',
+            name: "Stock",
+            type: "pie",
+            radius: "50%",
             data: chartData,
             label: {
               show: true,
-              formatter: '{b}: {c} ({d}%)'
+              formatter: "{b}: {c} ({d}%)",
             },
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
+                shadowColor: "rgba(0, 0, 0, 0.5)",
+              },
             },
             itemStyle: {
               color: (params) => {
-                return params.name === 'In stock' ? '#28a745' : '#dc3545';
-              }
-            }
-          }
-        ]
+                return params.name === "In stock" ? "#28a745" : "#dc3545";
+              },
+            },
+          },
+        ],
       };
 
       myChart.setOption(option);
@@ -64,11 +61,27 @@ const StockAvailabilityChart = ({ data }) => {
         myChart.dispose();
       };
     }
-  }, [data]);
+  }, [availabilityStatus]);
 
-  return <Box>
-    <div ref={chartRef} style={{ width: '100%', height: '400px' }}></div>;
-  </Box>
+  return (
+    <Box>
+      {isPending ? (
+        <SpinnerMini variant="secondary" />
+      ) :
+
+        availabilityStatus?.length > 0 ? (
+          <div ref={chartRef} style={{ width: "100%", height: "400px" }}></div>
+        )
+
+          : (
+
+            <div className="flex flex-1 w-full h-full items-center justify-center">
+              {" "}
+              <Empty resourceName="recent orders" />
+            </div>
+          )}
+    </Box>
+  );
 };
 
 export default StockAvailabilityChart;

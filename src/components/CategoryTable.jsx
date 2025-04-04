@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useCategories } from "../features/useCategories"; // Fetch categories hook
 import { useDeleteCategory } from "../features/useDeleteCategory"; // Delete category hook
 import { BiPencil } from "react-icons/bi";
@@ -13,6 +13,7 @@ import Button from "./Button";
 import { FaPlus } from "react-icons/fa";
 import AddCategory from "./AddCategory";
 import SearchSortBar from "./SearchSortBar";
+import { ShopContext } from "../contexts/ShopContext";
 
 const CategoryTable = () => {
   const { isPending, categories, totalPages, totalCategories } =
@@ -23,6 +24,7 @@ const CategoryTable = () => {
   const [categoryToEdit, setCategoryToEdit] = useState(null);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const { setPageTitle } = useContext(ShopContext);
 
   const handleDeleteClick = (categoryId) => {
     setCategoryToDelete(categoryId);
@@ -46,6 +48,10 @@ const CategoryTable = () => {
     setCategoryToEdit(category);
     setIsCategoryModal(true);
   };
+
+  useEffect(() => {
+    setPageTitle("Categories");
+  }, []);
 
   return (
     <div>

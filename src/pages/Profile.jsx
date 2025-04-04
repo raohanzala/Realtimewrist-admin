@@ -56,8 +56,8 @@ const EditProfile = () => {
         >
           <Form onSubmit={onSubmitHandler} className="space-y-3 px-5 py-3">
             <div className='mb-8'>
-            <h2 className='text-dark-3 text-2xl'>Account</h2>
-            <p className='text-sm text-gray-500'>Please configure your profile and fill in your information</p>
+              <h2 className='text-dark-3 text-2xl'>Account / Profile</h2>
+              <p className='text-sm text-gray-500'>Please configure your profile and fill in your information</p>
             </div>
             <div className="flex items-center">
               <div className="relative size-28">
@@ -84,12 +84,13 @@ const EditProfile = () => {
                 <div className='flex gap-3'>
                   <div
                     onClick={() => document.getElementById('image').click()}
-                    className="  border cursor-pointer py-2 px-4 text-xs rounded text-gray-600 transition duration-200"
+                    className=" border rounded py-2 px-3 hover:border-primary-1 hover:text-dark-3 cursor-pointer text-xs text-gray-500 transition duration-200"
                   >
                     Upload Photo
                   </div>
                   {image && <div
-                    className=" border cursor-pointer py-2 px-4 text-xs rounded text-[red] transition duration-200"
+                    className=" border cursor-pointer  py-2 px-3 text-xs rounded text-[red] transition duration-200"
+                    onClick={() => setImage(null)}
                   >
                     Remove Photo
                   </div>}
@@ -125,7 +126,7 @@ const EditProfile = () => {
               <Button
                 type="submit"
                 variant='secondary'
-                
+
               >
                 Save Settings
               </Button>
@@ -134,7 +135,7 @@ const EditProfile = () => {
         </Formik>
       </Box>
 
-      <ChangePassword/>
+      <ChangePassword />
     </>
   );
 };
