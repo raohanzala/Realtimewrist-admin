@@ -12,7 +12,7 @@ const Product = () => {
   const [image, setImage] = useState('');
   const [isProductModal, setIsProductModal] = useState(false)
 
-  const {isLoading, product} = useProduct()
+  const { isPending, product } = useProduct()
 
   useEffect(() => {
     if (product) {
@@ -20,19 +20,19 @@ const Product = () => {
     }
   }, [product]);
 
-  // if (!product) {
-  //   return <div className='w-full h-screen flex justify-center items-center'> <SpinnerMini variant='secondary' /></div>;
-  // }
+  if (!product) {
+    return <div className='w-full h-screen flex justify-center items-center'> <SpinnerMini variant='secondary' /></div>;
+  }
 
-  if(isLoading){
-    return <SpinnerMini variant='secondary'/>
+  if (isPending) {
+    return <div className='h-screen w-full'><SpinnerMini variant='secondary' /></div>
   }
 
   return (
     <Box className="transition-opacity ease-in duration-500 opacity-100 max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
       {/* <Breadcrumb breadcrumbs={breadcrumbs} /> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-12 gap-8 ">
-        <ProductImageGallery setImage={setImage} image={image} product={product}/>
+        <ProductImageGallery setImage={setImage} image={image} product={product} />
 
         <ProductInfo productData={product} setIsProductModal={setIsProductModal} />
       </div>

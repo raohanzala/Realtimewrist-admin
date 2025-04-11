@@ -33,9 +33,10 @@ const ProductTable = () => {
 
   const {
     deleteProduct,
-    isLoading: isDeleting,
-    deletedData,
+    isDeleting,
   } = useDeleteProduct();
+
+
   const { isLoading: isUpdating, updateStock } = useUpdateProductStock();
   const { products, isLoading, error, totalProducts, totalPages } =
     useProducts();
@@ -56,9 +57,12 @@ const ProductTable = () => {
 
   const handleConfirmDelete = async () => {
     if (productToDelete) {
-      await deleteProduct(productToDelete);
+      await deleteProduct(productToDelete, {
+        onSuccess: () => {
+          setIsConfirmModal(false);
+        },
+      });
       setProductToDelete(null);
-      setIsConfirmModal(false);
     }
   };
 

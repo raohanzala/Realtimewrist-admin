@@ -67,19 +67,14 @@ const StockAvailabilityChart = () => {
     <Box>
       {isPending ? (
         <SpinnerMini variant="secondary" />
-      ) :
-
-        availabilityStatus?.length > 0 ? (
-          <div ref={chartRef} style={{ width: "100%", height: "400px" }}></div>
-        )
-
-          : (
-
-            <div className="flex flex-1 w-full h-full items-center justify-center">
-              {" "}
-              <Empty resourceName="recent orders" />
-            </div>
-          )}
+      ) : availabilityStatus?.length > 0 ? (
+        <div ref={chartRef} style={{ width: "100%", height: "400px" }}></div>
+      ) : (
+        <div className="flex flex-1 w-full h-full items-center justify-center">
+          {" "}
+          <Empty resourceName="recent orders" />
+        </div>
+      )}
     </Box>
   );
 };

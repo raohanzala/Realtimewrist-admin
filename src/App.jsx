@@ -21,6 +21,7 @@ import EditProfile from './pages/Profile';
 // import Profile from './components/Profile';
 import CategoryTable from './components/CategoryTable';
 import useScrollRestoration from './hooks/useScrollRestoration';
+import ProductDetailPage from './components/SampleDetail';
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL
 
@@ -64,6 +65,7 @@ function App() {
               <Route path="/settings" element={< Settings />} />
               <Route path="/online-store/customization" element={< StoreCustomization />} />
               <Route path="/edit-profile" element={< EditProfile />} />
+              <Route path="/sample" element={<ProductDetailPage />} />
               {/* <Route path="/profile" element={< Profile />} /> */}
             </Route>
             <Route path="*" element={<PageNotFound />} />

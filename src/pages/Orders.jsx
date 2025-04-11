@@ -36,17 +36,28 @@ const Orders = () => {
 
 
   const handleDeleteClick = (orderId) => {
+    console.log(orderId)
     setOrderToDelete(orderId);
+    console.log(orderToDelete)
     setIsConfirmModal(true);
   };
 
+  useEffect(() => {
+    console.log(isConfirmModal)
+  }, [setIsConfirmModal, isConfirmModal])
+
   const handleConfirmDelete = async () => {
     if (orderToDelete) {
-      await deleteOrder(orderToDelete);
+      await deleteOrder(orderToDelete, {
+        onSuccess: () => {
+          setIsConfirmModal(false);
+        },
+      });
       setOrderToDelete(null);
-      setIsConfirmModal(false);
     }
   };
+
+  console.log(orderToDelete)
 
   const handleCancel = () => {
     setOrderToDelete(null);
@@ -119,8 +130,8 @@ const Orders = () => {
                     {timestampToShortDate(order?.date) || "N/A"}
                   </div>
                   <div className="flex gap-3 ml-auto text-xl text-gray-500">
-                    <div >
-                      <IoMdTrash onClick={(e) => { e.preventDefault(); handleDeleteClick(order._id) }} />
+                    <div onClick={(e) => { e.stopPropagation(), handleDeleteClick(order._id) }}>
+                      <IoMdTrash />
                     </div>
                     <Link to={`/order/${order._id}`}>
                       <LiaSearchPlusSolid />

@@ -23,26 +23,19 @@ const Users = () => {
   const [productToDelete, setProductToDelete] = useState(null);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   const [seletedUser, setSelectedUser] = useState(null);
-  
+
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const {  deleteUser } = useDeleteUser();
+  const { deleteUser } = useDeleteUser();
 
   const { setPageTitle } = useContext(ShopContext);
 
   const { users, isLoading } = useUsers();
 
-  const handleProfilePopup = (e) => {
-    // e.stopPropagation();
+  const handleProfilePopup = () => setProfilePopup((prevState) => !prevState);
 
-    setProfilePopup((prevState) => !prevState);
-  };
+
   const handleProfileModal = (e) => {
-    // e.stopPropagation();
     setProfileModal((prevState) => !prevState);
-    setProfilePopup(false);
-  };
-  const handleDeleteUser = (e) => {
-    e.stopPropagation();
     setProfilePopup(false);
   };
 
@@ -53,9 +46,12 @@ const Users = () => {
 
   const handleConfirmDelete = async () => {
     if (seletedUser) {
-      deleteUser(seletedUser._id)
+      await deleteUser(seletedUser._id, {
+        onSuccess: () => {
+          setIsConfirmModal(false);
+        },
+      })
       setProductToDelete(null);
-      setIsConfirmModal(false);
     }
   };
 
@@ -82,9 +78,8 @@ const Users = () => {
           users?.map((user) => (
             <div className="rounded-md border overflow-hidden relative" key={user._id}>
               <div
-                className={`absolute top-1 right-1 text-gray-500 rounded py-1 ${
-                  isProfilePopup ? "bg-gray-50" : ""
-                }`}
+                className={`absolute top-1 right-1 text-gray-500 rounded py-1 ${isProfilePopup ? "bg-gray-50" : ""
+                  }`}
                 onClick={() => handleProfilePopup(user)}
               >
                 <IoMdMore
@@ -146,7 +141,7 @@ const Users = () => {
           message={<>
             Are you sure you want to delete the <span className="font-semibold">{seletedUser?.name}</span>?
           </>
-          }      
+          }
           confirmText={"Delete"}
           cancelText={"Cancel"}
           onConfirm={handleConfirmDelete}

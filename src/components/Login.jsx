@@ -19,27 +19,24 @@ import Input from './Input';
 
 function Login() {
 
-  // const { login } = useContext(ShopContext);
-  const navigate = useNavigate();
+  const { isPending, loginFnc } = useLogin()
 
-  const {isPending, loginFnc} = useLogin()
+  const initialValues = {
+    email: '',
+    password: ''
+  }
 
-const initialValues = {
-  email : '',
-  password : ''
-}
-
-const validationSchema = Yup.object({
-  email: Yup.string()
-    .email('Invalid email format')
-    .required('Email is required'),
-  password: Yup.string()
-    .min(6, 'Password must be at least 6 characters')
-    .required('Password is required'),
-});
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email('Invalid email format')
+      .required('Email is required'),
+    password: Yup.string()
+      .min(6, 'Password must be at least 6 characters')
+      .required('Password is required'),
+  });
 
 
-  const handleSubmit = async (values, {setSubmitting}) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     console.log(values)
     loginFnc(values)
   }
@@ -94,7 +91,7 @@ const validationSchema = Yup.object({
                 className="w-full"
                 disabled={isSubmitting}
               >
-                {!(isSubmitting || isPending) ? 'Login' : <SpinnerMini/>}
+                {!(isSubmitting || isPending) ? 'Login' : <SpinnerMini />}
               </Button>
             </Form>
           )}

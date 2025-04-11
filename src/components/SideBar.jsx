@@ -10,11 +10,14 @@ function SideBar() {
 
   return (
     <div
-      className={`flex flex-col ${isSmall ? 'w-[80px]' : 'w-[265px]'} relative h-screen transition-all duration-200 bg-dark-2 `}
+      className={`flex flex-col ${isSmall ? 'w-[80px]' : 'w-[265px]'} group relative h-screen transition-all duration-200 bg-dark-2 `}
     >
 
-      <div className="bg-dark-2 size-6 absolute top-5 text-white rounded cursor-pointer -right-[6px] flex items-center justify-center rotate-45" onClick={() => setIsSmall((prev) => !prev)}>
+      {/* <div className=" bg-dark-2 size-6 absolute top-5 text-white rounded cursor-pointer -right-[6px] flex items-center justify-center rotate-45" onClick={() => setIsSmall((prev) => !prev)}>
         <CgChevronLeft size={16} className={` ${isSmall ? 'rotate-[320deg]' : 'rotate-[135deg]'}`} />
+      </div> */}
+      <div className=" bg-[#6a6a6a] hidden group-hover:flex rounded-full size-6 absolute top-5 text-white cursor-pointer -right-[10px] items-center justify-center" onClick={() => setIsSmall((prev) => !prev)}>
+        <CgChevronLeft size={16} className={` ${isSmall ? 'rotate-[180deg]' : ''}`} />
       </div>
       {!isSmall && <div className="md:flex text-xl font-semibold text-white uppercase justify-center w-full p-4 py-5 hidden">
         <Logo />

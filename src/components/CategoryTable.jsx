@@ -103,7 +103,7 @@ const CategoryTable = () => {
 
           <div className="bg-white">
             {isPending ? (
-              "Loading..."
+              <SkeletonRow />
             ) : categories?.length > 0 ? (
               categories.map((category, index) => (
                 <div
@@ -221,3 +221,37 @@ const CategoryTable = () => {
 };
 
 export default CategoryTable;
+
+const SkeletonRow = () => {
+  const skeletons = Array(10).fill(0);
+
+  return (
+    <>
+      {skeletons.map((_, index) => (
+        <div
+          key={index}
+          className="py-2 px-8 grid grid-cols-[0.5fr_1fr_1fr_1fr_1fr_0.5fr] gap-8 items-center text-sm border-b animate-pulse"
+        >
+          {/* Image Placeholder */}
+          <div className="size-20 -translate-x-6 scale-110 bg-gray-200 rounded-sm"></div>
+
+          {/* Name */}
+          <div className="h-6 bg-gray-200 rounded-sm w-3/4"></div>
+
+          {/* ID */}
+          <div className="h-6 bg-gray-200 rounded-sm w-2/3"></div>
+
+          {/* Created At */}
+          <div className="h-6 bg-gray-200 rounded-sm w-1/2"></div>
+
+          {/* Total Products */}
+          <div className="h-6 bg-gray-200 rounded-sm w-1/3"></div>
+
+          {/* Actions */}
+          <div className="size-6 bg-gray-200 rounded-full ml-auto"></div>
+        </div>
+      ))}
+    </>
+  );
+};
+

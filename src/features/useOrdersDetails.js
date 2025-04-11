@@ -18,6 +18,7 @@ export function useOrdersDetails() {
     pendingOrders,
     canceledOrders,
     topProducts,
+    topCities,
     dailyOrders,
     repeatCustomers,
     averageCompletionTime, todayOrdersValue,
@@ -25,6 +26,8 @@ export function useOrdersDetails() {
     thisMonthOrdersValue,
     lastMonthOrdersValue,
     allTimeSalesValue, } = data || {}
+
+  console.log(topProducts, topCities, 'Order data')
 
   return {
     isPending, error, totalOrders,
@@ -35,6 +38,7 @@ export function useOrdersDetails() {
     pendingOrders,
     canceledOrders,
     topProducts,
+    topCities,
     dailyOrders,
     repeatCustomers,
     averageCompletionTime, todayOrdersValue,

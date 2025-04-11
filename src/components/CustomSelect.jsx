@@ -28,7 +28,7 @@ const CustomSelect = ({ options, value, onChange, icon, placeholder }) => {
   return (
     <div className="relative w-full text-dark-3" ref={dropdownRef}>
       <div
-        className="w-full flex gap-1 cursor-pointer capitalize truncate items-center border border-gray-300 bg-white text-sm px-3 py-2 h-full rounded outline-none transition-all"
+        className="w-full flex gap-1 cursor-pointer capitalize truncate items-center border bg-white border-gray-300 text-sm px-3 py-2 h-full rounded outline-none transition-all"
         onClick={() => setIsOpen((prev) => !prev)}
         type="button"
       >

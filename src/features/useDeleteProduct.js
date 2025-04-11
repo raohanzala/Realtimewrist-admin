@@ -5,7 +5,7 @@ import axiosInstance from "../api-test/axiosInstance";
 export function useDeleteProduct() {
   const queryClient = useQueryClient()
 
-  const { isLoading: isDeleting, mutate: deleteProduct } = useMutation({
+  const { isPending: isDeleting, mutate: deleteProduct } = useMutation({
     mutationFn: async (productId) => {
       const { data } = await axiosInstance.post(`/product/remove`, { id: productId });
       return data
@@ -19,7 +19,9 @@ export function useDeleteProduct() {
       });
     },
     onError: (err) => toast.error(err.message)
+
   })
+  console.log('Loadig in mutate :', isDeleting)
 
   return { isDeleting, deleteProduct }
 }

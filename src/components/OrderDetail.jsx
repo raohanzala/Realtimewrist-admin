@@ -52,7 +52,7 @@ export const OrderDetail = () => {
               </div>
               <div className="mt-4">
                 <p className="text-sm">INVOICE NO</p>
-                <p className="font-medium">RTW-{order._id}</p>
+                <p className="font-medium">RTW-{order?._id}</p>
               </div>
               <div className="mt-4 text-right">
                 <p className="text-sm">INVOICE TO</p>
@@ -68,7 +68,7 @@ export const OrderDetail = () => {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse border border-gray-300">
               <thead>
-                <tr className='bg-[#f2f2f2af] border text-[#333] text-sm'>
+                <tr className='bg-[#f2f2f2af] border text-[#333]'>
                   <td className=" border-gray-300 px-4 py-2 ">S.No</td>
                   <td className=" border-gray-300 px-4 py-2 ">Product Name</td>
                   <td className=" border-gray-300 px-4 py-2 ">Quantity</td>
@@ -78,7 +78,7 @@ export const OrderDetail = () => {
               </thead>
               <tbody>
                 {order?.items?.map((item, index) => (
-                  <tr key={item._id} className='cursor-pointer' onClick={() => navigate(`/product/${item._id}`)}>
+                  <tr key={item._id} className='cursor-pointer hover:bg-gray-50' onClick={() => navigate(`/product/${item._id}`)}>
                     <td className=" border-gray-300 px-4 py-2">{index + 1}</td>
                     <td className=" border-gray-300 px-4 py-2">{item.name}</td>
                     <td className=" border-gray-300 px-4 py-2">{item.quantity}</td>

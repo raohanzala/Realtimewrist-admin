@@ -6,7 +6,7 @@ export function useProduct() {
   const { productId } = useParams();
 
   const {
-    isLoading,
+    isPending,
     data,
     error,
   } = useQuery({
@@ -22,5 +22,5 @@ export function useProduct() {
 
   const { product } = data || {}
 
-  return { isLoading, error, product };
+  return { isPending, error, product };
 }

@@ -8,29 +8,31 @@ const ConfirmationModal = ({
   cancelText = 'Cancel',
   onConfirm,
   onCancel,
-  onClose, 
+  onClose,
   isLoading
- }) => {
+}) => {
+
+  console.log('Is de;et', isLoading)
 
 
-  const handleClose=()=> {
-    if(onClose) onClose()
+  const handleClose = () => {
+    if (onClose) onClose()
   }
 
   return (
-      <div>
-        <p className='mb-4'>{message}</p>
-        <div className='flex justify-between'>
-          <Button variant='cancel' onClick={()=> {
-            if (onCancel) onCancel();
-            handleClose();
-            }}>{cancelText}</Button>
-          <Button variant='delete' onClick={() => {
-              if (onConfirm) onConfirm();
-              handleClose();
-            }}>{!isLoading ? confirmText  : <SpinnerMini/>}</Button>
-        </div>
+    <div>
+      <p className='mb-4'>{message}</p>
+      <div className='flex justify-between'>
+        <Button variant='cancel' onClick={() => {
+          if (onCancel) onCancel();
+          handleClose();
+        }}>{cancelText}</Button>
+        <Button variant='delete' onClick={() => {
+          if (onConfirm) onConfirm();
+          // handleClose();
+        }}>{!isLoading ? confirmText : <SpinnerMini />}</Button>
       </div>
+    </div>
   )
 }
 

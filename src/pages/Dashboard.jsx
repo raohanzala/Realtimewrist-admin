@@ -9,19 +9,14 @@ import UsersByMonthChart from "../components/UsersByMonthChart ";
 import OrdersRevenueChart from "../components/OrdersRevenueChart ";
 import ProductPriceChart from "../components/ProductPriceChart";
 import StockAvailabilityChart from "../components/StockAvailabilityChart ";
-import OrderStatsChart from "../components/OrderStatsChart";
 import OrdersBarChart from "../components/OrdersBarChart";
-import { useDashboardStats } from "../features/useDashboardStats";
+import TopOrderCities from "../components/TopOrderCities";
 
 const Dashboard = () => {
   const { setPageTitle } = useContext(ShopContext);
   useEffect(() => {
     setPageTitle("Dashboard");
   }, []);
-
-  const data = useDashboardStats()
-
-  console.log(data)
 
   return (
     <div>
@@ -30,7 +25,9 @@ const Dashboard = () => {
       <DashboardStats />
       <div className="grid grid-cols-[1.5fr_1fr] gap-3 mb-6">
         <OrdersBarChart />
-        <OrderStatsChart />
+        <TopOrderCities />
+      </div>
+      <div className="grid grid-cols-[1fr_1.5fr] gap-3 mb-6">
       </div>
       <div className="grid grid-cols-[1fr_1.5fr] gap-3 mb-6">
         <StockAvailabilityChart />
